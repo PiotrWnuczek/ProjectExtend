@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material';
+import Profile from 'pages/Profile';
+import SignIn from 'access/SignIn';
+import SignUp from 'access/SignUp';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Lato',
+  },
+});
+
+const App = () => (
+  <ThemeProvider theme={theme}>
+    <BrowserRouter>
+      <Switch>
+        <Route path='/signin' component={SignIn} />
+        <Route path='/signup' component={SignUp} />
+        <Route path='/profile' component={Profile} />
+        <Route exact path='/' render={() => <Redirect to='/profile' />} />
+      </Switch>
+    </BrowserRouter>
+  </ThemeProvider>
+);
 
 export default App;
