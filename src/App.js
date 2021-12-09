@@ -1,11 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { Switch, Redirect } from 'react-router-dom';
+import { Routes, Navigate } from 'react-router-dom';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material';
-import Profile from 'pages/Profile';
-import SignIn from 'access/SignIn';
-import SignUp from 'access/SignUp';
+import PrivateRoute from 'atoms/PrivateRoute';
+import ProfilePage from 'pages/ProfilePage';
+import LoginPage from 'pages/LoginPage';
+import RegisterPage from 'pages/RegisterPage';
 
 const theme = createTheme({
   typography: {
@@ -16,12 +17,21 @@ const theme = createTheme({
 const App = () => (
   <ThemeProvider theme={theme}>
     <BrowserRouter>
-      <Switch>
-        <Route path='/signin' component={SignIn} />
-        <Route path='/signup' component={SignUp} />
-        <Route path='/profile' component={Profile} />
-        <Route exact path='/' render={() => <Redirect to='/profile' />} />
-      </Switch>
+      <Routes>
+        <Route exact path='/' element={<Navigate to='/profile' />} />
+        <Route
+          path='/profile'
+          element={<PrivateRoute path='/profile' element={<ProfilePage />} />}
+        />
+        <Route
+          path='/signin'
+          element={<LoginPage />}
+        />
+        <Route
+          path='/signup'
+          element={<RegisterPage />}
+        />
+      </Routes>
     </BrowserRouter>
   </ThemeProvider>
 );

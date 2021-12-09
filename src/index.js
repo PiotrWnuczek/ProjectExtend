@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { useSelector, Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-import { getFirebase, isLoaded } from 'react-redux-firebase';
-import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { getFirestore, createFirestoreInstance } from 'redux-firestore';
-import rootReducer from 'reducers/rootReducer';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { getFirebase, isLoaded } from 'react-redux-firebase';
+import rootReducer from 'store/rootReducer';
 import thunk from 'redux-thunk';
-import database from 'database';
+import databaseConfig from 'store/databaseConfig';
 import App from 'App';
 import 'index.css';
 
@@ -22,7 +22,7 @@ const rrfConfig = {
 };
 
 const rrfProps = {
-  firebase: database,
+  firebase: databaseConfig,
   config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance,

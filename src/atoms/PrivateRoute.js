@@ -1,15 +1,15 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 
-const Protected = ({ ...props }) => {
+const PrivateRoute = ({ ...props }) => {
   const auth = useSelector(state => state.firebase.auth);
   return (
     isLoaded(auth) && !isEmpty(auth) ?
       <Route {...props} /> :
-      <Redirect to='/signin' />
+      <Navigate to='/signin' />
   )
 };
 
-export default Protected;
+export default PrivateRoute;
