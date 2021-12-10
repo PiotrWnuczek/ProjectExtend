@@ -1,19 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware } from 'redux';
 import { useSelector, Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import { getFirestore, createFirestoreInstance } from 'redux-firestore';
-import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { getFirebase, isLoaded } from 'react-redux-firebase';
-import rootReducer from 'store/rootReducer';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { getFirestore, createFirestoreInstance } from 'redux-firestore';
+import rootReducer from 'store/appReducer';
+import appDatabase from 'store/appDatabase';
 import thunk from 'redux-thunk';
-import databaseConfig from 'store/databaseConfig';
 import App from 'App';
 import 'index.css';
 
-const store = createStore(rootReducer, compose(
+const store = createStore(
+  rootReducer,
   applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
-));
+);
 
 const rrfConfig = {
   userProfile: 'users',
@@ -22,7 +23,7 @@ const rrfConfig = {
 };
 
 const rrfProps = {
-  firebase: databaseConfig,
+  firebase: appDatabase,
   config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance,

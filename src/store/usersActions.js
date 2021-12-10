@@ -1,22 +1,15 @@
-export const signIn = (creds) => (dispatch, gs, { getFirebase }) => {
+export const signinUser = (creds) => (dispatch, gs, { getFirebase }) => {
   const firebase = getFirebase();
   firebase.auth().signInWithEmailAndPassword(
     creds.email, creds.password,
   ).then(() => {
-    dispatch({ type: 'SIGNIN_SUCCESS' });
+    dispatch({ type: 'SIGNINUSER_SUCCESS' });
   }).catch((err) => {
-    dispatch({ type: 'SIGNIN_ERROR', err });
+    dispatch({ type: 'SIGNINUSER_ERROR', err });
   })
 };
 
-export const signOut = () => (dispatch, gs, { getFirebase }) => {
-  const firebase = getFirebase();
-  firebase.auth().signOut().then(() => {
-    dispatch({ type: 'SIGNOUT_SUCCESS' });
-  })
-};
-
-export const signUp = (user) => (dispatch, gs, { getFirebase, getFirestore }) => {
+export const signupUser = (user) => (dispatch, gs, { getFirebase, getFirestore }) => {
   const firebase = getFirebase();
   const firestore = getFirestore();
   firebase.auth().createUserWithEmailAndPassword(
@@ -26,9 +19,16 @@ export const signUp = (user) => (dispatch, gs, { getFirebase, getFirestore }) =>
       email: user.email, name: user.name,
     })
   )).then(() => {
-    dispatch({ type: 'SIGNUP_SUCCESS' });
+    dispatch({ type: 'SIGNUPUSER_SUCCESS' });
   }).catch((err) => {
-    dispatch({ type: 'SIGNUP_ERROR', err });
+    dispatch({ type: 'SIGNUPUSER_ERROR', err });
+  })
+};
+
+export const signoutUser = () => (dispatch, gs, { getFirebase }) => {
+  const firebase = getFirebase();
+  firebase.auth().signOut().then(() => {
+    dispatch({ type: 'SIGNOUTUSER_SUCCESS' });
   })
 };
 
@@ -42,14 +42,5 @@ export const updateProfile = (data) => (dispatch, getState, { getFirestore }) =>
     dispatch({ type: 'UPDATEPROFILE_SUCCESS', data });
   }).catch((err) => {
     dispatch({ type: 'UPDATEPROFILE_ERROR', err });
-  })
-};
-
-export const removeProfile = () => (dispatch, getState, { getFirestore }) => {
-  const firestore = getFirestore();
-  const authorid = getState().firebase.auth.uid;
-  const ref = firestore.collection('users').doc(authorid);
-  ref.delete().then(() => {
-    dispatch({ type: 'REMOVEPROFILE_SUCCESS' });
   })
 };

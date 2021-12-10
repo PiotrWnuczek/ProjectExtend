@@ -1,39 +1,36 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Routes, Navigate } from 'react-router-dom';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material';
-import PrivateRoute from 'atoms/PrivateRoute';
-import ProfilePage from 'pages/ProfilePage';
-import LoginPage from 'pages/LoginPage';
-import RegisterPage from 'pages/RegisterPage';
+import SigninView from 'pages/SigninView';
+import SignupView from 'pages/SignupView';
+import BoardView from 'pages/BoardView';
+import PeopleView from 'pages/PeopleView';
+import ProfileView from 'pages/ProfileView';
 
-const theme = createTheme({
-  typography: {
-    fontFamily: 'Lato',
-  },
-});
+const App = () => {
+  const theme = createTheme({ typography: { fontFamily: 'Lato' } });
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <Routes>
-        <Route exact path='/' element={<Navigate to='/profile' />} />
-        <Route
-          path='/profile'
-          element={<PrivateRoute path='/profile' element={<ProfilePage />} />}
-        />
-        <Route
-          path='/signin'
-          element={<LoginPage />}
-        />
-        <Route
-          path='/signup'
-          element={<RegisterPage />}
-        />
-      </Routes>
-    </BrowserRouter>
-  </ThemeProvider>
-);
+  const auth = useSelector(state => state.firebase.auth);
+  const access = isLoaded(auth) && !isEmpty(auth);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/signin' element={<SigninView />} />
+          <Route path='/signup' element={<SignupView />} />
+          <Route path='/board' element={access ? <BoardView /> : <Navigate to='/signin' />} />
+          <Route path='/people' element={access ? <PeopleView /> : <Navigate to='/signin' />} />
+          <Route path='/profile' element={access ? <ProfileView /> : <Navigate to='/signin' />} />
+          <Route exact path='/' element={<Navigate to='/profile' />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
+  )
+};
 
 export default App;

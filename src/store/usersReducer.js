@@ -2,21 +2,21 @@ const initial = {
   error: null,
 };
 
-const profileReducer = (state = initial, action) => {
+const usersReducer = (state = initial, action) => {
   switch (action.type) {
-    case 'SIGNIN_SUCCESS':
+    case 'SIGNINUSER_SUCCESS':
       console.log('signin success');
       return { ...state, error: null };
-    case 'SIGNIN_ERROR':
+    case 'SIGNINUSER_ERROR':
       console.log('signin error');
       return { ...state, error: action.err.message };
-    case 'SIGNUP_SUCCESS':
+    case 'SIGNUPUSER_SUCCESS':
       console.log('signup success');
       return { ...state, error: null };
-    case 'SIGNUP_ERROR':
+    case 'SIGNUPUSER_ERROR':
       console.log('signup error');
       return { ...state, error: action.err.message };
-    case 'SIGNOUT_SUCCESS':
+    case 'SIGNOUTUSER_SUCCESS':
       console.log('signout success');
       return state;
     case 'UPDATEPROFILE_SUCCESS':
@@ -25,11 +25,8 @@ const profileReducer = (state = initial, action) => {
     case 'UPDATEPROFILE_ERROR':
       console.log(action.err);
       return state;
-    case 'REMOVEPROFILE_SUCCESS':
-      console.log('removeprofile success');
-      return state;
     default: return state;
   }
 };
 
-export default profileReducer;
+export default usersReducer;

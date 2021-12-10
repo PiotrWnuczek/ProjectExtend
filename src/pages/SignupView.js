@@ -1,32 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { signIn } from 'store/profileActions';
+import { signupUser } from 'store/usersActions';
 import { Navigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Button } from '@mui/material';
 import { KeyboardArrowRight } from '@mui/icons-material';
-import { styled } from '@mui/system';
 import TextInput from 'atoms/TextInput';
-import startGraphic from 'assets/startGraphic.png';
 
-const StyledWrapper = styled('div')({
-  backgroundImage: `url(${startGraphic})`,
-});
+const SignupView = ({ signupUser, error, auth }) => {
+  const [mistake, setMistake] = useState(false);
 
-const LoginPage = ({ signIn, error, auth }) => (auth.uid ?
-  <Navigate to='/profile' /> :
-  <StyledWrapper>
+  return (auth.uid ?
+    <Navigate to='/profile' /> :
     <Formik
       initialValues={{
+        name: '',
         email: '',
         password: '',
+        confirm: '',
       }}
       onSubmit={(values) => {
-        signIn(values);
+        if (values.password === values.confirm) {
+          signupUser({
+            name: values.name,
+            email: values.email,
+            password: values.password,
+          });
+        } else { setMistake(true) }
       }}
     >
       {({ values, handleChange, handleSubmit }) => (
-        <form onSubmit={handleSubmit} >
+        <form onSubmit={handleSubmit}>
+          <TextInput
+            onChange={handleChange}
+            value={values.name}
+            name='name'
+            type='text'
+          />
           <TextInput
             onChange={handleChange}
             value={values.email}
@@ -39,29 +49,36 @@ const LoginPage = ({ signIn, error, auth }) => (auth.uid ?
             name='password'
             type='password'
           />
+          <TextInput
+            onChange={handleChange}
+            value={values.confirm}
+            name='confirm'
+            type='password'
+          />
           <Button
             type='submit'
             color='secondary'
             variant='contained'
             endIcon={<KeyboardArrowRight />}
           >
-            Sign In
+            Sign Up
           </Button>
           {error && <p>{error}</p>}
+          {mistake && <p>Passowrds are not identical</p>}
         </form>
       )}
     </Formik>
-  </StyledWrapper>
-);
+  )
+};
 
 const mapStateToProps = (state) => ({
-  error: state.profile.error,
+  error: state.users.error,
   auth: state.firebase.auth,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  signIn: (creds) => dispatch(signIn(creds)),
+  signupUser: (user) => dispatch(signupUser(user)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)
-  (LoginPage);
+  (SignupView);

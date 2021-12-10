@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux';
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
-import profileReducer from 'store/profileReducer';
+import usersReducer from 'store/usersReducer';
+import projectsReducer from 'store/projectsReducer';
+import keywordsReducer from 'store/keywordsReducer';
 
 const rootReducer = combineReducers({
-  profile: profileReducer,
+  users: usersReducer,
+  projects: projectsReducer,
+  keywords: keywordsReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
 });
