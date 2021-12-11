@@ -9,7 +9,6 @@ const TextInput = ({ name, add, ...props }) => (
     label={name}
     name={name}
     variant='outlined'
-    color='secondary'
     fullWidth
   />
 );

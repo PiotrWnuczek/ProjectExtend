@@ -3,6 +3,7 @@
 ## Tasks
 
 - components structure
+- sidebar cempletion
 
 ## Specyfication
 

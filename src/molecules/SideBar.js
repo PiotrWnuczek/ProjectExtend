@@ -2,104 +2,63 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signoutUser } from 'store/usersActions';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Drawer, Typography, List } from '@mui/material';
-import { ListItem, ListItemText, ListItemIcon } from '@mui/material';
-import { PersonOutline, Login, Logout } from '@mui/icons-material';
-import { Dashboard } from '@mui/icons-material';
+import { Drawer, List, ListItem } from '@mui/material';
+import { ListItemText, ListItemIcon } from '@mui/material';
+import { Person, Logout } from '@mui/icons-material';
+import { Dashboard, People } from '@mui/icons-material';
+import { styled } from '@mui/system';
 
-const SideBar = ({ sideWidth, auth, signoutUser }) => {
+const StyledDrawer = styled(Drawer)({
+  width: '10rem',
+  '& .MuiDrawer-paper': {
+    justifyContent: 'space-between',
+    background: '#333333',
+    color: '#dddddd',
+    width: '10rem',
+  },
+});
+
+const SideBar = ({ signoutUser }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const mainMenu = [
-    {
-      text: 'Profile',
-      icon: <PersonOutline color='secondary' />,
-      path: '/profile',
-    },
-    {
-      text: 'Board',
-      icon: <Dashboard color='secondary' />,
-      path: '/board',
-    },
-    {
-      text: 'People',
-      icon: <Dashboard color='secondary' />,
-      path: '/people',
-    },
-  ];
-  const authMenu = [
-    {
-      text: 'Sign In',
-      icon: <Login color='secondary' />,
-      path: '/signin',
-    },
-    {
-      text: 'Sign Up',
-      icon: <Login color='secondary' />,
-      path: '/signup',
-    },
+  const menu = [
+    { text: 'Profile', icon: <Person sx={{ color: '#dddddd' }} />, path: '/profile' },
+    { text: 'Board', icon: <Dashboard sx={{ color: '#dddddd' }} />, path: '/board' },
+    { text: 'People', icon: <People sx={{ color: '#dddddd' }} />, path: '/people' },
   ];
 
   return (
-    <Drawer
-      sx={{ width: sideWidth, '& .MuiDrawer-paper': { width: sideWidth } }}
-      variant='permanent'
-      anchor='left'
-    >
-      <Typography
-        sx={{ p: 2, cursor: 'pointer' }}
-        variant='h5'
-        onClick={() => navigate('/profile')}
-      >
-        Material App
-      </Typography>
-      {auth.uid && <div>
-        <List>
-          {mainMenu.map(item =>
-            <ListItem button
-              sx={{ backgroundColor: location.pathname === item.path && '#f4f4f4' }}
-              onClick={() => navigate(item.path)}
-              key={item.text}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItem>
-          )}
-        </List>
-        <List>
-          <ListItem button
-            sx={{ marginTop: '50vh' }}
-            onClick={signoutUser}
-          >
-            <ListItemIcon><Logout color='secondary' /></ListItemIcon>
-            <ListItemText primary='Sign Out' />
-          </ListItem>
-        </List>
-      </div>}
-      {!auth.uid && <List>
-        {authMenu.map(item =>
-          <ListItem button
-            sx={{ backgroundColor: location.pathname === item.path && '#f4f4f4' }}
+    <StyledDrawer variant='permanent' anchor='left'>
+      <List>
+        {menu.map(item =>
+          <ListItem
+            sx={{ backgroundColor: location.pathname === item.path && '#444444' }}
             onClick={() => navigate(item.path)}
             key={item.text}
+            button
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.text} />
           </ListItem>
         )}
-      </List>}
-    </Drawer>
+      </List>
+      <List>
+        <ListItem
+          onClick={signoutUser}
+          button
+        >
+          <ListItemIcon><Logout sx={{ color: '#dddddd' }} /></ListItemIcon>
+          <ListItemText primary='SignOut' />
+        </ListItem>
+      </List>
+    </StyledDrawer>
   )
 };
-
-const mapStateToProps = (state) => ({
-  auth: state.firebase.auth,
-});
 
 const mapDispatchToPorps = (dispatch) => ({
   signoutUser: () => dispatch(signoutUser()),
 });
 
-export default connect(mapStateToProps, mapDispatchToPorps)
+export default connect(null, mapDispatchToPorps)
   (SideBar);
