@@ -4,6 +4,7 @@ import SideBar from 'molecules/SideBar';
 
 const StyledWrapper = styled('div')({
   display: 'flex',
+  padding: '1rem',
 });
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);

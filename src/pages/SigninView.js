@@ -7,11 +7,13 @@ import { Button, Typography } from '@mui/material';
 import { KeyboardArrowRight } from '@mui/icons-material';
 import FrontLayout from 'organisms/FrontLayout';
 import TextInput from 'atoms/TextInput';
+import Logo from 'assets/logo.png';
 
 const SigninView = ({ signinUser, error, auth }) => (auth.uid ?
   <Navigate to='/profile' /> :
   <FrontLayout>
-    <Typography variant='h4' gutterBottom>
+    <img src={Logo} alt='Logo' />
+    <Typography variant='h4' m={2}>
       Sign In
     </Typography>
     <Formik

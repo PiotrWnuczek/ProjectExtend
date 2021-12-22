@@ -6,6 +6,7 @@ const StyledWrapper = styled('div')({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  textAlign: 'center',
 });
 
 const FrontLayout = ({ children }) => (
