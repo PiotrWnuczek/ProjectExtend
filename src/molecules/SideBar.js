@@ -18,11 +18,10 @@ const StyledDrawer = styled(Drawer)({
 });
 
 const StyledLogo = styled('img')({
-  marginBottom: '1rem',
-  width: '100%',
+  maxWidth: '100%',
 });
 
-const SideBar = ({ signoutUser }) => {
+const SideBar = ({ signoutUser, ...props }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,9 +32,9 @@ const SideBar = ({ signoutUser }) => {
   ];
 
   return (
-    <StyledDrawer variant='permanent' anchor='left'>
+    <StyledDrawer {...props}>
       <List>
-        <ListItem>
+        <ListItem sx={{ mb: 4 }}>
           <StyledLogo src={Logo} alt='Logo' />
         </ListItem>
         {menu.map(item =>
@@ -45,7 +44,9 @@ const SideBar = ({ signoutUser }) => {
             key={item.text}
             button
           >
-            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemIcon>
+              {item.icon}
+            </ListItemIcon>
             <ListItemText primary={item.text} />
           </ListItem>
         )}
@@ -55,7 +56,9 @@ const SideBar = ({ signoutUser }) => {
           onClick={signoutUser}
           button
         >
-          <ListItemIcon><Logout /></ListItemIcon>
+          <ListItemIcon>
+            <Logout />
+          </ListItemIcon>
           <ListItemText primary='SignOut' />
         </ListItem>
       </List>
