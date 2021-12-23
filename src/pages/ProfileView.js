@@ -1,21 +1,33 @@
 import React, { useState } from 'react';
 import MainLayout from 'organisms/MainLayout';
-import { Typography, Tabs, Tab } from '@mui/material';
+import { Typography, Button } from '@mui/material';
 
 const ProfileView = () => {
-  const [value, setValue] = useState(0);
+  const [active, setActive] = useState('about');
 
   return (
     <MainLayout>
-      <Typography variant='h4' mr={2}>
+      <Typography
+        variant='h5'
+        sx={{ display: 'inline' }}
+        mx={2}
+      >
         ProfileView
       </Typography>
-      <div>
-        <Tabs value={value} onChange={(e, v) => setValue(v)}>
-          <Tab label='About' />
-          <Tab label='Messages' />
-        </Tabs>
-      </div>
+      <Button
+        size='small'
+        variant={active === 'about' ? 'contained' : 'text'}
+        onClick={() => setActive('about')}
+      >
+        About
+      </Button>
+      <Button
+        size='small'
+        variant={active === 'messages' ? 'contained' : 'text'}
+        onClick={() => setActive('messages')}
+      >
+        Messages
+      </Button>
     </MainLayout>
   )
 };

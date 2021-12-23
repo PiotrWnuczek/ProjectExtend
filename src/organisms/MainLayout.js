@@ -13,7 +13,9 @@ const MainLayout = ({ children }) => (
   <StyledWrapper>
     <SideBar />
     <Offset />
-    {children}
+    <div>
+      {children}
+    </div>
   </StyledWrapper>
 );
 

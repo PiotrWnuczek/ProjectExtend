@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 
 const BoardView = () => (
   <MainLayout>
-    <Typography variant='h4'>
+    <Typography variant='h5'>
       BoardView
     </Typography>
   </MainLayout>

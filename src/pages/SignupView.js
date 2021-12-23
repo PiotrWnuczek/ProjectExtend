@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signupUser } from 'store/usersActions';
-import { Navigate } from 'react-router-dom';
 import { Formik } from 'formik';
-import { Button, Typography } from '@mui/material';
-import { KeyboardArrowRight } from '@mui/icons-material';
+import { Button, Grid, Typography } from '@mui/material';
+import { styled } from '@mui/system';
 import FrontLayout from 'organisms/FrontLayout';
 import TextInput from 'atoms/TextInput';
 import Logo from 'assets/logo.png';
 
+const StyledLogo = styled('img')({
+  maxWidth: '100%',
+});
+
 const SignupView = ({ signupUser, error, auth }) => {
+  const navigate = useNavigate();
   const [mistake, setMistake] = useState(false);
 
   return (auth.uid ?
     <Navigate to='/profile' /> :
     <FrontLayout>
-      <img src={Logo} alt='Logo' />
+      <StyledLogo src={Logo} alt='Logo' />
       <Typography variant='h4' m={2}>
         Sign Up
       </Typography>
       <Formik
         initialValues={{
-          name: '',
+          firstname: '',
+          lastname: '',
           email: '',
           password: '',
           confirm: '',
@@ -29,7 +35,8 @@ const SignupView = ({ signupUser, error, auth }) => {
         onSubmit={(values) => {
           if (values.password === values.confirm) {
             signupUser({
-              name: values.name,
+              firstname: values.firstname,
+              lastname: values.lastname,
               email: values.email,
               password: values.password,
             });
@@ -38,36 +45,73 @@ const SignupView = ({ signupUser, error, auth }) => {
       >
         {({ values, handleChange, handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <TextInput
-              onChange={handleChange}
-              value={values.name}
-              name='name'
-              type='text'
-            />
-            <TextInput
-              onChange={handleChange}
-              value={values.email}
-              name='email'
-              type='email'
-            />
-            <TextInput
-              onChange={handleChange}
-              value={values.password}
-              name='password'
-              type='password'
-            />
-            <TextInput
-              onChange={handleChange}
-              value={values.confirm}
-              name='confirm'
-              type='password'
-            />
+            <Grid container columnSpacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextInput
+                  onChange={handleChange}
+                  value={values.name}
+                  label='First Name'
+                  name='firstname'
+                  type='text'
+                  autoFocus
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextInput
+                  onChange={handleChange}
+                  value={values.name}
+                  label='Last Name'
+                  name='lastname'
+                  type='text'
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextInput
+                  onChange={handleChange}
+                  value={values.email}
+                  label='Email'
+                  name='email'
+                  type='email'
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextInput
+                  onChange={handleChange}
+                  value={values.password}
+                  label='Password'
+                  name='password'
+                  type='password'
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextInput
+                  onChange={handleChange}
+                  value={values.confirm}
+                  label='Password'
+                  name='confirm'
+                  type='password'
+                  required
+                />
+              </Grid>
+            </Grid>
             <Button
+              sx={{ mb: 1 }}
               type='submit'
               variant='contained'
-              endIcon={<KeyboardArrowRight />}
+              fullWidth
             >
               Sign Up
+            </Button>
+            <br />
+            <Button
+              onClick={() => navigate('/signin')}
+              fullWidth
+            >
+              Sign In
             </Button>
             {error && <p>{error}</p>}
             {mistake && <p>Passowrds are not identical</p>}

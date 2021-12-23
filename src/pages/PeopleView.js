@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 
 const PeopleView = () => (
   <MainLayout>
-    <Typography variant='h4'>
+    <Typography variant='h5'>
       PeopleView
     </Typography>
   </MainLayout>
