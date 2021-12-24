@@ -9,14 +9,6 @@ import { Dashboard, People } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import Logo from 'assets/logo.png';
 
-const StyledDrawer = styled(Drawer)({
-  width: '10rem',
-  '& .MuiDrawer-paper': {
-    justifyContent: 'space-between',
-    width: '10rem',
-  },
-});
-
 const StyledLogo = styled('img')({
   maxWidth: '100%',
 });
@@ -32,7 +24,7 @@ const SideBar = ({ signoutUser, ...props }) => {
   ];
 
   return (
-    <StyledDrawer {...props}>
+    <Drawer {...props}>
       <List>
         <ListItem sx={{ mb: 4 }}>
           <StyledLogo src={Logo} alt='Logo' />
@@ -47,7 +39,7 @@ const SideBar = ({ signoutUser, ...props }) => {
             <ListItemIcon>
               {item.icon}
             </ListItemIcon>
-            <ListItemText primary={item.text} />
+            <ListItemText secondary={item.text} />
           </ListItem>
         )}
       </List>
@@ -59,10 +51,10 @@ const SideBar = ({ signoutUser, ...props }) => {
           <ListItemIcon>
             <Logout />
           </ListItemIcon>
-          <ListItemText primary='SignOut' />
+          <ListItemText secondary='SignOut' />
         </ListItem>
       </List>
-    </StyledDrawer>
+    </Drawer>
   )
 };
 

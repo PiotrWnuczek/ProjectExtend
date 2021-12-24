@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MainLayout from 'organisms/MainLayout';
-import { Typography, Box, Tabs, Tab, Divider } from '@mui/material';
+import { Box, Typography, Tabs, Tab, Divider } from '@mui/material';
 
 const ProfileView = () => {
   const [active, setActive] = useState(0);
@@ -8,7 +8,10 @@ const ProfileView = () => {
   return (
     <MainLayout>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant='h5' mb={1}>
+        <Typography
+          variant='h5'
+          sx={{ m: 1 }}
+        >
           ProfileView
         </Typography>
         <Tabs value={active} onChange={(e, v) => setActive(v)}>
