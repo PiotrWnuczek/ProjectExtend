@@ -45,7 +45,7 @@ const MainLayout = ({ children }) => {
         }}
         variant='permanent'
       />
-      <Box sx={{ flexGrow: 1, px: 1 }}>
+      <Box sx={{ flexGrow: 1 }}>
         <Toolbar sx={{ display: { xs: 'block', sm: 'none' } }} />
         {children}
       </Box>

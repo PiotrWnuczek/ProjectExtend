@@ -1,38 +1,39 @@
 import React from 'react';
-import MainLayout from 'organisms/MainLayout';
-import { Box, Card, Typography, TextField, Divider } from '@mui/material';
+import { Box, Typography, Divider } from '@mui/material';
+import { Card, CardContent, TextField } from '@mui/material';
 import { Masonry } from '@mui/lab';
+import MainLayout from 'organisms/MainLayout';
 
 const PeopleView = () => (
   <MainLayout>
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Typography
-        variant='h5'
-        sx={{ m: 1 }}
-      >
+      <Typography variant='h5' sx={{ m: 2 }}>
         PeopleView
       </Typography>
-      <TextField
-        size='small'
-        label='search'
-      />
+      <TextField size='small' label='search' />
     </Box>
-    <Divider sx={{ mb: 1 }} />
-    <Masonry columns={3} spacing={1}>
+    <Divider />
+    <Masonry columns={3} spacing={2} sx={{ p: 1, m: 0 }}>
       <Card variant='outlined'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu.
+        <CardContent>
+          <Typography>
+            1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
+          </Typography>
+        </CardContent>
       </Card>
       <Card variant='outlined'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
+        <CardContent>
+          <Typography>
+            2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
+          </Typography>
+        </CardContent>
       </Card>
       <Card variant='outlined'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Integer laoreet pharetra porttitor. Ut et facilisis lorem. Proin vulputate in nunc vitae ullamcorper. Donec finibus iaculis vehicula.
-      </Card>
-      <Card variant='outlined'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
-      </Card>
-      <Card variant='outlined'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
+        <CardContent>
+          <Typography>
+            3. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Integer laoreet pharetra porttitor. Ut et facilisis lorem. Proin vulputate in nunc vitae ullamcorper. Donec finibus iaculis vehicula.
+          </Typography>
+        </CardContent>
       </Card>
     </Masonry>
   </MainLayout>
