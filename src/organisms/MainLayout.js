@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
-import { Box, AppBar, Toolbar } from '@mui/material';
-import { IconButton, Divider } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { Menu } from '@mui/icons-material';
-import { styled } from '@mui/system';
 import SideBar from 'molecules/SideBar';
-import Logo from 'assets/logo.png';
-
-const StyledLogo = styled('img')({
-  maxHeight: 30,
-});
 
 const MainLayout = ({ children }) => {
   const [open, setOpen] = useState(false);
@@ -16,19 +9,6 @@ const MainLayout = ({ children }) => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar
-        sx={{ display: { xs: 'block', sm: 'none' } }}
-        color='transparent'
-        elevation={0}
-      >
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <IconButton onClick={() => setOpen(!open)}>
-            <Menu />
-          </IconButton>
-          <StyledLogo src={Logo} alt='Logo' />
-        </Toolbar>
-        <Divider />
-      </AppBar>
       <SideBar
         sx={{
           display: { xs: 'block', sm: 'none' }, width,
@@ -46,7 +26,12 @@ const MainLayout = ({ children }) => {
         variant='permanent'
       />
       <Box sx={{ flexGrow: 1 }}>
-        <Toolbar sx={{ display: { xs: 'block', sm: 'none' } }} />
+        <IconButton
+          sx={{ display: { xs: 'inline-flex', sm: 'none' }, mb: 1, ml: 2 }}
+          onClick={() => setOpen(!open)}
+        >
+          <Menu />
+        </IconButton>
         {children}
       </Box>
     </Box>

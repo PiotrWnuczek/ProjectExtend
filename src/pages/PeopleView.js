@@ -1,19 +1,28 @@
 import React from 'react';
-import { Box, Typography, Divider } from '@mui/material';
+import { Typography, Divider } from '@mui/material';
 import { Card, CardContent, TextField } from '@mui/material';
 import { Masonry } from '@mui/lab';
 import MainLayout from 'organisms/MainLayout';
 
 const PeopleView = () => (
   <MainLayout>
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Typography variant='h5' sx={{ m: 2 }}>
-        PeopleView
-      </Typography>
-      <TextField size='small' label='search' />
-    </Box>
+    <Typography
+      variant='h5'
+      sx={{ display: 'inline-flex', m: 2 }}
+    >
+      People
+    </Typography>
+    <TextField
+      size='small'
+      label='search'
+      sx={{ display: 'inline-flex', m: 1.5 }}
+    />
     <Divider />
-    <Masonry columns={3} spacing={2} sx={{ p: 1, m: 0 }}>
+    <Masonry
+      columns={{ xs: 1, sm: 2, md: 3 }}
+      spacing={2}
+      sx={{ p: 1, m: 0 }}
+    >
       <Card variant='outlined'>
         <CardContent>
           <Typography>

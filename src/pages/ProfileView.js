@@ -8,18 +8,27 @@ const ProfileView = () => {
 
   return (
     <MainLayout>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant='h5' sx={{ m: 2 }}>
-          Profile
-        </Typography>
-        <Tabs value={active} onChange={(e, v) => setActive(v)}>
-          <Tab label='About' sx={{ my: 1 }} />
-          <Tab label='Messages' sx={{ my: 1 }} />
-        </Tabs>
-      </Box>
+      <Typography
+        variant='h5'
+        sx={{ display: 'inline-flex', m: 2 }}
+      >
+        Profile
+      </Typography>
+      <Tabs
+        value={active}
+        onChange={(e, v) => setActive(v)}
+        sx={{ display: 'inline-flex' }}
+      >
+        <Tab label='About' sx={{ py: 2.3 }} />
+        <Tab label='Messages' sx={{ py: 2.3 }} />
+      </Tabs>
       <Divider />
       <Box sx={{ p: 2 }}>
-        <Accordion variant='outlined' defaultExpanded>
+        <Accordion
+          variant='outlined'
+          sx={{ mb: 2 }}
+          defaultExpanded
+        >
           <AccordionSummary>
             <Typography>
               Section one {active}
@@ -31,7 +40,11 @@ const ProfileView = () => {
             </Typography>
           </AccordionDetails>
         </Accordion>
-        <Accordion variant='outlined' defaultExpanded>
+        <Accordion
+          variant='outlined'
+          sx={{ mb: 2 }}
+          defaultExpanded
+        >
           <AccordionSummary>
             <Typography>
               Section two {active}
