@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Box, IconButton } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import React from 'react';
+import { useApp } from 'App';
+import { Box } from '@mui/material';
 import SideBar from 'molecules/SideBar';
 
 const MainLayout = ({ children }) => {
-  const [open, setOpen] = useState(false);
   const width = { xs: 180, sm: 140, md: 180 };
+  const [sidebar, setSidebar] = useApp();
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -15,8 +15,8 @@ const MainLayout = ({ children }) => {
           '& .MuiDrawer-paper': { justifyContent: 'space-between', width },
         }}
         variant='temporary'
-        open={open}
-        onClose={() => setOpen(!open)}
+        open={sidebar}
+        onClose={() => setSidebar(!sidebar)}
       />
       <SideBar
         sx={{
@@ -26,12 +26,6 @@ const MainLayout = ({ children }) => {
         variant='permanent'
       />
       <Box sx={{ flexGrow: 1 }}>
-        <IconButton
-          sx={{ display: { xs: 'inline-flex', sm: 'none' }, mb: 1, ml: 2 }}
-          onClick={() => setOpen(!open)}
-        >
-          <Menu />
-        </IconButton>
         {children}
       </Box>
     </Box>
