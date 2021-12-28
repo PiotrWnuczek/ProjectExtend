@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 import { useApp } from 'App';
 import { Box, Typography, Card, CardContent } from '@mui/material';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import { IconButton, Divider, Tabs, Tab } from '@mui/material';
-import { Masonry } from '@mui/lab';
-import { Menu, ExpandMore } from '@mui/icons-material';
+import { Button, IconButton, Divider, Tabs, Tab } from '@mui/material';
+import { Menu, ExpandMore, Add, Edit } from '@mui/icons-material';
+import Masonry from 'react-masonry-css';
 import MainLayout from 'organisms/MainLayout';
 import TextInput from 'atoms/TextInput';
 
 const ProfileView = () => {
-  const [active, setActive] = useState(0);
   const [sidebar, setSidebar] = useApp();
+  const [tabs, setTabs] = useState(0);
+  const [content, setContent] = useState(true);
+  const [skills, setSkills] = useState(true);
+  const breakpoints = { default: 3, 1100: 2, 700: 1 };
 
   return (
     <MainLayout>
@@ -31,8 +34,8 @@ const ProfileView = () => {
           Profile
         </Typography>
         <Tabs
-          value={active}
-          onChange={(e, v) => setActive(v)}
+          value={tabs}
+          onChange={(e, v) => setTabs(v)}
         >
           <Tab
             sx={{ py: { xs: 2.4, sm: 2.9 } }}
@@ -46,14 +49,32 @@ const ProfileView = () => {
       <Divider />
       <Box sx={{ p: 2 }}>
         <Accordion
-          sx={{ mb: 2, '&:before': { display: 'none' }, background: '#f8f8f8' }}
+          sx={{ bgcolor: 'inherit', mb: 2, '&:before': { display: 'none' } }}
+          expanded={content}
           variant='outlined'
-          defaultExpanded
         >
-          <AccordionSummary expandIcon={<ExpandMore />}>
-            <Typography variant='h6'>
-              About
+          <AccordionSummary
+            sx={{ pointerEvents: 'none' }}
+            expandIcon={<ExpandMore
+              sx={{ pointerEvents: 'auto' }}
+              onClick={() => setContent(!content)}
+            />}
+          >
+            <Typography
+              sx={{ pointerEvents: 'auto' }}
+              onClick={() => setContent(!content)}
+              variant='h6'
+            >
+              Content
             </Typography>
+            <Button
+              sx={{ pointerEvents: 'auto', mx: 2 }}
+              endIcon={<Edit />}
+              variant='outlined'
+              size='small'
+            >
+              Edit
+            </Button>
           </AccordionSummary>
           <AccordionDetails>
             <TextInput
@@ -64,25 +85,46 @@ const ProfileView = () => {
           </AccordionDetails>
         </Accordion>
         <Accordion
-          sx={{ mb: 2, '&:before': { display: 'none' }, background: '#f8f8f8' }}
+          sx={{ bgcolor: 'inherit', mb: 2, '&:before': { display: 'none' } }}
+          expanded={skills}
           variant='outlined'
-          defaultExpanded
         >
-          <AccordionSummary expandIcon={<ExpandMore />}>
-            <Typography variant='h6'>
+          <AccordionSummary
+            sx={{ pointerEvents: 'none' }}
+            expandIcon={<ExpandMore
+              sx={{ pointerEvents: 'auto' }}
+              onClick={() => setSkills(!skills)}
+            />}
+          >
+            <Typography
+              sx={{ pointerEvents: 'auto' }}
+              onClick={() => setSkills(!skills)}
+              variant='h6'
+            >
               Skills
             </Typography>
+            <Button
+              sx={{ pointerEvents: 'auto', mx: 2 }}
+              endIcon={<Add />}
+              variant='outlined'
+              size='small'
+            >
+              Add
+            </Button>
           </AccordionSummary>
           <AccordionDetails>
             <Masonry
-              sx={{ m: 0 }}
-              columns={{ xs: 1, sm: 2, md: 3 }}
-              spacing={2}
+              breakpointCols={breakpoints}
+              className='masonryGrid'
+              columnClassName='masonryGridColumn'
             >
-              <Card variant='outlined'>
+              <Card
+                sx={{ bgcolor: 'secondary.light' }}
+                variant='outlined'
+              >
                 <CardContent>
                   <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
                   </Typography>
                 </CardContent>
               </Card>

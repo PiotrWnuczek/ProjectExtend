@@ -2,15 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signoutUser } from 'store/usersActions';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Drawer, List, ListItem } from '@mui/material';
-import { ListItemText, ListItemIcon } from '@mui/material';
-import { Person, Logout } from '@mui/icons-material';
-import { Dashboard, People } from '@mui/icons-material';
+import { Drawer, Avatar, List, ListItem } from '@mui/material';
+import { ListItemText, ListItemAvatar } from '@mui/material';
+import { Person, Dashboard, People, Logout } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import Logo from 'assets/logo.png';
 
 const StyledLogo = styled('img')({
-  maxWidth: '100%',
+  maxWidth: 120,
 });
 
 const SideBar = ({ signoutUser, ...props }) => {
@@ -26,32 +25,38 @@ const SideBar = ({ signoutUser, ...props }) => {
   return (
     <Drawer {...props}>
       <List>
-        <ListItem sx={{ mb: 4 }}>
+        <ListItem sx={{ mb: 12 }}>
           <StyledLogo src={Logo} alt='Logo' />
         </ListItem>
         {menu.map(item =>
           <ListItem
-            sx={{ backgroundColor: location.pathname === item.path && '#f4f4f4' }}
-            onClick={() => navigate(item.path)}
+            sx={{ textTransform: 'uppercase' }}
             key={item.text}
+            selected={location.pathname === item.path}
+            onClick={() => navigate(item.path)}
             button
           >
-            <ListItemIcon>
-              {item.icon}
-            </ListItemIcon>
+            <ListItemAvatar>
+              <Avatar sx={{ bgcolor: 'primary.main' }}>
+                {item.icon}
+              </Avatar>
+            </ListItemAvatar>
             <ListItemText secondary={item.text} />
           </ListItem>
         )}
       </List>
       <List>
         <ListItem
+          sx={{ textTransform: 'uppercase' }}
           onClick={signoutUser}
           button
         >
-          <ListItemIcon>
-            <Logout />
-          </ListItemIcon>
-          <ListItemText secondary='SignOut' />
+          <ListItemAvatar>
+            <Avatar sx={{ bgcolor: 'primary.main' }}>
+              <Logout />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText secondary='Sign Out' />
         </ListItem>
       </List>
     </Drawer>

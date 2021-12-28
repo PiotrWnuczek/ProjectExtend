@@ -11,8 +11,8 @@ const MainLayout = ({ children }) => {
     <Box sx={{ display: 'flex' }}>
       <SideBar
         sx={{
-          display: { xs: 'block', sm: 'none' }, width,
-          '& .MuiDrawer-paper': { justifyContent: 'space-between', width },
+          display: { xs: 'block', sm: 'none' }, width, '& .MuiDrawer-paper':
+            { bgcolor: 'secondary.dark', justifyContent: 'space-between', width },
         }}
         variant='temporary'
         open={sidebar}
@@ -20,8 +20,8 @@ const MainLayout = ({ children }) => {
       />
       <SideBar
         sx={{
-          display: { xs: 'none', sm: 'block' }, width,
-          '& .MuiDrawer-paper': { justifyContent: 'space-between', width },
+          display: { xs: 'none', sm: 'block' }, width, '& .MuiDrawer-paper':
+            { bgcolor: 'secondary.dark', justifyContent: 'space-between', width },
         }}
         variant='permanent'
       />

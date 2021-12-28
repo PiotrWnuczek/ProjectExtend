@@ -5,6 +5,7 @@ import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Routes, Navigate } from 'react-router-dom';
 import { createTheme } from '@mui/material/styles';
+import { grey, blueGrey } from '@mui/material/colors';
 import { ThemeProvider } from '@mui/material';
 import SigninView from 'pages/SigninView';
 import SignupView from 'pages/SignupView';
@@ -17,7 +18,8 @@ export const useApp = () => useContext(AppContext);
 
 const App = () => {
   const theme = createTheme({
-    typography: { fontFamily: 'Lato' }
+    typography: { fontFamily: 'Lato' },
+    palette: { secondary: { light: grey[50], main: grey[100], dark: blueGrey[50] } },
   });
 
   const auth = useSelector(state => state.firebase.auth);

@@ -12,10 +12,13 @@ const StyledWrapper = styled('div')({
 
 const FrontLayout = ({ children }) => (
   <StyledWrapper>
-    <Container maxWidth='md'>
+    <Container maxWidth='sm'>
       <Card
+        sx={{
+          bgcolor: 'inherit', m: 2,
+          px: { xs: 2, md: 4 }, py: { xs: 3, md: 5 }
+        }}
         variant='outlined'
-        sx={{ m: 2, px: { xs: 2, md: 4 }, py: { xs: 3, md: 5 } }}
       >
         {children}
       </Card>

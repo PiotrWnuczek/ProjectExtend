@@ -2,12 +2,13 @@ import React from 'react';
 import { useApp } from 'App';
 import { Box, Typography, Card, CardContent } from '@mui/material';
 import { IconButton, Divider, TextField } from '@mui/material';
-import { Masonry } from '@mui/lab';
 import { Menu } from '@mui/icons-material';
+import Masonry from 'react-masonry-css';
 import MainLayout from 'organisms/MainLayout';
 
 const BoardView = () => {
   const [sidebar, setSidebar] = useApp();
+  const breakpoints = { default: 3, 1100: 2, 700: 1 };
 
   return (
     <MainLayout>
@@ -34,19 +35,44 @@ const BoardView = () => {
         />
       </Box>
       <Divider />
-      <Masonry
-        sx={{ p: 1, m: 0 }}
-        columns={{ xs: 1, sm: 2, md: 3 }}
-        spacing={2}
-      >
-        <Card variant='outlined'>
-          <CardContent>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
-            </Typography>
-          </CardContent>
-        </Card>
-      </Masonry>
+      <Box sx={{ p: 2 }}>
+        <Masonry
+          breakpointCols={breakpoints}
+          className='masonryGrid'
+          columnClassName='masonryGridColumn'
+        >
+          <Card
+            sx={{ bgcolor: 'secondary.light' }}
+            variant='outlined'
+          >
+            <CardContent>
+              <Typography>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card
+            sx={{ bgcolor: 'secondary.light' }}
+            variant='outlined'
+          >
+            <CardContent>
+              <Typography>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card
+            sx={{ bgcolor: 'secondary.light' }}
+            variant='outlined'
+          >
+            <CardContent>
+              <Typography>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu.
+              </Typography>
+            </CardContent>
+          </Card>
+        </Masonry>
+      </Box>
     </MainLayout>
   )
 };
