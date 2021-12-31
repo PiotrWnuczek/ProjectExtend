@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Card, CardContent } from '@mui/material';
 
-const TaskCard = () => (
+const ChatCard = () => (
   <Card
     sx={{ bgcolor: 'secondary.light' }}
     variant='outlined'
@@ -14,4 +14,4 @@ const TaskCard = () => (
   </Card>
 );
 
-export default TaskCard;
+export default ChatCard;

@@ -5,7 +5,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Button, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import FrontLayout from 'organisms/FrontLayout';
+import FrontLayout from 'pages/FrontLayout';
 import TextInput from 'atoms/TextInput';
 import Logo from 'assets/logo.png';
 

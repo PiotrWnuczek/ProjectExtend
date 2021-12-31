@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { createProject } from 'store/projectsActions';
 import { Box, Typography, Divider } from '@mui/material';
-import { Button, IconButton, TextField } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import { Button, IconButton } from '@mui/material';
+import { Menu, Search } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
-import MainLayout from 'organisms/MainLayout';
+import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
+import IconInput from 'atoms/IconInput';
 
 const BoardView = ({ createProject, projects }) => {
   const [sidebar, setSidebar] = useApp();
@@ -33,24 +34,27 @@ const BoardView = ({ createProject, projects }) => {
         >
           Board
         </Typography>
-        <TextField
+        <Button
           sx={{ m: { xs: 0.5, sm: 1.5 } }}
-          label='search'
+          onClick={() => createProject({
+            title: 'Creative Project',
+            keywords: 'react redux firebase',
+            about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.'
+          })}
+          variant='outlined'
+        >
+          Create Project
+        </Button>
+        <IconInput
+          sx={{ m: { xs: 0.5, sm: 1.5 } }}
+          icon={<Search />}
+          label='Search'
+          name='search'
+          type='text'
           size='small'
         />
       </Box>
       <Divider />
-      <Button
-        sx={{ mt: 2, mx: 2 }}
-        onClick={() => createProject({
-          title: 'Creative Project',
-          keywords: 'react redux firebase',
-          about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.'
-        })}
-        variant='outlined'
-      >
-        Create Project
-      </Button>
       <Box sx={{ p: 2 }}>
         <Masonry
           breakpointCols={breakpoints}

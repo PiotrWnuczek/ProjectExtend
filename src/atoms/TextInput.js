@@ -3,11 +3,11 @@ import { TextField } from '@mui/material';
 
 const TextInput = ({ name, label, ...props }) => (
   <TextField
+    sx={{ mb: 2 }}
     {...props}
     placeholder={label}
     label={label}
     name={name}
-    sx={{ mb: 2 }}
     variant='outlined'
     fullWidth
   />

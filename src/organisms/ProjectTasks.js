@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
-import { Card, CardContent } from '@mui/material';
+import { Box } from '@mui/material';
 import Masonry from 'react-masonry-css';
+import TaskCard from 'molecules/TaskCard';
 
 const ProjectTasks = () => {
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
@@ -13,16 +13,8 @@ const ProjectTasks = () => {
         className='masonryGrid'
         columnClassName='masonryGridColumn'
       >
-        <Card
-          sx={{ bgcolor: 'secondary.light' }}
-          variant='outlined'
-        >
-          <CardContent>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
-            </Typography>
-          </CardContent>
-        </Card>
+        <TaskCard />
+        <TaskCard />
       </Masonry>
     </Box>
   )

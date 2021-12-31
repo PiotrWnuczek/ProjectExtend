@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from 'App';
 import { Box } from '@mui/material';
-import SideBar from 'molecules/SideBar';
+import SideBar from 'organisms/SideBar';
 
 const MainLayout = ({ children }) => {
   const width = { xs: 180, sm: 140, md: 180 };

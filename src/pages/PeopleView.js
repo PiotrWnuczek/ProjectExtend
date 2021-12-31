@@ -3,11 +3,13 @@ import { useApp } from 'App';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { Box, Typography, Card, CardContent } from '@mui/material';
-import { IconButton, Divider, TextField } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import { Box, Typography } from '@mui/material';
+import { IconButton, Divider } from '@mui/material';
+import { Menu, Search } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
-import MainLayout from 'organisms/MainLayout';
+import MainLayout from 'pages/MainLayout';
+import ProfileCard from 'molecules/ProfileCard';
+import IconInput from 'atoms/IconInput';
 
 const PeopleView = ({ users }) => {
   const [sidebar, setSidebar] = useApp();
@@ -31,9 +33,12 @@ const PeopleView = ({ users }) => {
         >
           People
         </Typography>
-        <TextField
+        <IconInput
           sx={{ m: { xs: 0.5, sm: 1.5 } }}
-          label='search'
+          icon={<Search />}
+          label='Search'
+          name='search'
+          type='text'
           size='small'
         />
       </Box>
@@ -45,17 +50,10 @@ const PeopleView = ({ users }) => {
           columnClassName='masonryGridColumn'
         >
           {users && users.map(user =>
-            <Card
-              sx={{ bgcolor: 'secondary.light' }}
-              variant='outlined'
-              key={user.email}
-            >
-              <CardContent>
-                <Typography>
-                  {user.email}
-                </Typography>
-              </CardContent>
-            </Card>
+            <ProfileCard
+              user={user}
+              key={user.id}
+            />
           )}
         </Masonry>
       </Box>

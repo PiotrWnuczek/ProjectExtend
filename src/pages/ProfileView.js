@@ -3,8 +3,9 @@ import { useApp } from 'App';
 import { Box, Typography, Divider } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
 import { Menu } from '@mui/icons-material';
-import MainLayout from 'organisms/MainLayout';
-import ProfileAbout from 'organisms/ProfileAbout';
+import MainLayout from 'pages/MainLayout';
+import ProfileContent from 'organisms/ProfileContent';
+import ProfileSkills from 'organisms/ProfileSkills';
 import ProfileChats from 'organisms/ProfileChats';
 
 const ProfileView = () => {
@@ -44,7 +45,10 @@ const ProfileView = () => {
         </Tabs>
       </Box>
       <Divider />
-      {tabs === 0 && <ProfileAbout />}
+      {tabs === 0 && <Box sx={{ p: 2 }}>
+        <ProfileContent />
+        <ProfileSkills />
+      </Box>}
       {tabs === 1 && <ProfileChats />}
     </MainLayout>
   )

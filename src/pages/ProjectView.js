@@ -3,8 +3,9 @@ import { useApp } from 'App';
 import { Box, Typography, Divider } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
 import { Menu } from '@mui/icons-material';
-import MainLayout from 'organisms/MainLayout';
-import ProjectAbout from 'organisms/ProjectAbout';
+import MainLayout from 'pages/MainLayout';
+import ProjectContent from 'organisms/ProjectContent';
+import ProjectSkills from 'organisms/ProjectSkills';
 import ProjectTasks from 'organisms/ProjectTasks';
 import ProjectChats from 'organisms/ProjectChats';
 
@@ -49,7 +50,10 @@ const ProjectView = () => {
         </Tabs>
       </Box>
       <Divider />
-      {tabs === 0 && <ProjectAbout />}
+      {tabs === 0 && <Box sx={{ p: 2 }}>
+        <ProjectContent />
+        <ProjectSkills />
+      </Box>}
       {tabs === 1 && <ProjectTasks />}
       {tabs === 2 && <ProjectChats />}
     </MainLayout>
