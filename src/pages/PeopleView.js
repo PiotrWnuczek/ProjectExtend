@@ -1,12 +1,15 @@
 import React from 'react';
 import { useApp } from 'App';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
 import { Box, Typography, Card, CardContent } from '@mui/material';
 import { IconButton, Divider, TextField } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import MainLayout from 'organisms/MainLayout';
 
-const PeopleView = () => {
+const PeopleView = ({ users }) => {
   const [sidebar, setSidebar] = useApp();
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
 
@@ -41,40 +44,30 @@ const PeopleView = () => {
           className='masonryGrid'
           columnClassName='masonryGridColumn'
         >
-          <Card
-            sx={{ bgcolor: 'secondary.light' }}
-            variant='outlined'
-          >
-            <CardContent>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
-              </Typography>
-            </CardContent>
-          </Card>
-          <Card
-            sx={{ bgcolor: 'secondary.light' }}
-            variant='outlined'
-          >
-            <CardContent>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
-              </Typography>
-            </CardContent>
-          </Card>
-          <Card
-            sx={{ bgcolor: 'secondary.light' }}
-            variant='outlined'
-          >
-            <CardContent>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu.
-              </Typography>
-            </CardContent>
-          </Card>
+          {users && users.map(user =>
+            <Card
+              sx={{ bgcolor: 'secondary.light' }}
+              variant='outlined'
+              key={user.email}
+            >
+              <CardContent>
+                <Typography>
+                  {user.email}
+                </Typography>
+              </CardContent>
+            </Card>
+          )}
         </Masonry>
       </Box>
     </MainLayout>
   )
 };
 
-export default PeopleView;
+const mapStateToProps = (state) => ({
+  users: state.firestore.ordered.users,
+});
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: 'users' }]),
+)(PeopleView);

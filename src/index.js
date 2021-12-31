@@ -5,14 +5,14 @@ import { useSelector, Provider } from 'react-redux';
 import { getFirebase, isLoaded } from 'react-redux-firebase';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { getFirestore, createFirestoreInstance } from 'redux-firestore';
-import rootReducer from 'store/appReducer';
+import appReducer from 'store/appReducer';
 import appDatabase from 'store/appDatabase';
 import thunk from 'redux-thunk';
 import App from 'App';
 import 'index.css';
 
 const store = createStore(
-  rootReducer,
+  appReducer,
   applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
 );
 

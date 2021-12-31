@@ -5,7 +5,7 @@ import usersReducer from 'store/usersReducer';
 import projectsReducer from 'store/projectsReducer';
 import keywordsReducer from 'store/keywordsReducer';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   users: usersReducer,
   projects: projectsReducer,
   keywords: keywordsReducer,
@@ -13,4 +13,4 @@ const rootReducer = combineReducers({
   firestore: firestoreReducer,
 });
 
-export default rootReducer;
+export default appReducer;

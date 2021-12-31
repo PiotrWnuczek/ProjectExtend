@@ -17,7 +17,7 @@ const SigninView = ({ signinUser, error, auth }) => {
   const navigate = useNavigate();
 
   return (auth.uid ?
-    <Navigate to='/profile' /> :
+    <Navigate to='/profile/me' /> :
     <FrontLayout>
       <StyledLogo src={Logo} alt='Logo' />
       <Typography variant='h4' m={2}>

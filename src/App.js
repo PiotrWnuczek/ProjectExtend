@@ -12,6 +12,7 @@ import SignupView from 'pages/SignupView';
 import BoardView from 'pages/BoardView';
 import PeopleView from 'pages/PeopleView';
 import ProfileView from 'pages/ProfileView';
+import ProjectView from 'pages/ProjectView';
 
 const AppContext = createContext();
 export const useApp = () => useContext(AppContext);
@@ -35,8 +36,9 @@ const App = () => {
             <Route path='/signup' element={<SignupView />} />
             <Route path='/board' element={access ? <BoardView /> : <Navigate to='/signin' />} />
             <Route path='/people' element={access ? <PeopleView /> : <Navigate to='/signin' />} />
-            <Route path='/profile' element={access ? <ProfileView /> : <Navigate to='/signin' />} />
-            <Route exact path='/' element={<Navigate to='/profile' />} />
+            <Route path='/project/:id' element={access ? <ProjectView /> : <Navigate to='/signin' />} />
+            <Route path='/profile/:id' element={access ? <ProfileView /> : <Navigate to='/signin' />} />
+            <Route exact path='/' element={<Navigate to='/profile/me' />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

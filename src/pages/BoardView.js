@@ -1,12 +1,17 @@
 import React from 'react';
 import { useApp } from 'App';
-import { Box, Typography, Card, CardContent } from '@mui/material';
-import { IconButton, Divider, TextField } from '@mui/material';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { createProject } from 'store/projectsActions';
+import { Box, Typography, Divider } from '@mui/material';
+import { Button, IconButton, TextField } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import MainLayout from 'organisms/MainLayout';
+import ProjectCard from 'molecules/ProjectCard';
 
-const BoardView = () => {
+const BoardView = ({ createProject, projects }) => {
   const [sidebar, setSidebar] = useApp();
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
 
@@ -35,46 +40,44 @@ const BoardView = () => {
         />
       </Box>
       <Divider />
+      <Button
+        sx={{ mt: 2, mx: 2 }}
+        onClick={() => createProject({
+          title: 'Creative Project',
+          keywords: 'react redux firebase',
+          about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.'
+        })}
+        variant='outlined'
+      >
+        Create Project
+      </Button>
       <Box sx={{ p: 2 }}>
         <Masonry
           breakpointCols={breakpoints}
           className='masonryGrid'
           columnClassName='masonryGridColumn'
         >
-          <Card
-            sx={{ bgcolor: 'secondary.light' }}
-            variant='outlined'
-          >
-            <CardContent>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
-              </Typography>
-            </CardContent>
-          </Card>
-          <Card
-            sx={{ bgcolor: 'secondary.light' }}
-            variant='outlined'
-          >
-            <CardContent>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
-              </Typography>
-            </CardContent>
-          </Card>
-          <Card
-            sx={{ bgcolor: 'secondary.light' }}
-            variant='outlined'
-          >
-            <CardContent>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu.
-              </Typography>
-            </CardContent>
-          </Card>
+          {projects && projects.map(project =>
+            <ProjectCard
+              project={project}
+              key={project.id}
+            />
+          )}
         </Masonry>
       </Box>
     </MainLayout>
   )
 };
 
-export default BoardView;
+const mapStateToProps = (state) => ({
+  projects: state.firestore.ordered.projects,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  createProject: (data) => dispatch(createProject(data)),
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([{ collection: 'projects' }]),
+)(BoardView);

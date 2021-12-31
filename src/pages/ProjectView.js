@@ -4,10 +4,11 @@ import { Box, Typography, Divider } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import MainLayout from 'organisms/MainLayout';
-import ProfileAbout from 'organisms/ProfileAbout';
-import ProfileChats from 'organisms/ProfileChats';
+import ProjectAbout from 'organisms/ProjectAbout';
+import ProjectTasks from 'organisms/ProjectTasks';
+import ProjectChats from 'organisms/ProjectChats';
 
-const ProfileView = () => {
+const ProjectView = () => {
   const [sidebar, setSidebar] = useApp();
   const [tabs, setTabs] = useState(0);
 
@@ -27,7 +28,7 @@ const ProfileView = () => {
           sx={{ m: { xs: 1, sm: 2 } }}
           variant='h5'
         >
-          Profile
+          Project
         </Typography>
         <Tabs
           value={tabs}
@@ -39,15 +40,20 @@ const ProfileView = () => {
           />
           <Tab
             sx={{ py: { xs: 2.4, sm: 2.9 } }}
+            label='Tasks'
+          />
+          <Tab
+            sx={{ py: { xs: 2.4, sm: 2.9 } }}
             label='Chats'
           />
         </Tabs>
       </Box>
       <Divider />
-      {tabs === 0 && <ProfileAbout />}
-      {tabs === 1 && <ProfileChats />}
+      {tabs === 0 && <ProjectAbout />}
+      {tabs === 1 && <ProjectTasks />}
+      {tabs === 2 && <ProjectChats />}
     </MainLayout>
   )
 };
 
-export default ProfileView;
+export default ProjectView;

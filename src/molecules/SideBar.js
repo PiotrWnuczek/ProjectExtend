@@ -9,6 +9,7 @@ import { styled } from '@mui/system';
 import Logo from 'assets/logo.png';
 
 const StyledLogo = styled('img')({
+  cursor: 'pointer',
   maxWidth: 120,
 });
 
@@ -17,7 +18,7 @@ const SideBar = ({ signoutUser, ...props }) => {
   const location = useLocation();
 
   const menu = [
-    { text: 'Profile', icon: <Person />, path: '/profile' },
+    { text: 'Profile', icon: <Person />, path: '/profile/me' },
     { text: 'Board', icon: <Dashboard />, path: '/board' },
     { text: 'People', icon: <People />, path: '/people' },
   ];
@@ -26,7 +27,11 @@ const SideBar = ({ signoutUser, ...props }) => {
     <Drawer {...props}>
       <List>
         <ListItem sx={{ mb: 12 }}>
-          <StyledLogo src={Logo} alt='Logo' />
+          <StyledLogo
+            onClick={() => navigate('/profile/me')}
+            src={Logo}
+            alt='Logo'
+          />
         </ListItem>
         {menu.map(item =>
           <ListItem
