@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useApp } from 'App';
 import { Box, Typography, Divider } from '@mui/material';
-import { IconButton, Tabs, Tab } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import { Button, IconButton, Tabs, Tab } from '@mui/material';
+import { Menu, Person, Chat } from '@mui/icons-material';
 import MainLayout from 'pages/MainLayout';
 import ProfileContent from 'organisms/ProfileContent';
 import ProfileSkills from 'organisms/ProfileSkills';
@@ -30,6 +30,20 @@ const ProfileView = () => {
         >
           Profile
         </Typography>
+        {tabs === 0 && <Button
+          sx={{ m: { xs: 0.5, sm: 1.5 } }}
+          endIcon={<Person />}
+          variant='outlined'
+        >
+          Make Contact
+        </Button>}
+        {tabs === 1 && <Button
+          sx={{ m: { xs: 0.5, sm: 1.5 } }}
+          endIcon={<Chat />}
+          variant='outlined'
+        >
+          Create Chat
+        </Button>}
         <Tabs
           value={tabs}
           onChange={(e, v) => setTabs(v)}

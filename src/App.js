@@ -38,7 +38,7 @@ const App = () => {
             <Route path='/people' element={access ? <PeopleView /> : <Navigate to='/signin' />} />
             <Route path='/project/:id' element={access ? <ProjectView /> : <Navigate to='/signin' />} />
             <Route path='/profile/:id' element={access ? <ProfileView /> : <Navigate to='/signin' />} />
-            <Route exact path='/' element={<Navigate to='/profile/me' />} />
+            <Route exact path='/' element={<Navigate to='/board' />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

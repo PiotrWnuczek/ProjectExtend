@@ -28,7 +28,7 @@ const SideBar = ({ signoutUser, ...props }) => {
       <List>
         <ListItem sx={{ mb: 12 }}>
           <StyledLogo
-            onClick={() => navigate('/profile/me')}
+            onClick={() => navigate('/board')}
             src={Logo}
             alt='Logo'
           />

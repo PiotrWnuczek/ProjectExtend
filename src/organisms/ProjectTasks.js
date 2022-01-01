@@ -1,23 +1,44 @@
 import React from 'react';
-import { Box } from '@mui/material';
-import Masonry from 'react-masonry-css';
+import { Box, Grid, Paper, Typography } from '@mui/material';
 import TaskCard from 'molecules/TaskCard';
 
-const ProjectTasks = () => {
-  const breakpoints = { default: 3, 1100: 2, 700: 1 };
-
-  return (
-    <Box sx={{ p: 2 }}>
-      <Masonry
-        breakpointCols={breakpoints}
-        className='masonryGrid'
-        columnClassName='masonryGridColumn'
-      >
-        <TaskCard />
-        <TaskCard />
-      </Masonry>
-    </Box>
-  )
-};
+const ProjectTasks = () => (
+  <Box sx={{ p: 2 }}>
+    <Grid container spacing={2}>
+      <Grid item sx={12} md={6}>
+        <Paper
+          sx={{ bgcolor: 'inherit', p: 2 }}
+          variant='outlined'
+        >
+          <Typography
+            sx={{ mb: 3.5, mt: 0.5 }}
+            variant='h6'
+          >
+            Tasks
+          </Typography>
+          <TaskCard />
+          <Box sx={{ mb: 2 }} />
+          <TaskCard />
+        </Paper>
+      </Grid>
+      <Grid item sx={12} md={6}>
+        <Paper
+          sx={{ bgcolor: 'inherit', p: 2 }}
+          variant='outlined'
+        >
+          <Typography
+            sx={{ mb: 3.5, mt: 0.5 }}
+            variant='h6'
+          >
+            Done
+          </Typography>
+          <TaskCard />
+          <Box sx={{ mb: 2 }} />
+          <TaskCard />
+        </Paper>
+      </Grid>
+    </Grid>
+  </Box>
+);
 
 export default ProjectTasks;

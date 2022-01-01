@@ -3,9 +3,9 @@ import { useApp } from 'App';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { Box, Typography } from '@mui/material';
-import { IconButton, Divider } from '@mui/material';
-import { Menu, Search } from '@mui/icons-material';
+import { Box, Typography, Divider } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
+import { Menu, Search, People } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import MainLayout from 'pages/MainLayout';
 import ProfileCard from 'molecules/ProfileCard';
@@ -33,6 +33,13 @@ const PeopleView = ({ users }) => {
         >
           People
         </Typography>
+        <Button
+          sx={{ m: { xs: 0.5, sm: 1.5 } }}
+          endIcon={<People />}
+          variant='outlined'
+        >
+          Invite Friend
+        </Button>
         <IconInput
           sx={{ m: { xs: 0.5, sm: 1.5 } }}
           icon={<Search />}

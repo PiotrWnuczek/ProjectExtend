@@ -6,7 +6,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { createProject } from 'store/projectsActions';
 import { Box, Typography, Divider } from '@mui/material';
 import { Button, IconButton } from '@mui/material';
-import { Menu, Search } from '@mui/icons-material';
+import { Menu, Search, CreateNewFolder } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
@@ -36,6 +36,7 @@ const BoardView = ({ createProject, projects }) => {
         </Typography>
         <Button
           sx={{ m: { xs: 0.5, sm: 1.5 } }}
+          endIcon={<CreateNewFolder />}
           onClick={() => createProject({
             title: 'Creative Project',
             keywords: 'react redux firebase',

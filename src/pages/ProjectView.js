@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useApp } from 'App';
 import { Box, Typography, Divider } from '@mui/material';
-import { IconButton, Tabs, Tab } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import { Button, IconButton, Tabs, Tab } from '@mui/material';
+import { Menu, Input, Task, Chat } from '@mui/icons-material';
 import MainLayout from 'pages/MainLayout';
 import ProjectContent from 'organisms/ProjectContent';
 import ProjectSkills from 'organisms/ProjectSkills';
@@ -31,6 +31,27 @@ const ProjectView = () => {
         >
           Project
         </Typography>
+        {tabs === 0 && <Button
+          sx={{ m: { xs: 0.5, sm: 1.5 } }}
+          endIcon={<Input />}
+          variant='outlined'
+        >
+          Join Project
+        </Button>}
+        {tabs === 1 && <Button
+          sx={{ m: { xs: 0.5, sm: 1.5 } }}
+          endIcon={<Task />}
+          variant='outlined'
+        >
+          Create Task
+        </Button>}
+        {tabs === 2 && <Button
+          sx={{ m: { xs: 0.5, sm: 1.5 } }}
+          endIcon={<Chat />}
+          variant='outlined'
+        >
+          Create Chat
+        </Button>}
         <Tabs
           value={tabs}
           onChange={(e, v) => setTabs(v)}
