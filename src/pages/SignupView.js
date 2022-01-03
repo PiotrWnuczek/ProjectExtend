@@ -18,7 +18,7 @@ const SignupView = ({ signupUser, error, auth }) => {
   const [mistake, setMistake] = useState(false);
 
   return (auth.uid ?
-    <Navigate to='/profile/me' /> :
+    <Navigate to='/board' /> :
     <FrontLayout>
       <StyledLogo src={Logo} alt='Logo' />
       <Typography variant='h4' m={2}>

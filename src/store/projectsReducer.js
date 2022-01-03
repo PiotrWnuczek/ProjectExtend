@@ -1,12 +1,14 @@
 const initial = {
-  projects: [],
+  id: null,
 };
 
 const projectReducer = (state = initial, action) => {
   switch (action.type) {
+    case 'RESETID_PROJECT':
+      return { ...state, id: null };
     case 'CREATEPROJECT_SUCCESS':
       console.log(action.data);
-      return state;
+      return { ...state, id: action.resp.id };
     case 'CREATEPROJECT_ERROR':
       console.log(action.err);
       return state;

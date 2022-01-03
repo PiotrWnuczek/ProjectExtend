@@ -5,8 +5,8 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   ref.add({
     ...data,
     author: author,
-  }).then(() => {
-    dispatch({ type: 'CREATEPROJECT_SUCCESS', data });
+  }).then((resp) => {
+    dispatch({ type: 'CREATEPROJECT_SUCCESS', data, resp });
   }).catch((err) => {
     dispatch({ type: 'CREATEPROJECT_ERROR', err });
   })

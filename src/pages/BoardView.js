@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useApp } from 'App';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { createProject } from 'store/projectsActions';
+import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Divider } from '@mui/material';
 import { Button, IconButton } from '@mui/material';
 import { Menu, Search, CreateNewFolder } from '@mui/icons-material';
@@ -12,9 +13,14 @@ import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
 import IconInput from 'atoms/IconInput';
 
-const BoardView = ({ createProject, projects }) => {
+const BoardView = ({ createProject, resetId, projects, id }) => {
   const [sidebar, setSidebar] = useApp();
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
+  const navigate = useNavigate();
+  useEffect(() => {
+    id && navigate('/project/' + id);
+    resetId();
+  });
 
   return (
     <MainLayout>
@@ -63,7 +69,7 @@ const BoardView = ({ createProject, projects }) => {
           columnClassName='masonryGridColumn'
         >
           {projects && projects.map(project =>
-            <ProjectCard
+            project.title && <ProjectCard
               project={project}
               key={project.id}
             />
@@ -76,10 +82,12 @@ const BoardView = ({ createProject, projects }) => {
 
 const mapStateToProps = (state) => ({
   projects: state.firestore.ordered.projects,
+  id: state.projects.id,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   createProject: (data) => dispatch(createProject(data)),
+  resetId: () => dispatch({ type: 'RESETID_PROJECT' }),
 });
 
 export default compose(

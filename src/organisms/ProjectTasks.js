@@ -5,7 +5,7 @@ import TaskCard from 'molecules/TaskCard';
 const ProjectTasks = () => (
   <Box sx={{ p: 2 }}>
     <Grid container spacing={2}>
-      <Grid item sx={12} md={6}>
+      <Grid item xs={12} md={6}>
         <Paper
           sx={{ bgcolor: 'inherit', p: 2 }}
           variant='outlined'
@@ -16,12 +16,17 @@ const ProjectTasks = () => (
           >
             Tasks
           </Typography>
-          <TaskCard />
-          <Box sx={{ mb: 2 }} />
-          <TaskCard />
+          <Grid container spacing={2}>
+            <Grid item>
+              <TaskCard />
+            </Grid>
+            <Grid item>
+              <TaskCard />
+            </Grid>
+          </Grid>
         </Paper>
       </Grid>
-      <Grid item sx={12} md={6}>
+      <Grid item xs={12} md={6}>
         <Paper
           sx={{ bgcolor: 'inherit', p: 2 }}
           variant='outlined'
@@ -32,9 +37,14 @@ const ProjectTasks = () => (
           >
             Done
           </Typography>
-          <TaskCard />
-          <Box sx={{ mb: 2 }} />
-          <TaskCard />
+          <Grid container spacing={2}>
+            <Grid item>
+              <TaskCard />
+            </Grid>
+            <Grid item>
+              <TaskCard />
+            </Grid>
+          </Grid>
         </Paper>
       </Grid>
     </Grid>
