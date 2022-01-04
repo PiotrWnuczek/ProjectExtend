@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useApp } from 'App';
+import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
@@ -44,9 +44,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
           sx={{ m: { xs: 0.5, sm: 1.5 } }}
           endIcon={<CreateNewFolder />}
           onClick={() => createProject({
-            title: 'Creative Project',
-            keywords: 'react redux firebase',
-            about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. Praesent aliquet felis odio, eu feugiat risus accumsan eu. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.'
+            name: '', keywords: '', description: '',
           })}
           variant='outlined'
         >
@@ -69,7 +67,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
           columnClassName='masonryGridColumn'
         >
           {projects && projects.map(project =>
-            project.title && <ProjectCard
+            project.name && <ProjectCard
               project={project}
               key={project.id}
             />

@@ -7,7 +7,7 @@ import { Button, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import FrontLayout from 'pages/FrontLayout';
 import TextInput from 'atoms/TextInput';
-import Logo from 'assets/logo.png';
+import Logo from 'logo.png';
 
 const StyledLogo = styled('img')({
   maxWidth: '100%',

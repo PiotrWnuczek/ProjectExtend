@@ -1,5 +1,5 @@
 import React from 'react';
-import { useApp } from 'App';
+import { useApp } from 'assets/useApp';
 import { Box } from '@mui/material';
 import SideBar from 'organisms/SideBar';
 

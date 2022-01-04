@@ -7,7 +7,7 @@ import { FolderOpen } from '@mui/icons-material';
 
 const ProjectCard = ({ project }) => {
   const colors = [red, green, blue, orange, indigo];
-  const number = project.title.charCodeAt(0) % 5;
+  const number = project.name.charCodeAt(0) % 5;
   let avatarColor = colors[number][700];
   const navigate = useNavigate();
 
@@ -18,11 +18,11 @@ const ProjectCard = ({ project }) => {
       key={project.id}
     >
       <CardHeader
-        title={project.title}
-        subheader={project.keywords}
+        title={project.name}
+        subheader={project.id}
         avatar={
           <Avatar sx={{ bgcolor: avatarColor }}>
-            {project.title[0].toUpperCase()}
+            {project.name[0].toUpperCase()}
           </Avatar>
         }
         action={
@@ -35,7 +35,7 @@ const ProjectCard = ({ project }) => {
       />
       <CardContent>
         <Typography>
-          {project.about}
+          {project.description}
         </Typography>
       </CardContent>
     </Card>

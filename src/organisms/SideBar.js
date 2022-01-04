@@ -6,7 +6,7 @@ import { Drawer, Avatar, List, ListItem } from '@mui/material';
 import { ListItemText, ListItemAvatar } from '@mui/material';
 import { Person, Dashboard, People, Logout } from '@mui/icons-material';
 import { styled } from '@mui/system';
-import Logo from 'assets/logo.png';
+import Logo from 'logo.png';
 
 const StyledLogo = styled('img')({
   cursor: 'pointer',

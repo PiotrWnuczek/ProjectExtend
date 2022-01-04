@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useApp } from 'App';
+import { useApp } from 'assets/useApp';
 import { Box, Typography, Divider } from '@mui/material';
 import { Button, IconButton, Tabs, Tab } from '@mui/material';
 import { Menu, Person, Chat } from '@mui/icons-material';

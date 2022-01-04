@@ -3,8 +3,8 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   const author = getState().firebase.auth.uid;
   const ref = firestore.collection('projects');
   ref.add({
-    ...data,
-    author: author,
+    ...data, author: author,
+    name: '', description: '',
   }).then((resp) => {
     dispatch({ type: 'CREATEPROJECT_SUCCESS', data, resp });
   }).catch((err) => {
