@@ -5,9 +5,8 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { createProject } from 'store/projectsActions';
 import { useNavigate } from 'react-router-dom';
-import { Box, Typography, Divider } from '@mui/material';
-import { Button, IconButton } from '@mui/material';
-import { Menu, Search, CreateNewFolder } from '@mui/icons-material';
+import { Box, Divider, Button, IconButton } from '@mui/material';
+import { Menu, Search } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
@@ -24,34 +23,24 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
 
   return (
     <MainLayout>
-      <Box sx={{
-        display: 'flex', flexWrap: 'wrap', alignItems: 'center',
-        justifyContent: { xs: 'space-around', sm: 'left' },
-      }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <IconButton
-          sx={{ display: { xs: 'flex', sm: 'none' }, m: { xs: 1, sm: 2 } }}
+          sx={{ display: { xs: 'flex', sm: 'none' }, my: 1.5, ml: 1 }}
           onClick={() => setSidebar(!sidebar)}
         >
           <Menu />
         </IconButton>
-        <Typography
-          sx={{ m: { xs: 1, sm: 2 } }}
-          variant='h5'
-        >
-          Board
-        </Typography>
         <Button
-          sx={{ m: { xs: 0.5, sm: 1.5 } }}
-          endIcon={<CreateNewFolder />}
+          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
           onClick={() => createProject({
             name: '', keywords: '', description: '',
           })}
           variant='outlined'
         >
-          Create Project
+          New Project
         </Button>
         <IconInput
-          sx={{ m: { xs: 0.5, sm: 1.5 } }}
+          sx={{ my: 1.5, mr: 2, width: { xs: 100, sm: 200 } }}
           icon={<Search />}
           label='Search'
           name='search'

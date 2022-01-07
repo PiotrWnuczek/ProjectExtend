@@ -3,8 +3,8 @@ import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { Box, Typography, Divider } from '@mui/material';
-import { Button, IconButton, Tabs, Tab } from '@mui/material';
+import { Box, Divider, Button } from '@mui/material';
+import { IconButton, Tabs, Tab } from '@mui/material';
 import { Menu, Input, Task, Chat } from '@mui/icons-material';
 import withRouter from 'assets/withRouter';
 import MainLayout from 'pages/MainLayout';
@@ -19,39 +19,27 @@ const ProjectView = ({ project, id }) => {
 
   return (
     <MainLayout>
-      <Box sx={{
-        display: 'flex', flexWrap: 'wrap', alignItems: 'center',
-        justifyContent: { xs: 'space-around', sm: 'left' },
-      }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <IconButton
-          sx={{ display: { xs: 'flex', sm: 'none' }, m: { xs: 1, sm: 2 } }}
+          sx={{ display: { xs: 'flex', sm: 'none' }, my: 1.5, ml: 1 }}
           onClick={() => setSidebar(!sidebar)}
         >
           <Menu />
         </IconButton>
-        <Typography
-          sx={{ m: { xs: 1, sm: 2 } }}
-          variant='h5'
-        >
-          Project
-        </Typography>
         {tabs === 0 && <Button
-          sx={{ m: { xs: 0.5, sm: 1.5 } }}
-          endIcon={<Input />}
+          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
           variant='outlined'
         >
           Join Project
         </Button>}
         {tabs === 1 && <Button
-          sx={{ m: { xs: 0.5, sm: 1.5 } }}
-          endIcon={<Task />}
+          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
           variant='outlined'
         >
           Create Task
         </Button>}
         {tabs === 2 && <Button
-          sx={{ m: { xs: 0.5, sm: 1.5 } }}
-          endIcon={<Chat />}
+          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
           variant='outlined'
         >
           Create Chat
@@ -61,16 +49,16 @@ const ProjectView = ({ project, id }) => {
           onChange={(e, v) => setTabs(v)}
         >
           <Tab
-            sx={{ py: { xs: 2.4, sm: 2.9 } }}
-            label='About'
+            sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
+            icon={<Input />}
           />
           <Tab
-            sx={{ py: { xs: 2.4, sm: 2.9 } }}
-            label='Tasks'
+            sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
+            icon={<Task />}
           />
           <Tab
-            sx={{ py: { xs: 2.4, sm: 2.9 } }}
-            label='Chats'
+            sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
+            icon={<Chat />}
           />
         </Tabs>
       </Box>

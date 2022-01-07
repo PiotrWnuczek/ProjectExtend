@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useApp } from 'assets/useApp';
-import { Box, Typography, Divider } from '@mui/material';
-import { Button, IconButton, Tabs, Tab } from '@mui/material';
-import { Menu, Person, Chat } from '@mui/icons-material';
+import { Box, Divider, Button } from '@mui/material';
+import { IconButton, Tabs, Tab } from '@mui/material';
+import { Menu, Input, Chat } from '@mui/icons-material';
 import MainLayout from 'pages/MainLayout';
 import ProfileContent from 'organisms/ProfileContent';
 import ProfileSkills from 'organisms/ProfileSkills';
@@ -14,32 +14,21 @@ const ProfileView = () => {
 
   return (
     <MainLayout>
-      <Box sx={{
-        display: 'flex', flexWrap: 'wrap', alignItems: 'center',
-        justifyContent: { xs: 'space-around', sm: 'left' },
-      }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <IconButton
-          sx={{ display: { xs: 'flex', sm: 'none' }, m: { xs: 1, sm: 2 } }}
+          sx={{ display: { xs: 'flex', sm: 'none' }, my: 1.5, ml: 1 }}
           onClick={() => setSidebar(!sidebar)}
         >
           <Menu />
         </IconButton>
-        <Typography
-          sx={{ m: { xs: 1, sm: 2 } }}
-          variant='h5'
-        >
-          Profile
-        </Typography>
         {tabs === 0 && <Button
-          sx={{ m: { xs: 0.5, sm: 1.5 } }}
-          endIcon={<Person />}
+          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
           variant='outlined'
         >
           Make Contact
         </Button>}
         {tabs === 1 && <Button
-          sx={{ m: { xs: 0.5, sm: 1.5 } }}
-          endIcon={<Chat />}
+          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
           variant='outlined'
         >
           Create Chat
@@ -49,12 +38,12 @@ const ProfileView = () => {
           onChange={(e, v) => setTabs(v)}
         >
           <Tab
-            sx={{ py: { xs: 2.4, sm: 2.9 } }}
-            label='About'
+            sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
+            icon={<Input />}
           />
           <Tab
-            sx={{ py: { xs: 2.4, sm: 2.9 } }}
-            label='Chats'
+            sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
+            icon={<Chat />}
           />
         </Tabs>
       </Box>

@@ -3,9 +3,8 @@ import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { Box, Typography, Divider } from '@mui/material';
-import { Button, IconButton } from '@mui/material';
-import { Menu, Search, People } from '@mui/icons-material';
+import { Box, Divider, Button, IconButton } from '@mui/material';
+import { Menu, Search } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import MainLayout from 'pages/MainLayout';
 import ProfileCard from 'molecules/ProfileCard';
@@ -17,31 +16,21 @@ const PeopleView = ({ users }) => {
 
   return (
     <MainLayout>
-      <Box sx={{
-        display: 'flex', flexWrap: 'wrap', alignItems: 'center',
-        justifyContent: { xs: 'space-around', sm: 'left' },
-      }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <IconButton
-          sx={{ display: { xs: 'flex', sm: 'none' }, m: { xs: 1, sm: 2 } }}
+          sx={{ display: { xs: 'flex', sm: 'none' }, my: 1.5, ml: 1 }}
           onClick={() => setSidebar(!sidebar)}
         >
           <Menu />
         </IconButton>
-        <Typography
-          sx={{ m: { xs: 1, sm: 2 } }}
-          variant='h5'
-        >
-          People
-        </Typography>
         <Button
-          sx={{ m: { xs: 0.5, sm: 1.5 } }}
-          endIcon={<People />}
+          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
           variant='outlined'
         >
           Invite Friend
         </Button>
         <IconInput
-          sx={{ m: { xs: 0.5, sm: 1.5 } }}
+          sx={{ my: 1.5, mr: 2, width: { xs: 100, sm: 200 } }}
           icon={<Search />}
           label='Search'
           name='search'
