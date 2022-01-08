@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { IconButton, Typography } from '@mui/material';
 import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
 import { red, green, blue, orange, indigo } from '@mui/material/colors';
-import { FolderOpen } from '@mui/icons-material';
+import { PersonOutline, Input } from '@mui/icons-material';
 
 const ProfileCard = ({ user }) => {
   const colors = [red, green, blue, orange, indigo];
@@ -19,17 +19,17 @@ const ProfileCard = ({ user }) => {
     >
       <CardHeader
         title={user.firstname + ' ' + user.lastname}
-        subheader={user.email}
+        subheader={user.keywords}
         avatar={
           <Avatar sx={{ bgcolor: avatarColor }}>
-            {user.firstname[0].toUpperCase()}
+            <PersonOutline />
           </Avatar>
         }
         action={
           <IconButton
             onClick={() => navigate('/profile/' + user.id)}
           >
-            <FolderOpen />
+            <Input />
           </IconButton>
         }
       />

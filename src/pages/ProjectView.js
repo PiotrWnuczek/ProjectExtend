@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { Box, Divider, Button } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
-import { Menu, Input, Task, Chat } from '@mui/icons-material';
+import { Menu, Subject, Task, Chat } from '@mui/icons-material';
 import withRouter from 'assets/withRouter';
 import MainLayout from 'pages/MainLayout';
 import ProjectContent from 'organisms/ProjectContent';
@@ -19,38 +19,41 @@ const ProjectView = ({ project, id }) => {
 
   return (
     <MainLayout>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <IconButton
-          sx={{ display: { xs: 'flex', sm: 'none' }, my: 1.5, ml: 1 }}
-          onClick={() => setSidebar(!sidebar)}
-        >
-          <Menu />
-        </IconButton>
-        {tabs === 0 && <Button
-          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-          variant='outlined'
-        >
-          Join Project
-        </Button>}
-        {tabs === 1 && <Button
-          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-          variant='outlined'
-        >
-          Create Task
-        </Button>}
-        {tabs === 2 && <Button
-          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-          variant='outlined'
-        >
-          Create Chat
-        </Button>}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex' }}>
+          <IconButton
+            sx={{ display: { xs: 'flex', sm: 'none' }, my: 1.5, ml: 1 }}
+            onClick={() => setSidebar(!sidebar)}
+          >
+            <Menu />
+          </IconButton>
+          {tabs === 0 && <Button
+            sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
+            variant='outlined'
+          >
+            Join Project
+          </Button>}
+          {tabs === 1 && <Button
+            sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
+            variant='outlined'
+          >
+            Create Task
+          </Button>}
+          {tabs === 2 && <Button
+            sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
+            variant='outlined'
+          >
+            Create Chat
+          </Button>}
+        </Box>
         <Tabs
+          sx={{ mr: 2 }}
           value={tabs}
           onChange={(e, v) => setTabs(v)}
         >
           <Tab
             sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
-            icon={<Input />}
+            icon={<Subject />}
           />
           <Tab
             sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
@@ -82,8 +85,7 @@ const mapStateToProps = (state) => ({
 export default withRouter(compose(
   connect(mapStateToProps),
   firestoreConnect((props) => [{
-    collection: 'projects',
-    doc: props.id,
+    collection: 'projects', doc: props.id,
     storeAs: 'project',
   }]),
 )(ProjectView));

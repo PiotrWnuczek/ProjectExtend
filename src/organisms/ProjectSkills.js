@@ -17,12 +17,10 @@ const ProjectSkills = () => {
     >
       <AccordionSummary
         sx={{ pointerEvents: 'none' }}
-        expandIcon={
-          <ExpandMore
-            sx={{ pointerEvents: 'auto' }}
-            onClick={() => setOpen(!open)}
-          />
-        }
+        expandIcon={<ExpandMore
+          sx={{ pointerEvents: 'auto' }}
+          onClick={() => setOpen(!open)}
+        />}
       >
         <Typography
           sx={{ pointerEvents: 'auto' }}

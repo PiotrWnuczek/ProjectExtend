@@ -13,12 +13,13 @@ const StyledLogo = styled('img')({
   maxWidth: 120,
 });
 
-const SideBar = ({ signoutUser, ...props }) => {
+const SideBar = ({ signoutUser, auth, ...props }) => {
+  const profilePath = '/profile/' + auth.uid;
   const navigate = useNavigate();
   const location = useLocation();
 
   const menu = [
-    { text: 'Profile', icon: <Person />, path: '/profile/me' },
+    { text: 'Profile', icon: <Person />, path: profilePath },
     { text: 'Board', icon: <Dashboard />, path: '/board' },
     { text: 'People', icon: <People />, path: '/people' },
   ];
@@ -52,7 +53,7 @@ const SideBar = ({ signoutUser, ...props }) => {
       </List>
       <List>
         <ListItem
-          sx={{ textTransform: 'uppercase' }}
+          sx={{ textTransform: 'uppercase', whiteSpace: 'nowrap' }}
           onClick={signoutUser}
           button
         >
@@ -68,9 +69,13 @@ const SideBar = ({ signoutUser, ...props }) => {
   )
 };
 
+const mapStateToProps = (state) => ({
+  auth: state.firebase.auth,
+});
+
 const mapDispatchToPorps = (dispatch) => ({
   signoutUser: () => dispatch(signoutUser()),
 });
 
-export default connect(null, mapDispatchToPorps)
+export default connect(mapStateToProps, mapDispatchToPorps)
   (SideBar);

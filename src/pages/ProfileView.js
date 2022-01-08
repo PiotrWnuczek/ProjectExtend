@@ -1,45 +1,52 @@
 import React, { useState } from 'react';
 import { useApp } from 'assets/useApp';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
 import { Box, Divider, Button } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
-import { Menu, Input, Chat } from '@mui/icons-material';
+import { Menu, Subject, Chat } from '@mui/icons-material';
+import withRouter from 'assets/withRouter';
 import MainLayout from 'pages/MainLayout';
 import ProfileContent from 'organisms/ProfileContent';
 import ProfileSkills from 'organisms/ProfileSkills';
 import ProfileChats from 'organisms/ProfileChats';
 
-const ProfileView = () => {
+const ProfileView = ({ profile, id }) => {
   const [sidebar, setSidebar] = useApp();
   const [tabs, setTabs] = useState(0);
 
   return (
     <MainLayout>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <IconButton
-          sx={{ display: { xs: 'flex', sm: 'none' }, my: 1.5, ml: 1 }}
-          onClick={() => setSidebar(!sidebar)}
-        >
-          <Menu />
-        </IconButton>
-        {tabs === 0 && <Button
-          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-          variant='outlined'
-        >
-          Make Contact
-        </Button>}
-        {tabs === 1 && <Button
-          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-          variant='outlined'
-        >
-          Create Chat
-        </Button>}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex' }}>
+          <IconButton
+            sx={{ display: { xs: 'flex', sm: 'none' }, my: 1.5, ml: 1 }}
+            onClick={() => setSidebar(!sidebar)}
+          >
+            <Menu />
+          </IconButton>
+          {tabs === 0 && <Button
+            sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
+            variant='outlined'
+          >
+            Make Contact
+          </Button>}
+          {tabs === 1 && <Button
+            sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
+            variant='outlined'
+          >
+            Create Chat
+          </Button>}
+        </Box>
         <Tabs
+          sx={{ mr: 2 }}
           value={tabs}
           onChange={(e, v) => setTabs(v)}
         >
           <Tab
             sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
-            icon={<Input />}
+            icon={<Subject />}
           />
           <Tab
             sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
@@ -48,13 +55,25 @@ const ProfileView = () => {
         </Tabs>
       </Box>
       <Divider />
-      {tabs === 0 && <Box sx={{ p: 2 }}>
-        <ProfileContent />
-        <ProfileSkills />
-      </Box>}
-      {tabs === 1 && <ProfileChats />}
+      {profile ? <div>
+        {tabs === 0 && <Box sx={{ p: 2 }}>
+          <ProfileContent profile={profile} id={id} />
+          <ProfileSkills profile={profile} id={id} />
+        </Box>}
+        {tabs === 1 && <ProfileChats profile={profile} id={id} />}
+      </div> : <p>loading...</p>}
     </MainLayout>
   )
 };
 
-export default ProfileView;
+const mapStateToProps = (state) => ({
+  profile: state.firestore.data.user,
+});
+
+export default withRouter(compose(
+  connect(mapStateToProps),
+  firestoreConnect((props) => [{
+    collection: 'users', doc: props.id,
+    storeAs: 'user',
+  }]),
+)(ProfileView));
