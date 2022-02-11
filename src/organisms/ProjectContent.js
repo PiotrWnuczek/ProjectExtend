@@ -15,9 +15,9 @@ const ProjectContent = ({ updateProject, project, id }) => {
   const [open, setOpen] = useState(true);
   const [name, setName] = useState(false);
   const [desc, setDesc] = useState(false);
-
+  const date = new Date().getHours();
   useEffect(() => {
-    !project.name && updateProject({ name: 'new' }, id);
+    !project.name && updateProject({ name: 'new ' + date }, id);
   });
 
   return (

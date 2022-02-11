@@ -78,14 +78,12 @@ const ProjectView = ({ project, id }) => {
   )
 };
 
-const mapStateToProps = (state) => ({
-  project: state.firestore.data.project,
-});
+const mapStateToProps = (state, props) => {
+  const project = state.firestore.data.project;
+  return { project: project && project[props.id] };
+};
 
 export default withRouter(compose(
   connect(mapStateToProps),
-  firestoreConnect((props) => [{
-    collection: 'projects', doc: props.id,
-    storeAs: 'project',
-  }]),
+  firestoreConnect([{ collection: 'projects', storeAs: 'project' }]),
 )(ProjectView));
