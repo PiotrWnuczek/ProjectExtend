@@ -68,7 +68,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
           columnClassName='masonryGridColumn'
         >
           {projects && projects.map(project =>
-            project.name && <ProjectCard
+            <ProjectCard
               project={project}
               key={project.id}
             />
@@ -91,5 +91,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([{ collection: 'projects' }]),
+  firestoreConnect([{ collection: 'projects', where: [['name', '!=', '']] }]),
 )(BoardView);
