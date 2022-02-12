@@ -66,16 +66,14 @@ const ProfileView = ({ profile, id }) => {
   )
 };
 
-const mapStateToProps = (state, props) => {
-  const users = state.firestore.data.users;
-  const user = state.firestore.data.user;
-  return { profile: users ? users[props.id] : user };
-};
+const mapStateToProps = (state, props) => ({
+  profile: state.firestore.data[props.id],
+});
 
 export default withRouter(compose(
   connect(mapStateToProps),
   firestoreConnect((props) => [{
-    collection: 'users', doc: props.id,
-    storeAs: 'user',
+    collection: 'users',
+    doc: props.id, storeAs: props.id,
   }]),
 )(ProfileView));

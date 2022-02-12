@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateProject } from 'store/projectsActions';
 import { Box, Typography, Button, IconButton, Avatar } from '@mui/material';
@@ -13,8 +13,9 @@ const ProjectContent = ({ updateProject, project, id }) => {
   const number = project.name && project.name.charCodeAt(0) % 5;
   let avatarColor = project.name ? colors[number][700] : blue[700];
   const [open, setOpen] = useState(true);
-  const [name, setName] = useState(false);
+  const [name, setName] = useState(project.new);
   const [desc, setDesc] = useState(false);
+  useEffect(() => { project.new && updateProject({ new: false }, id) });
 
   return (
     <div>

@@ -34,7 +34,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
           </IconButton>
           <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-            onClick={() => createProject({ name: 'new' })}
+            onClick={() => createProject({ new: true, name: 'new', description: '' })}
             variant='outlined'
           >
             New Project
@@ -68,7 +68,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
           columnClassName='masonryGridColumn'
         >
           {projects && projects.map(project =>
-            <ProjectCard
+            !project.new && <ProjectCard
               project={project}
               key={project.id}
             />
