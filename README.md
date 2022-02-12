@@ -1,12 +1,5 @@
 # ProjectExtend
 
-## Tasks
-
-- components structure
-- sidebar cempletion
-
-## Specyfication
-
 - Login/Register Page - prosty formulaż na jasnym komponencie, w tle grafika projektów obrócona o 45 stopni, przyciemniona, półprzezroczysta
 
 - Main Template - z lewej strony ciemnoszary wąski sidebar z białym logo i białymi iconbuttonami profile, projects, people, logout, w części głównej masonry grid, z prawej strony przycisk add
