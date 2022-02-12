@@ -66,9 +66,11 @@ const ProfileView = ({ profile, id }) => {
   )
 };
 
-const mapStateToProps = (state) => ({
-  profile: state.firestore.data.user,
-});
+const mapStateToProps = (state, props) => {
+  const users = state.firestore.data.users;
+  const user = state.firestore.data.user;
+  return { profile: users ? users[props.id] : user };
+};
 
 export default withRouter(compose(
   connect(mapStateToProps),

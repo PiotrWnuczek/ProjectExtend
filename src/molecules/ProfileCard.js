@@ -7,8 +7,8 @@ import { PersonOutline, Input } from '@mui/icons-material';
 
 const ProfileCard = ({ user }) => {
   const colors = [red, green, blue, orange, indigo];
-  const number = user.firstname.charCodeAt(0) % 5;
-  let avatarColor = colors[number][700];
+  const number = user.firstname && user.firstname.charCodeAt(0) % 5;
+  let avatarColor = user.firstname ? colors[number][700] : blue[700];
   const navigate = useNavigate();
 
   return (

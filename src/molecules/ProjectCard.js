@@ -7,8 +7,8 @@ import { FolderOpen, Input } from '@mui/icons-material';
 
 const ProjectCard = ({ project }) => {
   const colors = [red, green, blue, orange, indigo];
-  const number = project.name.charCodeAt(0) % 5;
-  let avatarColor = colors[number][700];
+  const number = project.name && project.name.charCodeAt(0) % 5;
+  let avatarColor = project.name ? colors[number][700] : blue[700];
   const navigate = useNavigate();
 
   return (

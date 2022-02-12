@@ -34,7 +34,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
           </IconButton>
           <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-            onClick={() => createProject({ name: '' })}
+            onClick={() => createProject({ name: 'new' })}
             variant='outlined'
           >
             New Project
@@ -91,5 +91,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([{ collection: 'projects', where: [['name', '!=', '']] }]),
+  firestoreConnect([{ collection: 'projects', orderBy: ['date', 'desc'] }]),
 )(BoardView);

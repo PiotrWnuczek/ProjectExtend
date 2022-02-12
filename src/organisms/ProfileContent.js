@@ -10,8 +10,8 @@ import TextInput from 'atoms/TextInput';
 
 const ProfileContent = ({ updateProfile, profile, id }) => {
   const colors = [red, green, blue, orange, indigo];
-  const number = profile.firstname.charCodeAt(0) % 5;
-  let avatarColor = colors[number][700];
+  const number = profile.firstname && profile.firstname.charCodeAt(0) % 5;
+  let avatarColor = profile.firstname ? colors[number][700] : blue[700];
   const [open, setOpen] = useState(true);
   const [name, setName] = useState(false);
   const [desc, setDesc] = useState(false);
