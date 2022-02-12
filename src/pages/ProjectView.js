@@ -13,7 +13,7 @@ import ProjectSkills from 'organisms/ProjectSkills';
 import ProjectTasks from 'organisms/ProjectTasks';
 import ProjectChats from 'organisms/ProjectChats';
 
-const ProjectView = ({ project, id }) => {
+const ProjectView = ({ project, id, tasks }) => {
   const [sidebar, setSidebar] = useApp();
   const [tabs, setTabs] = useState(0);
 
@@ -71,7 +71,7 @@ const ProjectView = ({ project, id }) => {
           <ProjectContent project={project} id={id} />
           <ProjectSkills project={project} id={id} />
         </Box>}
-        {tabs === 1 && <ProjectTasks project={project} id={id} />}
+        {tabs === 1 && <ProjectTasks tasks={tasks} />}
         {tabs === 2 && <ProjectChats project={project} id={id} />}
       </div> : <p>loading...</p>}
     </MainLayout>
@@ -80,12 +80,26 @@ const ProjectView = ({ project, id }) => {
 
 const mapStateToProps = (state, props) => ({
   project: state.firestore.data[props.id],
+  skills: state.firestore.ordered.skills,
+  tasks: state.firestore.ordered.tasks,
 });
 
 export default withRouter(compose(
   connect(mapStateToProps),
-  firestoreConnect((props) => [{
-    collection: 'projects',
-    doc: props.id, storeAs: props.id,
-  }]),
+  firestoreConnect((props) => [
+    {
+      collection: 'projects', doc: props.id,
+      storeAs: props.id,
+    },
+    {
+      collection: 'projects', doc: props.id,
+      subcollections: [{ collection: 'skills' }],
+      storeAs: 'skills',
+    },
+    {
+      collection: 'projects', doc: props.id,
+      subcollections: [{ collection: 'tasks' }],
+      storeAs: 'tasks',
+    },
+  ]),
 )(ProjectView));

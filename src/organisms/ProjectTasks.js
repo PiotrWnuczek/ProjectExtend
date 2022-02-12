@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Grid, Paper, Typography } from '@mui/material';
 import TaskCard from 'molecules/TaskCard';
 
-const ProjectTasks = () => (
+const ProjectTasks = ({ tasks }) => (
   <Box sx={{ p: 2 }}>
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
@@ -17,12 +17,11 @@ const ProjectTasks = () => (
             Tasks
           </Typography>
           <Grid container spacing={2}>
-            <Grid item>
-              <TaskCard />
-            </Grid>
-            <Grid item>
-              <TaskCard />
-            </Grid>
+            {tasks && tasks.map(task =>
+              <Grid item key={task.id}>
+                <TaskCard task={task} />
+              </Grid>
+            )}
           </Grid>
         </Paper>
       </Grid>
@@ -38,12 +37,11 @@ const ProjectTasks = () => (
             Done
           </Typography>
           <Grid container spacing={2}>
-            <Grid item>
-              <TaskCard />
-            </Grid>
-            <Grid item>
-              <TaskCard />
-            </Grid>
+            {tasks && tasks.map(task =>
+              <Grid item key={task.id}>
+                <TaskCard task={task} />
+              </Grid>
+            )}
           </Grid>
         </Paper>
       </Grid>
