@@ -3,9 +3,9 @@ import { Typography, Button, Accordion } from '@mui/material';
 import { AccordionSummary, AccordionDetails } from '@mui/material';
 import { ExpandMore, Add } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
-import SkillCard from 'molecules/SkillCard';
+import TagCard from 'molecules/TagCard';
 
-const ProjectSkills = () => {
+const ProfileTags = () => {
   const [open, setOpen] = useState(true);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
 
@@ -27,7 +27,7 @@ const ProjectSkills = () => {
           onClick={() => setOpen(!open)}
           variant='h6'
         >
-          Skills
+          Tags
         </Typography>
         <Button
           sx={{ pointerEvents: 'auto', mx: 2 }}
@@ -44,12 +44,12 @@ const ProjectSkills = () => {
           className='masonryGrid'
           columnClassName='masonryGridColumn'
         >
-          <SkillCard />
-          <SkillCard />
+          <TagCard />
+          <TagCard />
         </Masonry>
       </AccordionDetails>
     </Accordion>
   )
 };
 
-export default ProjectSkills;
+export default ProfileTags;

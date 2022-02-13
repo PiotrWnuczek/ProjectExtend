@@ -33,41 +33,6 @@ export const removeProject = (id) => (dispatch, gs, { getFirestore }) => {
   })
 };
 
-export const createSkill = (data, project) => (dispatch, getState, { getFirestore }) => {
-  const firestore = getFirestore();
-  const author = getState().firebase.auth.uid;
-  const ref = firestore.collection('projects').doc(project).collection('skills');
-  ref.add({
-    ...data, author: author, date: new Date(),
-  }).then((resp) => {
-    dispatch({ type: 'CREATESKILL_SUCCESS', data, resp });
-  }).catch((err) => {
-    dispatch({ type: 'CREATESKILL_ERROR', err });
-  })
-};
-
-export const updateSkill = (data, id, project) => (dispatch, gs, { getFirestore }) => {
-  const firestore = getFirestore();
-  const ref = firestore.collection('projects').doc(project).collection('skills');
-  ref.doc(id).update({
-    ...data,
-  }).then(() => {
-    dispatch({ type: 'UPDATESKILL_SUCCESS', data });
-  }).catch((err) => {
-    dispatch({ type: 'UPDATESKILL_ERROR', err });
-  })
-};
-
-export const removeSkill = (id, project) => (dispatch, gs, { getFirestore }) => {
-  const firestore = getFirestore();
-  const ref = firestore.collection('projects').doc(project).collection('skills');
-  ref.doc(id).delete().then(() => {
-    dispatch({ type: 'REMOVESKILL_SUCCESS', id });
-  }).catch((err) => {
-    dispatch({ type: 'REMOVESKILL_SUCCESS', err });
-  })
-};
-
 export const createTask = (data, project) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
   const author = getState().firebase.auth.uid;

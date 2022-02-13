@@ -1,17 +1,33 @@
-import React from 'react';
-import { Typography, Card, CardContent } from '@mui/material';
+import React, { useState } from 'react';
+import { Card, CardContent, CardActions } from '@mui/material';
+import { IconButton, Collapse } from '@mui/material';
+import { ExpandMore } from '@mui/icons-material';
 
-const TaskCard = ({ task }) => (
-  <Card
-    sx={{ bgcolor: 'secondary.light' }}
-    variant='outlined'
-  >
-    <CardContent>
-      <Typography>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus. {task.content}
-      </Typography>
-    </CardContent>
-  </Card>
-);
+const TaskCard = ({ task }) => {
+  const [expand, setExpand] = useState(false);
+
+  return (
+    <Card
+      sx={{ bgcolor: 'secondary.light', my: 2 }}
+      variant='outlined'
+    >
+      <CardContent>
+        {task.content}
+        <br />
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </CardContent>
+      <CardActions>
+        <IconButton onClick={() => setExpand(!expand)}>
+          <ExpandMore />
+        </IconButton>
+      </CardActions>
+      <Collapse in={expand} timeout="auto" unmountOnExit>
+        <CardContent>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </CardContent>
+      </Collapse>
+    </Card>
+  )
+};
 
 export default TaskCard;

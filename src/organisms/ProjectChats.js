@@ -4,7 +4,7 @@ import Masonry from 'react-masonry-css';
 import ChatCard from 'molecules/ChatCard';
 
 const ProjectChats = () => {
-  const breakpoints = { default: 3, 1100: 2, 700: 1 };
+  const breakpoints = { default: 2, 700: 1 };
 
   return (
     <Box sx={{ p: 2 }}>

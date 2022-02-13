@@ -3,17 +3,18 @@ import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
+import { createTask } from 'store/projectsActions';
 import { Box, Divider, Button } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
 import { Menu, Subject, Task, Chat } from '@mui/icons-material';
 import withRouter from 'assets/withRouter';
 import MainLayout from 'pages/MainLayout';
 import ProjectContent from 'organisms/ProjectContent';
-import ProjectSkills from 'organisms/ProjectSkills';
+import ProjectTags from 'organisms/ProjectTags';
 import ProjectTasks from 'organisms/ProjectTasks';
 import ProjectChats from 'organisms/ProjectChats';
 
-const ProjectView = ({ project, id, tasks }) => {
+const ProjectView = ({ createTask, project, id, tasks }) => {
   const [sidebar, setSidebar] = useApp();
   const [tabs, setTabs] = useState(0);
 
@@ -35,6 +36,7 @@ const ProjectView = ({ project, id, tasks }) => {
           </Button>}
           {tabs === 1 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
+            onClick={() => createTask({ content: 'new', type: 'todo' }, id)}
             variant='outlined'
           >
             Create Task
@@ -69,7 +71,7 @@ const ProjectView = ({ project, id, tasks }) => {
       {project ? <div>
         {tabs === 0 && <Box sx={{ p: 2 }}>
           <ProjectContent project={project} id={id} />
-          <ProjectSkills project={project} id={id} />
+          <ProjectTags project={project} id={id} />
         </Box>}
         {tabs === 1 && <ProjectTasks tasks={tasks} />}
         {tabs === 2 && <ProjectChats project={project} id={id} />}
@@ -84,17 +86,16 @@ const mapStateToProps = (state, props) => ({
   tasks: state.firestore.ordered.tasks,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  createTask: (data, project) => dispatch(createTask(data, project)),
+});
+
 export default withRouter(compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect((props) => [
     {
       collection: 'projects', doc: props.id,
       storeAs: props.id,
-    },
-    {
-      collection: 'projects', doc: props.id,
-      subcollections: [{ collection: 'skills' }],
-      storeAs: 'skills',
     },
     {
       collection: 'projects', doc: props.id,

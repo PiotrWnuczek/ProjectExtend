@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Card, CardContent } from '@mui/material';
 
-const SkillCard = () => (
+const TagCard = () => (
   <Card
     sx={{ bgcolor: 'secondary.light' }}
     variant='outlined'
@@ -14,4 +14,4 @@ const SkillCard = () => (
   </Card>
 );
 
-export default SkillCard;
+export default TagCard;

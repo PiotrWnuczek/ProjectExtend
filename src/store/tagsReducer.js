@@ -2,28 +2,28 @@ const initial = {
   id: null,
 };
 
-const keywordsReducer = (state = initial, action) => {
+const tagsReducer = (state = initial, action) => {
   switch (action.type) {
-    case 'CREATEKEYWORD_SUCCESS':
+    case 'CREATETAG_SUCCESS':
       console.log(action.data);
       return state;
-    case 'CREATEKEYWORD_ERROR':
+    case 'CREATETAG_ERROR':
       console.log(action.err);
       return state;
-    case 'UPDATEKEYWORD_SUCCESS':
+    case 'UPDATETAG_SUCCESS':
       console.log(action.data);
       return state;
-    case 'UPDATEKEYWORD_ERROR':
+    case 'UPDATETAG_ERROR':
       console.log(action.err);
       return state;
-    case 'REMOVEKEYWORD_SUCCESS':
+    case 'REMOVETAG_SUCCESS':
       console.log(action.id);
       return state;
-    case 'REMOVEKEYWORD_ERROR':
+    case 'REMOVETAG_ERROR':
       console.log(action.err);
       return state;
     default: return state;
   }
 };
 
-export default keywordsReducer;
+export default tagsReducer;

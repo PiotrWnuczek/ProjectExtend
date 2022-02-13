@@ -9,7 +9,7 @@ import { Menu, Subject, Chat } from '@mui/icons-material';
 import withRouter from 'assets/withRouter';
 import MainLayout from 'pages/MainLayout';
 import ProfileContent from 'organisms/ProfileContent';
-import ProfileSkills from 'organisms/ProfileSkills';
+import ProfileTags from 'organisms/ProfileTags';
 import ProfileChats from 'organisms/ProfileChats';
 
 const ProfileView = ({ profile, id }) => {
@@ -58,7 +58,7 @@ const ProfileView = ({ profile, id }) => {
       {profile ? <div>
         {tabs === 0 && <Box sx={{ p: 2 }}>
           <ProfileContent profile={profile} id={id} />
-          <ProfileSkills profile={profile} id={id} />
+          <ProfileTags profile={profile} id={id} />
         </Box>}
         {tabs === 1 && <ProfileChats profile={profile} id={id} />}
       </div> : <p>loading...</p>}

@@ -3,12 +3,12 @@ import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
 import usersReducer from 'store/usersReducer';
 import projectsReducer from 'store/projectsReducer';
-import keywordsReducer from 'store/keywordsReducer';
+import tagsReducer from 'store/tagsReducer';
 
 const appReducer = combineReducers({
   users: usersReducer,
   projects: projectsReducer,
-  keywords: keywordsReducer,
+  tags: tagsReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
 });
