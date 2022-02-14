@@ -10,10 +10,10 @@ const TaskCard = ({ task }) => {
     <Card
       sx={{ bgcolor: 'secondary.light', my: 2 }}
       variant='outlined'
+      key={task.id}
     >
       <CardContent>
-        {task.content}
-        <br />
+        {task.content} <br />
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       </CardContent>
       <CardActions>

@@ -13,9 +13,11 @@ import ProjectContent from 'organisms/ProjectContent';
 import ProjectTags from 'organisms/ProjectTags';
 import ProjectTasks from 'organisms/ProjectTasks';
 import ProjectChats from 'organisms/ProjectChats';
+import JoinCard from 'molecules/JoinCard';
 
 const ProjectView = ({ createTask, project, id, tasks }) => {
   const [sidebar, setSidebar] = useApp();
+  const [join, setJoin] = useState(false);
   const [tabs, setTabs] = useState(0);
 
   return (
@@ -30,6 +32,7 @@ const ProjectView = ({ createTask, project, id, tasks }) => {
           </IconButton>
           {tabs === 0 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
+            onClick={() => setJoin(!join)}
             variant='outlined'
           >
             Join Project
@@ -70,6 +73,7 @@ const ProjectView = ({ createTask, project, id, tasks }) => {
       <Divider />
       {project ? <div>
         {tabs === 0 && <Box sx={{ p: 2 }}>
+          {join && <JoinCard />}
           <ProjectContent project={project} id={id} />
           <ProjectTags project={project} id={id} />
         </Box>}

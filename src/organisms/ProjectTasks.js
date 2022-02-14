@@ -10,14 +10,11 @@ const ProjectTasks = ({ tasks }) => (
           Todo
         </Typography>
         {tasks && tasks.map(task =>
-          task.type === 'todo' && <TaskCard
-            task={task}
-            key={task.id}
-          />
+          task.type === 'todo' && <TaskCard task={task} />
         )}
       </Grid>
       <Divider
-        sx={{ mx: 2 }}
+        sx={{ mx: 2, height: '86vh' }}
         orientation='vertical'
         flexItem
       />
@@ -26,10 +23,7 @@ const ProjectTasks = ({ tasks }) => (
           Done
         </Typography>
         {tasks && tasks.map(task =>
-          task.type === 'done' && <TaskCard
-            task={task}
-            key={task.id}
-          />
+          task.type === 'done' && <TaskCard task={task} />
         )}
       </Grid>
     </Grid>

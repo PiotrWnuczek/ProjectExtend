@@ -6,11 +6,10 @@ const IconInput = ({ name, label, icon, ...props }) => (
     {...props}
     placeholder={label}
     name={name}
-    endAdornment={
-      <IconButton type='submit'>
-        {icon}
-      </IconButton>
-    }
+    endAdornment={<IconButton type='submit'>
+      {icon}
+    </IconButton>}
+    fullWidth
   />
 );
 
