@@ -12,13 +12,13 @@ const ProjectContent = ({ updateProject, project, id }) => {
   const colors = [red, green, blue, orange, indigo];
   const number = project.name && project.name.charCodeAt(0) % 5;
   let avatarColor = project.name ? colors[number][700] : blue[700];
-  const [expand, setExpand] = useState(false);
+  const [expand, setExpand] = useState(project.new);
   const [edit, setEdit] = useState(project.new);
   useEffect(() => { project.new && updateProject({ new: false }, id) });
 
   return (
     <Card
-      sx={{ bgcolor: 'secondary.light' }}
+      sx={{ bgcolor: 'secondary.light', mb: 2 }}
       variant='outlined'
     >
       <CardHeader

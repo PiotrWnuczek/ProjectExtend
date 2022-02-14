@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { createProject } from 'store/projectsActions';
 import { useNavigate } from 'react-router-dom';
-import { Box, Divider, Button, IconButton } from '@mui/material';
+import { Box, Divider, Collapse } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import { Menu, Search } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import MainLayout from 'pages/MainLayout';
@@ -17,10 +18,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
   const [search, setSearch] = useState(false);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
   const navigate = useNavigate();
-  useEffect(() => {
-    id && navigate('/project/' + id);
-    resetId();
-  });
+  useEffect(() => { id && navigate('/project/' + id); resetId() });
 
   return (
     <MainLayout>
@@ -51,7 +49,9 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
       </Box>
       <Divider />
       <Box sx={{ p: 2 }}>
-        {search && <SearchCard />}
+        <Collapse in={search} timeout='auto' unmountOnExit>
+          <SearchCard />
+        </Collapse>
         <Masonry
           breakpointCols={breakpoints}
           className='masonryGrid'

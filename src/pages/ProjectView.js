@@ -4,13 +4,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { createTask } from 'store/projectsActions';
-import { Box, Divider, Button } from '@mui/material';
+import { Box, Divider, Button, Collapse } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
 import { Menu, Subject, Task, Chat } from '@mui/icons-material';
 import withRouter from 'assets/withRouter';
 import MainLayout from 'pages/MainLayout';
 import ProjectContent from 'organisms/ProjectContent';
 import ProjectTags from 'organisms/ProjectTags';
+import ProjectTeam from 'organisms/ProjectTeam';
 import ProjectTasks from 'organisms/ProjectTasks';
 import ProjectChats from 'organisms/ProjectChats';
 import JoinCard from 'molecules/JoinCard';
@@ -73,9 +74,25 @@ const ProjectView = ({ createTask, project, id, tasks }) => {
       <Divider />
       {project ? <div>
         {tabs === 0 && <Box sx={{ p: 2 }}>
-          {join && <JoinCard />}
+          <Collapse in={join} timeout='auto' unmountOnExit>
+            <JoinCard />
+          </Collapse>
           <ProjectContent project={project} id={id} />
           <ProjectTags project={project} id={id} />
+          <ProjectTeam project={project} id={id} />
+          <Button
+            sx={{ mr: 2 }}
+            variant='outlined'
+            size='small'
+          >
+            Leave Project
+          </Button>
+          <Button
+            variant='outlined'
+            size='small'
+          >
+            Delete Project
+          </Button>
         </Box>}
         {tabs === 1 && <ProjectTasks tasks={tasks} />}
         {tabs === 2 && <ProjectChats project={project} id={id} />}

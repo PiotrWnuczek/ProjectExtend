@@ -10,7 +10,7 @@ const TagCard = ({ tag }) => (
     <CardContent>
       <Typography>
         {tag}
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
+        Lorem ipsum
       </Typography>
     </CardContent>
   </Card>

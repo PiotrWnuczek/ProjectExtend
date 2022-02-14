@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, CardContent, Collapse } from '@mui/material';
 import { Typography, IconButton, Avatar } from '@mui/material';
-import { Tag, ExpandMore, Add } from '@mui/icons-material';
+import { Groups, ExpandMore, Edit } from '@mui/icons-material';
 import { red, green, blue, orange, indigo } from '@mui/material/colors';
-import Masonry from 'react-masonry-css';
-import TagCard from 'molecules/TagCard';
 
-const ProfileTags = ({ profile, id }) => {
+const ProjectTeam = ({ project, id }) => {
   const colors = [red, green, blue, orange, indigo];
-  const number = profile.firstname && profile.firstname.charCodeAt(0) % 5;
-  let avatarColor = profile.firstname ? colors[number][700] : blue[700];
+  const number = project.name && project.name.charCodeAt(0) % 5;
+  let avatarColor = project.name ? colors[number][700] : blue[700];
   const [expand, setExpand] = useState(false);
-  const breakpoints = { default: 3, 1100: 2, 700: 1 };
 
   return (
     <Card
@@ -20,14 +17,14 @@ const ProfileTags = ({ profile, id }) => {
     >
       <CardHeader
         title={<Typography variant='h6'>
-          Tags
+          Team
         </Typography>}
         avatar={<Avatar sx={{ bgcolor: avatarColor }}>
-          <Tag />
+          <Groups />
         </Avatar>}
         action={<>
-          <IconButton onClick={() => console.log('add')}>
-            <Add />
+          <IconButton onClick={() => console.log('edit')}>
+            <Edit />
           </IconButton>
           <IconButton onClick={() => setExpand(!expand)}>
             <ExpandMore sx={{ transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)' }} />
@@ -36,18 +33,11 @@ const ProfileTags = ({ profile, id }) => {
       />
       <Collapse in={expand} timeout="auto" unmountOnExit>
         <CardContent>
-          <Masonry
-            breakpointCols={breakpoints}
-            className='masonryGrid'
-            columnClassName='masonryGridColumn'
-          >
-            <TagCard />
-            <TagCard />
-          </Masonry>
+          team
         </CardContent>
       </Collapse>
     </Card>
   )
 };
 
-export default ProfileTags;
+export default ProjectTeam;

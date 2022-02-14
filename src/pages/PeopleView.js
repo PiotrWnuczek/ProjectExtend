@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { Box, Divider, Button, IconButton } from '@mui/material';
+import { Box, Divider, Collapse } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import { Menu, Search } from '@mui/icons-material';
-import { Formik } from 'formik';
 import Masonry from 'react-masonry-css';
 import MainLayout from 'pages/MainLayout';
 import ProfileCard from 'molecules/ProfileCard';
-import IconInput from 'atoms/IconInput';
+import SearchCard from 'molecules/SearchCard';
 
 const PeopleView = ({ users }) => {
   const [sidebar, setSidebar] = useApp();
+  const [search, setSearch] = useState(false);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
 
   return (
@@ -27,33 +28,26 @@ const PeopleView = ({ users }) => {
           </IconButton>
           <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
+            onClick={() => console.log('invite')}
             variant='outlined'
           >
             Invite Friend
           </Button>
         </Box>
-        <Formik
-          initialValues={{ search: '' }}
-          onSubmit={(values) => { console.log(values) }}
+        <Button
+          sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
+          onClick={() => setSearch(!search)}
+          endIcon={<Search />}
+          variant='outlined'
         >
-          {({ values, handleChange, handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
-              <IconInput
-                icon={<Search />}
-                sx={{ my: 1.5, mr: 2 }}
-                onChange={handleChange}
-                value={values.password}
-                label='Search'
-                name='search'
-                type='text'
-                size='small'
-              />
-            </form>
-          )}
-        </Formik>
+          Search
+        </Button>
       </Box>
       <Divider />
       <Box sx={{ p: 2 }}>
+        <Collapse in={search} timeout='auto' unmountOnExit>
+          <SearchCard />
+        </Collapse>
         <Masonry
           breakpointCols={breakpoints}
           className='masonryGrid'
