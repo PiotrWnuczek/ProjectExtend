@@ -43,7 +43,7 @@ const ProjectContent = ({ updateProject, project, id }) => {
           </IconButton>
         </>}
       />
-      <Collapse in={expand} timeout="auto" unmountOnExit>
+      <Collapse in={expand} timeout='auto'>
         <CardContent>
           {!edit && <Typography>
             {project.description}

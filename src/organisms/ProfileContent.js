@@ -42,7 +42,7 @@ const ProfileContent = ({ updateProfile, profile, id }) => {
           </IconButton>
         </>}
       />
-      <Collapse in={expand} timeout="auto" unmountOnExit>
+      <Collapse in={expand} timeout='auto'>
         <CardContent>
           {!edit && <Typography>
             {profile.description}

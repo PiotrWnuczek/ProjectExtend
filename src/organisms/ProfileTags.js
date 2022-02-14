@@ -34,7 +34,7 @@ const ProfileTags = ({ profile, id }) => {
           </IconButton>
         </>}
       />
-      <Collapse in={expand} timeout="auto" unmountOnExit>
+      <Collapse in={expand} timeout='auto'>
         <CardContent>
           <Masonry
             breakpointCols={breakpoints}

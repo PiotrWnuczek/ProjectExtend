@@ -21,7 +21,7 @@ const TaskCard = ({ task }) => {
           <ExpandMore />
         </IconButton>
       </CardActions>
-      <Collapse in={expand} timeout='auto' unmountOnExit>
+      <Collapse in={expand} timeout='auto'>
         <CardContent>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </CardContent>
