@@ -5,6 +5,9 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   ref.add({
     ...data, author: author, date: new Date(),
   }).then((resp) => {
+    const extension = ref.doc(resp.id).collection('extensions');
+    extension.doc('tasks').set({ list: [] });
+    extension.doc('chats').set({ list: [] });
     dispatch({ type: 'CREATEPROJECT_SUCCESS', data, resp });
   }).catch((err) => {
     dispatch({ type: 'CREATEPROJECT_ERROR', err });
@@ -33,37 +36,26 @@ export const removeProject = (id) => (dispatch, gs, { getFirestore }) => {
   })
 };
 
-export const createTask = (data, project) => (dispatch, getState, { getFirestore }) => {
+export const updateTasks = (data, project) => (dispatch, gs, { getFirestore }) => {
   const firestore = getFirestore();
-  const author = getState().firebase.auth.uid;
-  const ref = firestore.collection('projects').doc(project).collection('tasks');
-  ref.add({
-    ...data, author: author, date: new Date(),
-  }).then((resp) => {
-    dispatch({ type: 'CREATETASK_SUCCESS', data, resp });
-  }).catch((err) => {
-    dispatch({ type: 'CREATETASK_ERROR', err });
-  })
-};
-
-export const updateTask = (data, id, project) => (dispatch, gs, { getFirestore }) => {
-  const firestore = getFirestore();
-  const ref = firestore.collection('projects').doc(project).collection('tasks');
-  ref.doc(id).update({
+  const ref = firestore.collection('projects').doc(project).collection('extensions');
+  ref.doc('tasks').update({
     ...data,
   }).then(() => {
-    dispatch({ type: 'UPDATETASK_SUCCESS', data });
+    dispatch({ type: 'UPDATETASKS_SUCCESS', data });
   }).catch((err) => {
-    dispatch({ type: 'UPDATETASK_ERROR', err });
+    dispatch({ type: 'UPDATETASKS_ERROR', err });
   })
 };
 
-export const removeTask = (id, project) => (dispatch, gs, { getFirestore }) => {
+export const updateChats = (data, project) => (dispatch, gs, { getFirestore }) => {
   const firestore = getFirestore();
-  const ref = firestore.collection('projects').doc(project).collection('tasks');
-  ref.doc(id).delete().then(() => {
-    dispatch({ type: 'REMOVETASK_SUCCESS', id });
+  const ref = firestore.collection('projects').doc(project).collection('extensions');
+  ref.doc('chats').update({
+    ...data,
+  }).then(() => {
+    dispatch({ type: 'UPDATECHATS_SUCCESS', data });
   }).catch((err) => {
-    dispatch({ type: 'REMOVETASK_SUCCESS', err });
+    dispatch({ type: 'UPDATECHATS_ERROR', err });
   })
 };

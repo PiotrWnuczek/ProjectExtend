@@ -24,22 +24,16 @@ const projectsReducer = (state = initial, action) => {
     case 'REMOVEPROJECT_ERROR':
       console.log(action.err);
       return state;
-    case 'CREATETASK_SUCCESS':
+    case 'UPDATETASKS_SUCCESS':
       console.log(action.data);
       return state;
-    case 'CREATETASK_ERROR':
+    case 'UPDATETASKS_ERROR':
       console.log(action.err);
       return state;
-    case 'UPDATETASK_SUCCESS':
+    case 'UPDATECHATS_SUCCESS':
       console.log(action.data);
       return state;
-    case 'UPDATETASK_ERROR':
-      console.log(action.err);
-      return state;
-    case 'REMOVETASK_SUCCESS':
-      console.log(action.id);
-      return state;
-    case 'REMOVETASK_ERROR':
+    case 'UPDATECHATS_ERROR':
       console.log(action.err);
       return state;
     default: return state;

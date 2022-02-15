@@ -1,19 +1,21 @@
 import React from 'react';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button } from '@mui/material';
 
 const OptionsMenu = () => (
   <div>
-    <Button>
-      Danger Zone
+    <Button
+      sx={{ mr: 2 }}
+      variant='outlined'
+      size='small'
+    >
+      Leave Project
     </Button>
-    <Menu>
-      <MenuItem>
-        Leave Project
-      </MenuItem>
-      <MenuItem>
-        Delete Project
-      </MenuItem>
-    </Menu>
+    <Button
+      variant='outlined'
+      size='small'
+    >
+      Delete Project
+    </Button>
   </div>
 );
 
