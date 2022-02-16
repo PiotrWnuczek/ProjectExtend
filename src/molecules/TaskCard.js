@@ -8,7 +8,7 @@ const TaskCard = ({ task }) => {
 
   return (
     <Card
-      sx={{ bgcolor: 'secondary.light', my: 2 }}
+      sx={{ bgcolor: 'secondary.light' }}
       variant='outlined'
       key={task.id}
     >

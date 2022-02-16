@@ -8,7 +8,7 @@ const MainLayout = ({ children }) => {
   const [sidebar, setSidebar] = useApp();
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', height: '100%' }}>
       <SideBar
         sx={{
           display: { xs: 'block', sm: 'none' }, width, '& .MuiDrawer-paper':
@@ -25,7 +25,7 @@ const MainLayout = ({ children }) => {
         }}
         variant='permanent'
       />
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, height: '100%' }}>
         {children}
       </Box>
     </Box>

@@ -32,7 +32,9 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
           </IconButton>
           <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-            onClick={() => createProject({ new: true, name: 'new', description: '' })}
+            onClick={() => createProject({
+              new: true, name: 'New Name', description: 'New Description'
+            })}
             variant='outlined'
           >
             New Project

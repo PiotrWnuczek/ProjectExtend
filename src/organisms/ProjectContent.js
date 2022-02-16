@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateProject } from 'store/projectsActions';
-import { Card, CardHeader, CardContent, Collapse } from '@mui/material';
-import { Typography, IconButton, Avatar } from '@mui/material';
+import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { Typography, IconButton, Collapse } from '@mui/material';
 import { FolderOpen, ExpandMore, Edit, Check } from '@mui/icons-material';
-import { red, green, blue, orange, indigo } from '@mui/material/colors';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 
 const ProjectContent = ({ updateProject, project, id }) => {
-  const colors = [red, green, blue, orange, indigo];
-  const number = project.name && project.name.charCodeAt(0) % 5;
-  let avatarColor = project.name ? colors[number][700] : blue[700];
-  const [expand, setExpand] = useState(project.new);
+  const [expand, setExpand] = useState(true);
   const [edit, setEdit] = useState(project.new);
   useEffect(() => { project.new && updateProject({ new: false }, id) });
 
@@ -22,16 +18,15 @@ const ProjectContent = ({ updateProject, project, id }) => {
       variant='outlined'
     >
       <CardHeader
-        title={<Typography variant='h5'>
+        title={<Typography variant='h6'>
           {project.name}
         </Typography>}
-        avatar={<Avatar sx={{ bgcolor: avatarColor }}>
+        avatar={<Avatar>
           <FolderOpen />
         </Avatar>}
         action={<>
           {!edit && <IconButton onClick={() => {
-            setEdit(true);
-            setExpand(true);
+            setEdit(true); setExpand(true);
           }}>
             <Edit />
           </IconButton>}
@@ -53,10 +48,7 @@ const ProjectContent = ({ updateProject, project, id }) => {
               name: project.name,
               description: project.description,
             }}
-            onSubmit={(values) => {
-              updateProject(values, id);
-              setEdit(false);
-            }}
+            onSubmit={(values) => { updateProject(values, id); setEdit(false); }}
           >
             {({ values, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit} id='edit' autoComplete='off'>

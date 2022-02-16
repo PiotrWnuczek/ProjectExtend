@@ -3,7 +3,7 @@ import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { updateTasks } from 'store/projectsActions';
+import { createTask } from 'store/projectsActions';
 import { Box, Divider, Button, Collapse } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
 import { Menu, Subject, Task, Chat } from '@mui/icons-material';
@@ -17,7 +17,7 @@ import ProjectChats from 'organisms/ProjectChats';
 import JoinCard from 'molecules/JoinCard';
 import OptionsMenu from 'atoms/OptionsMenu';
 
-const ProjectView = ({ updateTasks, project, id, tasks, chats }) => {
+const ProjectView = ({ createTask, project, id, team, tasks, chats }) => {
   const [sidebar, setSidebar] = useApp();
   const [join, setJoin] = useState(false);
   const [tabs, setTabs] = useState(0);
@@ -41,9 +41,7 @@ const ProjectView = ({ updateTasks, project, id, tasks, chats }) => {
           </Button>}
           {tabs === 1 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-            onClick={() => updateTasks({
-              list: [{ content: 'new', type: 'todo' }, ...tasks.list],
-            }, id)}
+            onClick={() => createTask({ content: 'New Content' }, id)}
             variant='outlined'
           >
             Create Task
@@ -82,46 +80,54 @@ const ProjectView = ({ updateTasks, project, id, tasks, chats }) => {
           </Collapse>
           <ProjectContent project={project} id={id} />
           <ProjectTags project={project} id={id} />
-          <ProjectTeam project={project} id={id} />
+          {team && <ProjectTeam team={team} id={id} />}
           <OptionsMenu />
         </Box>}
-        {tasks && tabs === 1 && <ProjectTasks tasks={tasks.list} />}
-        {chats && tabs === 2 && <ProjectChats chats={chats.list} />}
+        {tasks && tabs === 1 && <ProjectTasks tasks={tasks} id={id} />}
+        {chats && tabs === 2 && <ProjectChats chats={chats} id={id} />}
       </div> : <p>loading...</p>}
     </MainLayout>
   )
 };
 
-const mapStateToProps = (state, props) => {
-  const project = state.firestore.data[props.id];
-  const extensions = state.firestore.data.extensions;
-  return {
-    project: project,
-    tasks: extensions && extensions.tasks,
-    chats: extensions && extensions.chats,
-  }
-};
+const mapStateToProps = (state, props) => ({
+  project: state.firestore.data[props.id],
+  team: state.firestore.data.team,
+  tasks: state.firestore.data.tasks,
+  chats: state.firestore.data.chats,
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  updateTasks: (data, project) => dispatch(updateTasks(data, project)),
+  createTask: (data, project) => dispatch(createTask(data, project)),
 });
 
 export default withRouter(compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect((props) => true ? [
     {
-      collection: 'projects', doc: props.id,
       storeAs: props.id,
+      collection: 'projects', doc: props.id
     },
     {
-      collection: 'projects', doc: props.id,
-      subcollections: [{ collection: 'extensions' }],
-      storeAs: 'extensions',
+      storeAs: 'team', collection: 'projects', doc: props.id,
+      subcollections: [{ collection: 'content', doc: 'team' }],
+    },
+    {
+      storeAs: 'tasks', collection: 'projects', doc: props.id,
+      subcollections: [{ collection: 'content', doc: 'tasks' }],
+    },
+    {
+      storeAs: 'chats', collection: 'projects', doc: props.id,
+      subcollections: [{ collection: 'content', doc: 'chats' }],
     },
   ] : [
     {
-      collection: 'projects', doc: props.id,
       storeAs: props.id,
+      collection: 'projects', doc: props.id
+    },
+    {
+      storeAs: 'team', collection: 'projects', doc: props.id,
+      subcollections: [{ collection: 'content', doc: 'team' }],
     },
   ]),
 )(ProjectView));

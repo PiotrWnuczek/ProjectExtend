@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardContent, Collapse } from '@mui/material';
-import { Typography, IconButton, Avatar } from '@mui/material';
+import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { Typography, IconButton, Collapse } from '@mui/material';
 import { Tag, ExpandMore, Add } from '@mui/icons-material';
-import { red, green, blue, orange, indigo } from '@mui/material/colors';
 import Masonry from 'react-masonry-css';
 import TagCard from 'molecules/TagCard';
 
 const ProjectTags = ({ project, id }) => {
-  const colors = [red, green, blue, orange, indigo];
-  const number = project.name && project.name.charCodeAt(0) % 5;
-  let avatarColor = project.name ? colors[number][700] : blue[700];
   const [expand, setExpand] = useState(false);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
 
@@ -22,7 +18,7 @@ const ProjectTags = ({ project, id }) => {
         title={<Typography variant='h6'>
           Tags
         </Typography>}
-        avatar={<Avatar sx={{ bgcolor: avatarColor }}>
+        avatar={<Avatar>
           <Tag />
         </Avatar>}
         action={<>
