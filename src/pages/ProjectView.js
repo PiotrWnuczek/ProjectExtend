@@ -95,6 +95,7 @@ const mapStateToProps = (state, props) => ({
   team: state.firestore.data.team,
   tasks: state.firestore.data.tasks,
   chats: state.firestore.data.chats,
+  email: state.firebase.auth.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -103,7 +104,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default withRouter(compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect((props) => true ? [
+  firestoreConnect(props => props.team && props.team.members.includes(props.email) ? [
     {
       storeAs: props.id,
       collection: 'projects', doc: props.id

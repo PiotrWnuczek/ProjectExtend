@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Typography, IconButton, Collapse } from '@mui/material';
-import { Groups, ExpandMore, Edit } from '@mui/icons-material';
+import { Groups, ExpandMore, Edit, Person } from '@mui/icons-material';
 
-const ProjectTeam = ({ project, id }) => {
+const ProjectTeam = ({ team, id }) => {
   const [expand, setExpand] = useState(false);
 
   return (
@@ -29,7 +30,16 @@ const ProjectTeam = ({ project, id }) => {
       />
       <Collapse in={expand} timeout='auto'>
         <CardContent>
-          team
+          <List sx={{ p: 0 }}>
+            {team.members.map(member =>
+              <ListItem sx={{ p: 0 }} key={member}>
+                <ListItemIcon>
+                  <Person />
+                </ListItemIcon>
+                <ListItemText primary={member} />
+              </ListItem>
+            )}
+          </List>
         </CardContent>
       </Collapse>
     </Card>
