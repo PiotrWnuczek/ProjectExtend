@@ -3,7 +3,7 @@ import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { Box, Divider, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
 import { Menu, Subject, Chat } from '@mui/icons-material';
 import withRouter from 'assets/withRouter';
@@ -17,7 +17,7 @@ const ProfileView = ({ profile, id }) => {
   const [tabs, setTabs] = useState(0);
 
   return (
-    <MainLayout>
+    <MainLayout navbar={
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex' }}>
           <IconButton
@@ -54,7 +54,7 @@ const ProfileView = ({ profile, id }) => {
           />
         </Tabs>
       </Box>
-      <Divider />
+    }>
       {profile ? <div>
         {tabs === 0 && <Box sx={{ p: 2 }}>
           <ProfileContent profile={profile} id={id} />

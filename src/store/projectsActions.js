@@ -5,10 +5,9 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   ref.add({
     ...data, author: author, date: new Date(),
   }).then((resp) => {
-    const content = ref.doc(resp.id).collection('content');
-    content.doc('team').set({ members: [], candidates: [] });
-    content.doc('tasks').set({ todo: [], done: [] });
-    content.doc('chats').set({ themes: [] });
+    ref.doc(resp.id).collection('content').doc('team').set({ members: [], candidates: [] });
+    ref.doc(resp.id).collection('content').doc('tasks').set({ todo: [], done: [] });
+    ref.doc(resp.id).collection('content').doc('chats').set({ threads: [] });
     dispatch({ type: 'CREATEPROJECT_SUCCESS', data, resp });
   }).catch((err) => {
     dispatch({ type: 'CREATEPROJECT_ERROR', err });
@@ -88,6 +87,46 @@ export const updateTasks = (data, project) => (dispatch, gs, { getFirestore }) =
     dispatch({ type: 'UPDATETASKS_SUCCESS', data });
   }).catch((err) => {
     dispatch({ type: 'UPDATETASKS_ERROR', err });
+  })
+};
+
+export const createChat = (data, project) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  const chats = getState().firestore.data.chats;
+  const id = Math.random().toString(16).slice(2);
+  const ref = firestore.collection('projects').doc(project).collection('content');
+  ref.doc('chats').update({
+    threads: [{ id, ...data }, ...chats.threads],
+  }).then(() => {
+    dispatch({ type: 'UPDATECHATS_SUCCESS', data });
+  }).catch((err) => {
+    dispatch({ type: 'UPDATECHATS_ERROR', err });
+  })
+};
+
+export const updateChat = (data, id, project) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  const chats = getState().firestore.data.chats;
+  const ref = firestore.collection('projects').doc(project).collection('content');
+  ref.doc('chats').update({
+    threads: chats.threads.map(chat => chat.id === id ? { ...chat, ...data } : chat),
+  }).then(() => {
+    dispatch({ type: 'UPDATECHATS_SUCCESS', data });
+  }).catch((err) => {
+    dispatch({ type: 'UPDATECHATS_ERROR', err });
+  })
+};
+
+export const removeChat = (id, project) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  const chats = getState().firestore.data.chats;
+  const ref = firestore.collection('projects').doc(project).collection('content');
+  ref.doc('chats').update({
+    threads: chats.threads.filter(chat => chat.id !== id),
+  }).then(() => {
+    dispatch({ type: 'UPDATECHATS_SUCCESS', id });
+  }).catch((err) => {
+    dispatch({ type: 'UPDATECHATS_ERROR', err });
   })
 };
 

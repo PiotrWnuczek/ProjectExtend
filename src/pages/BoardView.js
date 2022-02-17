@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { createProject } from 'store/projectsActions';
 import { useNavigate } from 'react-router-dom';
-import { Box, Divider, Collapse } from '@mui/material';
+import { Box, Collapse } from '@mui/material';
 import { Button, IconButton } from '@mui/material';
 import { Menu, Search } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
@@ -21,7 +21,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
   useEffect(() => { id && navigate('/project/' + id); resetId() });
 
   return (
-    <MainLayout>
+    <MainLayout navbar={
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex' }}>
           <IconButton
@@ -49,9 +49,9 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
           Search
         </Button>
       </Box>
-      <Divider />
+    }>
       <Box sx={{ p: 2 }}>
-        <Collapse in={search} timeout='auto' unmountOnExit>
+        <Collapse in={search} timeout='auto'>
           <SearchCard />
         </Collapse>
         <Masonry

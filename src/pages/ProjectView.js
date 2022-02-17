@@ -81,7 +81,7 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats }) => {
           <ProjectContent project={project} id={id} />
           <ProjectTags project={project} id={id} />
           {team && <ProjectTeam team={team} id={id} />}
-          <OptionsMenu />
+          {true && <OptionsMenu />}
         </Box>}
         {tasks && tabs === 1 && <ProjectTasks tasks={tasks} id={id} />}
         {chats && tabs === 2 && <ProjectChats chats={chats} id={id} />}

@@ -2,13 +2,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IconButton, Typography } from '@mui/material';
 import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
-import { red, green, blue, orange, indigo } from '@mui/material/colors';
+import { green, cyan, orange, indigo, purple } from '@mui/material/colors';
 import { FolderOpen, Input } from '@mui/icons-material';
 
 const ProjectCard = ({ project }) => {
-  const colors = [red, green, blue, orange, indigo];
+  const colors = [green, cyan, orange, indigo, purple];
   const number = project.name && project.name.charCodeAt(0) % 5;
-  let avatarColor = project.name ? colors[number][700] : blue[700];
+  let avatarColor = project.name ? colors[number][700] : indigo[700];
   const navigate = useNavigate();
 
   return (

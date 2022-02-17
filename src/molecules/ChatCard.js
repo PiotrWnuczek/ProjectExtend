@@ -1,17 +1,36 @@
-import React from 'react';
-import { Typography, Card, CardContent } from '@mui/material';
+import React, { useState } from 'react';
+import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { Typography, IconButton, Collapse } from '@mui/material';
+import { Chat, ExpandMore } from '@mui/icons-material';
 
-const ChatCard = () => (
-  <Card
-    sx={{ bgcolor: 'secondary.light' }}
-    variant='outlined'
-  >
-    <CardContent>
-      <Typography>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus augue sed sollicitudin ultricies. Mauris nec ultrices ligula. Donec vulputate, massa vitae volutpat lobortis, tellus libero ornare libero, nec interdum arcu tellus in risus.
-      </Typography>
-    </CardContent>
-  </Card>
-);
+const ChatCard = () => {
+  const [expand, setExpand] = useState(false);
+
+  return (
+    <Card
+      sx={{ bgcolor: 'secondary.light' }}
+      variant='outlined'
+    >
+      <CardHeader
+        title={<Typography>
+          Lorem ipsum dolor sit amet.
+        </Typography>}
+        avatar={<Avatar>
+          <Chat />
+        </Avatar>}
+        action={<>
+          <IconButton onClick={() => setExpand(!expand)}>
+            <ExpandMore sx={{ transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)' }} />
+          </IconButton>
+        </>}
+      />
+      <Collapse in={expand} timeout='auto'>
+        <CardContent>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </CardContent>
+      </Collapse>
+    </Card>
+  )
+};
 
 export default ChatCard;

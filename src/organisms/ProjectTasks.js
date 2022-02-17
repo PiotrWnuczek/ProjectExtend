@@ -6,10 +6,10 @@ import { Box, Grid, Typography } from '@mui/material';
 import TaskCard from 'molecules/TaskCard';
 
 const ProjectTasks = ({ updateTasks, tasks, id }) => {
-  const [state, setState] = useState([tasks.todo, tasks.done]);
+  const [data, setData] = useState([tasks.todo, tasks.done]);
 
   useEffect(() => {
-    setState([tasks.todo, tasks.done]);
+    setData([tasks.todo, tasks.done]);
   }, [tasks]);
 
   const reorder = (list, startIndex, endIndex) => {
@@ -35,67 +35,65 @@ const ProjectTasks = ({ updateTasks, tasks, id }) => {
     const sInd = +source.droppableId;
     const dInd = +destination.droppableId;
     if (sInd === dInd) {
-      const items = reorder(state[sInd], source.index, destination.index);
-      const newState = [...state];
-      newState[sInd] = items;
-      setState(newState);
-      updateTasks({ todo: newState[0], done: newState[1] }, id);
+      const items = reorder(data[sInd], source.index, destination.index);
+      const newData = [...data];
+      newData[sInd] = items;
+      setData(newData);
+      updateTasks({ todo: newData[0], done: newData[1] }, id);
     } else {
-      const result = move(state[sInd], state[dInd], source, destination);
-      const newState = [...state];
-      newState[sInd] = result[sInd];
-      newState[dInd] = result[dInd];
-      setState(newState);
-      updateTasks({ todo: newState[0], done: newState[1] }, id);
+      const result = move(data[sInd], data[dInd], source, destination);
+      const newData = [...data];
+      newData[sInd] = result[sInd];
+      newData[dInd] = result[dInd];
+      setData(newData);
+      updateTasks({ todo: newData[0], done: newData[1] }, id);
     }
   };
 
   return (
-    <Box sx={{ p: 2 }}>
-      <Grid container>
-        <DragDropContext onDragEnd={onDragEnd}>
-          {state.map((el, ind) => (
-            <Grid
-              sx={ind === 0 ? { pr: 2, borderRight: '1px solid lightgray' } : { pl: 2 }}
-              key={ind} item xs
-            >
-              <Typography variant='h6'>
-                {ind === 0 ? 'Todo' : 'Done'}
-              </Typography>
-              <Droppable droppableId={ind.toString()}>
-                {(provided) => (
-                  <Box
-                    sx={{ height: `calc(100vh - 8rem)` }}
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
-                    {el.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <Box
-                            sx={{ py: 1 }}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <TaskCard task={item} />
-                          </Box>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </Box>
-                )}
-              </Droppable>
-            </Grid>
-          ))}
-        </DragDropContext>
-      </Grid>
-    </Box>
+    <Grid sx={{ p: 2 }} container>
+      <DragDropContext onDragEnd={onDragEnd}>
+        {data.map((el, ind) => (
+          <Grid
+            sx={ind === 0 ? { pr: 2, borderRight: '1px solid lightgray' } : { pl: 2 }}
+            key={ind} item xs
+          >
+            <Typography variant='h6'>
+              {ind === 0 ? 'Todo' : 'Done'}
+            </Typography>
+            <Droppable droppableId={ind.toString()}>
+              {(provided) => (
+                <Box
+                  sx={{ minHeight: `calc(100vh - 8rem)` }}
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {el.map((item, index) => (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <Box
+                          sx={{ py: 1 }}
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <TaskCard task={item} id={id} />
+                        </Box>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </Box>
+              )}
+            </Droppable>
+          </Grid>
+        ))}
+      </DragDropContext>
+    </Grid>
   )
 };
 

@@ -27,7 +27,7 @@ const MainLayout = ({ children, navbar }) => {
         variant='permanent'
       />
       <AppBar
-        sx={{ width: appbar }}
+        sx={{ width: appbar, bgcolor: 'secondary.light' }}
         color='inherit'
         elevation={0}
       >

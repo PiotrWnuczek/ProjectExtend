@@ -3,7 +3,7 @@ import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { Box, Divider, Collapse } from '@mui/material';
+import { Box, Collapse } from '@mui/material';
 import { Button, IconButton } from '@mui/material';
 import { Menu, Search } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
@@ -17,7 +17,7 @@ const PeopleView = ({ users }) => {
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
 
   return (
-    <MainLayout>
+    <MainLayout navbar={
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex' }}>
           <IconButton
@@ -43,9 +43,9 @@ const PeopleView = ({ users }) => {
           Search
         </Button>
       </Box>
-      <Divider />
+    }>
       <Box sx={{ p: 2 }}>
-        <Collapse in={search} timeout='auto' unmountOnExit>
+        <Collapse in={search} timeout='auto'>
           <SearchCard />
         </Collapse>
         <Masonry
