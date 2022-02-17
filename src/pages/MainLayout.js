@@ -1,14 +1,15 @@
 import React from 'react';
 import { useApp } from 'assets/useApp';
-import { Box } from '@mui/material';
+import { Box, AppBar, Divider, Toolbar } from '@mui/material';
 import SideBar from 'organisms/SideBar';
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({ children, navbar }) => {
   const width = { xs: 180, sm: 140, md: 180 };
+  const appbar = { sm: `calc(100% - 140px)`, md: `calc(100% - 180px)` };
   const [sidebar, setSidebar] = useApp();
 
   return (
-    <Box sx={{ display: 'flex', height: '100%' }}>
+    <Box sx={{ display: 'flex' }}>
       <SideBar
         sx={{
           display: { xs: 'block', sm: 'none' }, width, '& .MuiDrawer-paper':
@@ -25,7 +26,16 @@ const MainLayout = ({ children }) => {
         }}
         variant='permanent'
       />
-      <Box sx={{ flexGrow: 1, height: '100%' }}>
+      <AppBar
+        sx={{ width: appbar }}
+        color='inherit'
+        elevation={0}
+      >
+        {navbar}
+        <Divider />
+      </AppBar>
+      <Box sx={{ flexGrow: 1 }}>
+        <Toolbar />
         {children}
       </Box>
     </Box>

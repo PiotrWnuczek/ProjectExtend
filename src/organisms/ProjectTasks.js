@@ -51,7 +51,7 @@ const ProjectTasks = ({ updateTasks, tasks, id }) => {
   };
 
   return (
-    <Box sx={{ p: 2, height: '100%' }}>
+    <Box sx={{ p: 2 }}>
       <Grid container>
         <DragDropContext onDragEnd={onDragEnd}>
           {state.map((el, ind) => (
@@ -65,7 +65,7 @@ const ProjectTasks = ({ updateTasks, tasks, id }) => {
               <Droppable droppableId={ind.toString()}>
                 {(provided) => (
                   <Box
-                    sx={{ height: '100%' }}
+                    sx={{ height: `calc(100vh - 8rem)` }}
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
