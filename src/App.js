@@ -15,13 +15,15 @@ import ProfileView from 'pages/ProfileView';
 import ProjectView from 'pages/ProjectView';
 
 const App = () => {
-  const theme = createTheme({
-    typography: { fontFamily: 'Lato' },
-    palette: { secondary: { light: grey[50], main: grey[100], dark: blueGrey[50] } },
-  });
-
   const auth = useSelector(state => state.firebase.auth);
   const access = isLoaded(auth) && !isEmpty(auth);
+  const theme = createTheme({
+    typography: { fontFamily: 'Lato' },
+    palette: {
+      secondary: { light: grey[50], main: grey[100], dark: blueGrey[50] },
+      info: { light: grey[600], main: grey[700], dark: grey[800] },
+    },
+  });
 
   return (
     <AppProvider>

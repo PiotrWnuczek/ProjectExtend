@@ -36,8 +36,9 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats }) => {
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
             onClick={() => setJoin(!join)}
             variant='outlined'
+            color={true ? 'primary' : 'info'}
           >
-            Join Project
+            {true ? 'Join Project' : 'Joined Project'}
           </Button>}
           {tabs === 1 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}

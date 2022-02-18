@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { Box, Button } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
-import { Menu, Subject, Chat } from '@mui/icons-material';
+import { Menu, Subject, Notifications } from '@mui/icons-material';
 import withRouter from 'assets/withRouter';
 import MainLayout from 'pages/MainLayout';
 import ProfileContent from 'organisms/ProfileContent';
 import ProfileTags from 'organisms/ProfileTags';
-import ProfileChats from 'organisms/ProfileChats';
+import ProfileNews from 'organisms/ProfileNews';
 
 const ProfileView = ({ profile, id }) => {
   const [sidebar, setSidebar] = useApp();
@@ -28,9 +28,11 @@ const ProfileView = ({ profile, id }) => {
           </IconButton>
           {tabs === 0 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
+            onClick={() => console.log('like')}
             variant='outlined'
+            color={true ? 'primary' : 'info'}
           >
-            Make Contact
+            {true ? 'Like Profile' : 'Liked Profile'}
           </Button>}
           {tabs === 1 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
@@ -50,7 +52,7 @@ const ProfileView = ({ profile, id }) => {
           />
           <Tab
             sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
-            icon={<Chat />}
+            icon={<Notifications />}
           />
         </Tabs>
       </Box>
@@ -60,7 +62,7 @@ const ProfileView = ({ profile, id }) => {
           <ProfileContent profile={profile} id={id} />
           <ProfileTags profile={profile} id={id} />
         </Box>}
-        {tabs === 1 && <ProfileChats profile={profile} id={id} />}
+        {tabs === 1 && <ProfileNews profile={profile} id={id} />}
       </div> : <p>loading...</p>}
     </MainLayout>
   )
