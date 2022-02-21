@@ -9,7 +9,7 @@ import TagCard from 'molecules/TagCard';
 const ProjectTags = ({ project, id }) => {
   const [expand, setExpand] = useState(false);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('');
   const breakpoints = { default: 5, 1100: 4, 700: 3 };
 
   const tags = ['tag1', 'tag2'];
@@ -48,7 +48,7 @@ const ProjectTags = ({ project, id }) => {
               size='small'
             />
             <Button
-              onClick={() => { console.log(value); setValue(null); }}
+              onClick={() => { console.log(value); setValue(''); }}
               variant='outlined'
             >
               <Add />
