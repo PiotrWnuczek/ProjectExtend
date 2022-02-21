@@ -20,6 +20,8 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
   const navigate = useNavigate();
   useEffect(() => { id && navigate('/project/' + id); resetId() });
 
+  const tags = ['tag1', 'tag2'];
+
   return (
     <MainLayout navbar={
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -52,7 +54,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
     }>
       <Box sx={{ p: 2 }}>
         <Collapse in={search} timeout='auto'>
-          <SearchCard />
+          <SearchCard tags={tags} />
         </Collapse>
         <Masonry
           breakpointCols={breakpoints}

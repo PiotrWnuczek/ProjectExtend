@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardContent } from '@mui/material';
-import { Typography, IconButton, Collapse } from '@mui/material';
-import { Avatar, Autocomplete, TextField } from '@mui/material';
-import { Tag, ExpandMore, Edit } from '@mui/icons-material';
+import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { Typography, Button, IconButton, Collapse } from '@mui/material';
+import { Box, Autocomplete, TextField } from '@mui/material';
+import { Tag, ExpandMore, Edit, Add } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import TagCard from 'molecules/TagCard';
 
 const ProjectTags = ({ project, id }) => {
   const [expand, setExpand] = useState(false);
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
   const breakpoints = { default: 5, 1100: 4, 700: 3 };
-  const tags = [{ label: 'tag1', quantity: 1 }, { label: 'tag2', quantity: 2 }];
+
+  const tags = ['tag1', 'tag2'];
 
   return (
     <Card
@@ -35,18 +37,23 @@ const ProjectTags = ({ project, id }) => {
       />
       <Collapse in={expand} timeout='auto'>
         <Collapse in={open} timeout='auto'>
-          <CardContent>
+          <Box sx={{ p: 2, display: 'flex' }}>
             <Autocomplete
-              onChange={(e, value) => console.log(value)}
-              renderOption={(props, option) => <li {...props}>
-                {option.label} | {option.quantity}
-              </li>}
+              value={value}
+              onInputChange={(e, value) => setValue(value)}
               renderInput={(params) => <TextField {...params} label='Tags' />}
               options={tags}
-              size='small'
               freeSolo
+              fullWidth
+              size='small'
             />
-          </CardContent>
+            <Button
+              onClick={() => { console.log(value); setValue(null); }}
+              variant='outlined'
+            >
+              <Add />
+            </Button>
+          </Box>
         </Collapse>
         <CardContent>
           <Masonry

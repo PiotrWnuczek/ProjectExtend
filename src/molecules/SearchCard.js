@@ -1,37 +1,37 @@
-import React from 'react';
-import { Card, CardContent } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Card, Box } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import { Search } from '@mui/icons-material';
-import { Formik } from 'formik';
-import IconInput from 'atoms/IconInput';
 
-const SearchCard = () => (
-  <Card
-    sx={{ bgcolor: 'secondary.light', mb: 2 }}
-    variant='outlined'
-  >
-    <CardContent>
-      SearchCard
-      <Formik
-        initialValues={{ search: '' }}
-        onSubmit={(values) => { console.log(values) }}
-      >
-        {({ values, handleChange, handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <IconInput
-              icon={<Search />}
-              sx={{ my: 1.5, mr: 2 }}
-              onChange={handleChange}
-              value={values.search}
-              label='Search'
-              name='search'
-              type='text'
-              size='small'
-            />
-          </form>
-        )}
-      </Formik>
-    </CardContent>
-  </Card>
-);
+const SearchCard = ({ tags }) => {
+  const [value, setValue] = useState([]);
+
+  return (
+    <Card
+      sx={{ bgcolor: 'secondary.light', mb: 2 }}
+      variant='outlined'
+    >
+      <Box sx={{ p: 2, display: 'flex' }}>
+        <Autocomplete
+          value={value}
+          onChange={(e, value) => setValue(value)}
+          renderInput={(params) => <TextField {...params} label='Tags' />}
+          options={tags}
+          filterSelectedOptions
+          multiple
+          freeSolo
+          fullWidth
+          size='small'
+        />
+        <Button
+          onClick={() => { console.log(value); setValue([]); }}
+          variant='outlined'
+        >
+          <Search />
+        </Button>
+      </Box>
+    </Card>
+  )
+};
 
 export default SearchCard;
