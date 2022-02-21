@@ -42,7 +42,7 @@ const ProjectTags = ({ project, id }) => {
               value={value}
               onInputChange={(e, value) => setValue(value)}
               renderInput={(params) => <TextField {...params} label='Tags' />}
-              options={tags}
+              options={tags ? tags : []}
               freeSolo
               fullWidth
               size='small'

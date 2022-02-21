@@ -16,6 +16,8 @@ const PeopleView = ({ users }) => {
   const [search, setSearch] = useState(false);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
 
+  const tags = ['tag1', 'tag2'];
+
   return (
     <MainLayout navbar={
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -46,7 +48,7 @@ const PeopleView = ({ users }) => {
     }>
       <Box sx={{ p: 2 }}>
         <Collapse in={search} timeout='auto'>
-          <SearchCard />
+          <SearchCard tags={tags} />
         </Collapse>
         <Masonry
           breakpointCols={breakpoints}

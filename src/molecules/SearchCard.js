@@ -16,7 +16,7 @@ const SearchCard = ({ tags }) => {
           value={value}
           onChange={(e, value) => setValue(value)}
           renderInput={(params) => <TextField {...params} label='Tags' />}
-          options={tags}
+          options={tags ? tags : []}
           filterSelectedOptions
           multiple
           freeSolo
