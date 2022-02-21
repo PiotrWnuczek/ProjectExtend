@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { Card, CardHeader, CardContent } from '@mui/material';
 import { Typography, IconButton, Collapse } from '@mui/material';
-import { Tag, ExpandMore, Add } from '@mui/icons-material';
+import { Avatar, Autocomplete, TextField } from '@mui/material';
+import { Tag, ExpandMore, Edit } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import TagCard from 'molecules/TagCard';
 
 const ProjectTags = ({ project, id }) => {
   const [expand, setExpand] = useState(false);
-  const breakpoints = { default: 3, 1100: 2, 700: 1 };
+  const [open, setOpen] = useState(false);
+  const breakpoints = { default: 5, 1100: 4, 700: 3 };
+  const tags = [{ label: 'tag1', quantity: 1 }, { label: 'tag2', quantity: 2 }];
 
   return (
     <Card
@@ -22,8 +25,8 @@ const ProjectTags = ({ project, id }) => {
           <Tag />
         </Avatar>}
         action={<>
-          <IconButton onClick={() => console.log('add')}>
-            <Add />
+          <IconButton onClick={() => { setOpen(!open); setExpand(true); }}>
+            <Edit />
           </IconButton>
           <IconButton onClick={() => setExpand(!expand)}>
             <ExpandMore sx={{ transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)' }} />
@@ -31,6 +34,20 @@ const ProjectTags = ({ project, id }) => {
         </>}
       />
       <Collapse in={expand} timeout='auto'>
+        <Collapse in={open} timeout='auto'>
+          <CardContent>
+            <Autocomplete
+              onChange={(e, value) => console.log(value)}
+              renderOption={(props, option) => <li {...props}>
+                {option.label} | {option.quantity}
+              </li>}
+              renderInput={(params) => <TextField {...params} label='Tags' />}
+              options={tags}
+              size='small'
+              freeSolo
+            />
+          </CardContent>
+        </Collapse>
         <CardContent>
           <Masonry
             breakpointCols={breakpoints}

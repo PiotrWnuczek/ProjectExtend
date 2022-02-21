@@ -1,5 +1,6 @@
 import React from 'react';
-import { Typography, Card, CardContent } from '@mui/material';
+import { Card, CardHeader, IconButton, Typography } from '@mui/material';
+import { Delete, Tag } from '@mui/icons-material';
 
 const TagCard = ({ tag }) => (
   <Card
@@ -7,12 +8,21 @@ const TagCard = ({ tag }) => (
     variant='outlined'
     key={tag}
   >
-    <CardContent>
-      <Typography>
-        {tag}
-        Lorem ipsum
-      </Typography>
-    </CardContent>
+    <CardHeader
+      title={
+        <Typography>
+          {tag} Lorem ipsum
+        </Typography>
+      }
+      avatar={
+        <Tag color='info' size='small' />
+      }
+      action={
+        <IconButton size='small'>
+          <Delete sx={{ fontSize: 18, mt: 0.3 }} />
+        </IconButton>
+      }
+    />
   </Card>
 );
 
