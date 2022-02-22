@@ -11,7 +11,7 @@ const TagCard = ({ tag }) => (
     <CardHeader
       title={
         <Typography>
-          {tag} Lorem ipsum
+          {tag}
         </Typography>
       }
       avatar={

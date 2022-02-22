@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { createTag } from 'store/tagsActions';
 import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
 import { Typography, Button, IconButton, Collapse } from '@mui/material';
 import { Box, Autocomplete, TextField } from '@mui/material';
@@ -6,13 +8,11 @@ import { Tag, ExpandMore, Edit, Add } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import TagCard from 'molecules/TagCard';
 
-const ProjectTags = ({ project, id }) => {
+const ProjectTags = ({ createTag, project, id, tags }) => {
   const [expand, setExpand] = useState(false);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const breakpoints = { default: 5, 1100: 4, 700: 3 };
-
-  const tags = ['tag1', 'tag2'];
 
   return (
     <Card
@@ -48,7 +48,7 @@ const ProjectTags = ({ project, id }) => {
               size='small'
             />
             <Button
-              onClick={() => { console.log(value); setValue(''); }}
+              onClick={() => { createTag(value, id, null); setValue(''); }}
               variant='outlined'
             >
               <Add />
@@ -61,8 +61,9 @@ const ProjectTags = ({ project, id }) => {
             className='masonryGrid'
             columnClassName='masonryGridColumn'
           >
-            <TagCard />
-            <TagCard />
+            {project.tags.map(tag =>
+              <TagCard key={tag} tag={tag} />
+            )}
           </Masonry>
         </CardContent>
       </Collapse>
@@ -70,4 +71,9 @@ const ProjectTags = ({ project, id }) => {
   )
 };
 
-export default ProjectTags;
+const mapDispatchToProps = (dispatch) => ({
+  createTag: (data, project, profile) => dispatch(createTag(data, project, profile)),
+});
+
+export default connect(null, mapDispatchToProps)
+  (ProjectTags);

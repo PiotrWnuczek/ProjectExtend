@@ -12,7 +12,7 @@ import ProfileContent from 'organisms/ProfileContent';
 import ProfileTags from 'organisms/ProfileTags';
 import ProfileNews from 'organisms/ProfileNews';
 
-const ProfileView = ({ profile, id }) => {
+const ProfileView = ({ profile, id, tags }) => {
   const [sidebar, setSidebar] = useApp();
   const [tabs, setTabs] = useState(0);
 
@@ -60,7 +60,7 @@ const ProfileView = ({ profile, id }) => {
       {profile ? <div>
         {tabs === 0 && <Box sx={{ p: 2 }}>
           <ProfileContent profile={profile} id={id} />
-          <ProfileTags profile={profile} id={id} />
+          <ProfileTags profile={profile} id={id} tags={tags && tags.list} />
         </Box>}
         {tabs === 1 && <ProfileNews profile={profile} id={id} />}
       </div> : <p>loading...</p>}
@@ -70,12 +70,16 @@ const ProfileView = ({ profile, id }) => {
 
 const mapStateToProps = (state, props) => ({
   profile: state.firestore.data[props.id],
+  tags: state.firestore.data.tags,
 });
 
 export default withRouter(compose(
   connect(mapStateToProps),
-  firestoreConnect((props) => [{
-    collection: 'users',
-    doc: props.id, storeAs: props.id,
-  }]),
+  firestoreConnect((props) => [
+    {
+      storeAs: props.id, collection: 'users',
+      doc: props.id,
+    },
+    { storeAs: 'tags', collection: 'tags', doc: 'tags' },
+  ]),
 )(ProfileView));

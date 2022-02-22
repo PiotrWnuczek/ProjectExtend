@@ -11,12 +11,10 @@ import MainLayout from 'pages/MainLayout';
 import ProfileCard from 'molecules/ProfileCard';
 import SearchCard from 'molecules/SearchCard';
 
-const PeopleView = ({ users }) => {
+const PeopleView = ({ users, tags }) => {
   const [sidebar, setSidebar] = useApp();
   const [search, setSearch] = useState(false);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
-
-  const tags = ['tag1', 'tag2'];
 
   return (
     <MainLayout navbar={
@@ -48,7 +46,7 @@ const PeopleView = ({ users }) => {
     }>
       <Box sx={{ p: 2 }}>
         <Collapse in={search} timeout='auto'>
-          <SearchCard tags={tags} />
+          <SearchCard tags={tags && tags.list} />
         </Collapse>
         <Masonry
           breakpointCols={breakpoints}
@@ -69,9 +67,13 @@ const PeopleView = ({ users }) => {
 
 const mapStateToProps = (state) => ({
   users: state.firestore.ordered.users,
+  tags: state.firestore.data.tags,
 });
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: 'users' }]),
+  firestoreConnect([
+    { storeAs: 'users', collection: 'users' },
+    { storeAs: 'tags', collection: 'tags', doc: 'tags' },
+  ]),
 )(PeopleView);

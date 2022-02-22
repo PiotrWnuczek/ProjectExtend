@@ -17,7 +17,7 @@ import ProjectChats from 'organisms/ProjectChats';
 import JoinCard from 'molecules/JoinCard';
 import OptionsMenu from 'atoms/OptionsMenu';
 
-const ProjectView = ({ createTask, project, id, team, tasks, chats }) => {
+const ProjectView = ({ createTask, project, id, team, tasks, chats, tags }) => {
   const [sidebar, setSidebar] = useApp();
   const [join, setJoin] = useState(false);
   const [tabs, setTabs] = useState(0);
@@ -80,7 +80,7 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats }) => {
             <JoinCard />
           </Collapse>
           <ProjectContent project={project} id={id} />
-          <ProjectTags project={project} id={id} />
+          <ProjectTags project={project} id={id} tags={tags && tags.list} />
           {team && <ProjectTeam team={team} id={id} />}
           {true && <OptionsMenu />}
         </Box>}
@@ -97,6 +97,7 @@ const mapStateToProps = (state, props) => ({
   tasks: state.firestore.data.tasks,
   chats: state.firestore.data.chats,
   email: state.firebase.auth.email,
+  tags: state.firestore.data.tags,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -122,6 +123,7 @@ export default withRouter(compose(
       storeAs: 'chats', collection: 'projects', doc: props.id,
       subcollections: [{ collection: 'content', doc: 'chats' }],
     },
+    { storeAs: 'tags', collection: 'tags', doc: 'tags' },
   ] : [
     {
       storeAs: props.id,

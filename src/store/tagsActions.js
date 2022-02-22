@@ -1,32 +1,39 @@
-export const createTag = (data) => (dispatch, gs, { getFirestore }) => {
+import { updateProject } from 'store/projectsActions';
+import { updateProfile } from 'store/usersActions';
+
+export const createTag = (data, project, profile) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
+  const tags = getState().firestore.data.tags;
+  const projectTags = project && getState().firestore.data[project].tags;
+  const profileTags = profile && getState().firestore.data[profile].tags;
   const ref = firestore.collection('tags');
-  ref.add({
-    ...data,
-  }).then((resp) => {
-    dispatch({ type: 'CREATETAG_SUCCESS', data, resp });
+  project && !projectTags.includes(data) &&
+    dispatch(updateProject({ tags: [data, ...projectTags] }, project));
+  profile && !profileTags.includes(data) &&
+    dispatch(updateProfile({ tags: [data, ...profileTags] }, profile));
+  !tags.list.includes(data) && ref.doc('tags').update({
+    list: [data, ...tags.list],
+  }).then(() => {
+    dispatch({ type: 'CREATETAG_SUCCESS', data });
   }).catch((err) => {
     dispatch({ type: 'CREATETAG_ERROR', err });
   })
 };
 
-export const updateTag = (data, id) => (dispatch, gs, { getFirestore }) => {
+export const removeTag = (data, project, profile) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
+  const tags = getState().firestore.data.tags;
+  const projectTags = project && getState().firestore.data[project].tags;
+  const profileTags = profile && getState().firestore.data[profile].tags;
   const ref = firestore.collection('tags');
-  ref.doc(id).update({
-    ...data,
+  project && projectTags.includes(data) &&
+    dispatch(updateProject({ tags: projectTags.filter(tag => tag !== data) }, project));
+  profile && profileTags.includes(data) &&
+    dispatch(updateProfile({ tags: profileTags.filter(tag => tag !== data) }, profile));
+  tags.list.includes(data) && ref.doc('tags').update({
+    list: tags.list.filter(tag => tag !== data),
   }).then(() => {
-    dispatch({ type: 'UPDATETAG_SUCCESS', data });
-  }).catch((err) => {
-    dispatch({ type: 'UPDATETAG_ERROR', err });
-  })
-};
-
-export const removeTag = (id) => (dispatch, gs, { getFirestore }) => {
-  const firestore = getFirestore();
-  const ref = firestore.collection('tags');
-  ref.doc(id).delete().then(() => {
-    dispatch({ type: 'REMOVETAG_SUCCESS', id });
+    dispatch({ type: 'REMOVETAG_SUCCESS', data });
   }).catch((err) => {
     dispatch({ type: 'REMOVETAG_SUCCESS', err });
   })

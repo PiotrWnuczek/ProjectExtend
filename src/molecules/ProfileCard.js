@@ -19,7 +19,7 @@ const ProfileCard = ({ user }) => {
     >
       <CardHeader
         title={user.firstname + ' ' + user.lastname}
-        subheader={user.keywords}
+        subheader={user.tags.map(tag => '#' + tag + ' ')}
         avatar={
           <Avatar sx={{ bgcolor: avatarColor }}>
             <PersonOutline />
@@ -35,7 +35,7 @@ const ProfileCard = ({ user }) => {
       />
       <CardContent>
         <Typography>
-          {user.about}
+          {user.description}
         </Typography>
       </CardContent>
     </Card>

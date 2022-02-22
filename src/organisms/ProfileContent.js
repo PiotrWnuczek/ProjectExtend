@@ -8,7 +8,7 @@ import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 
 const ProfileContent = ({ updateProfile, profile, id }) => {
-  const [expand, setExpand] = useState(false);
+  const [expand, setExpand] = useState(true);
   const [edit, setEdit] = useState(false);
 
   return (

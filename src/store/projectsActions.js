@@ -3,7 +3,7 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   const author = getState().firebase.auth.email;
   const ref = firestore.collection('projects');
   ref.add({
-    ...data, date: new Date(),
+    ...data, date: new Date(), tags: [data.name],
   }).then((resp) => {
     const content = ref.doc(resp.id).collection('content');
     content.doc('team').set({ members: [author], candidates: [] });

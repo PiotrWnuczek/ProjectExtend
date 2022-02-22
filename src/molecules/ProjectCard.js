@@ -19,7 +19,7 @@ const ProjectCard = ({ project }) => {
     >
       <CardHeader
         title={project.name}
-        subheader={project.keywords}
+        subheader={project.tags.map(tag => '#' + tag + ' ')}
         avatar={
           <Avatar sx={{ bgcolor: avatarColor }}>
             <FolderOpen />

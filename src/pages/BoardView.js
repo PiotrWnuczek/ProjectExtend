@@ -13,14 +13,12 @@ import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
 import SearchCard from 'molecules/SearchCard';
 
-const BoardView = ({ createProject, resetId, projects, id }) => {
+const BoardView = ({ createProject, resetId, projects, id, tags }) => {
   const [sidebar, setSidebar] = useApp();
   const [search, setSearch] = useState(false);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
   const navigate = useNavigate();
   useEffect(() => { id && navigate('/project/' + id); resetId() });
-
-  const tags = ['tag1', 'tag2'];
 
   return (
     <MainLayout navbar={
@@ -54,7 +52,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
     }>
       <Box sx={{ p: 2 }}>
         <Collapse in={search} timeout='auto'>
-          <SearchCard tags={tags} />
+          <SearchCard tags={tags && tags.list} />
         </Collapse>
         <Masonry
           breakpointCols={breakpoints}
@@ -75,6 +73,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
 
 const mapStateToProps = (state) => ({
   projects: state.firestore.ordered.projects,
+  tags: state.firestore.data.tags,
   id: state.projects.id,
 });
 
@@ -85,5 +84,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([{ collection: 'projects', orderBy: ['date', 'desc'] }]),
+  firestoreConnect([
+    {
+      storeAs: 'projects', collection: 'projects',
+      orderBy: ['date', 'desc'],
+    },
+    { storeAs: 'tags', collection: 'tags', doc: 'tags' },
+  ]),
 )(BoardView);
