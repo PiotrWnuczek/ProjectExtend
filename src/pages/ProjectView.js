@@ -96,8 +96,8 @@ const mapStateToProps = (state, props) => ({
   team: state.firestore.data.team,
   tasks: state.firestore.data.tasks,
   chats: state.firestore.data.chats,
-  email: state.firebase.auth.email,
   tags: state.firestore.data.tags,
+  email: state.firebase.auth.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({

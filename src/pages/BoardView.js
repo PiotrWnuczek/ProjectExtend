@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { createProject } from 'store/projectsActions';
 import { useNavigate } from 'react-router-dom';
-import { Box, Collapse } from '@mui/material';
+import { Box, Collapse, Divider } from '@mui/material';
 import { Button, IconButton } from '@mui/material';
 import { Menu, Search } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
@@ -13,12 +13,13 @@ import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
 import SearchCard from 'molecules/SearchCard';
 
-const BoardView = ({ createProject, resetId, projects, id, tags }) => {
+const BoardView = ({ createProject, resetId, searchTags, projects, results, id, tags }) => {
   const [sidebar, setSidebar] = useApp();
   const [search, setSearch] = useState(false);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
   const navigate = useNavigate();
   useEffect(() => { id && navigate('/project/' + id); resetId() });
+  useEffect(() => { !search && searchTags([null]) }, [searchTags, search]);
 
   return (
     <MainLayout navbar={
@@ -51,7 +52,7 @@ const BoardView = ({ createProject, resetId, projects, id, tags }) => {
       </Box>
     }>
       <Box sx={{ p: 2 }}>
-        <Collapse in={search} timeout='auto'>
+        <Collapse in={search} timeout='auto' unmountOnExit>
           <SearchCard tags={tags && tags.list} />
         </Collapse>
         <Masonry
@@ -66,6 +67,21 @@ const BoardView = ({ createProject, resetId, projects, id, tags }) => {
             />
           )}
         </Masonry>
+        {search && <div>
+          <Divider sx={{ mb: 2 }} />
+          <Masonry
+            breakpointCols={breakpoints}
+            className='masonryGrid'
+            columnClassName='masonryGridColumn'
+          >
+            {results && results.map(result =>
+              !result.new && <ProjectCard
+                project={result}
+                key={result.id}
+              />
+            )}
+          </Masonry>
+        </div>}
       </Box>
     </MainLayout>
   )
@@ -73,21 +89,35 @@ const BoardView = ({ createProject, resetId, projects, id, tags }) => {
 
 const mapStateToProps = (state) => ({
   projects: state.firestore.ordered.projects,
+  results: state.firestore.ordered.results,
   tags: state.firestore.data.tags,
   id: state.projects.id,
+  search: state.tags.search,
+  email: state.firebase.auth.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   createProject: (data) => dispatch(createProject(data)),
   resetId: () => dispatch({ type: 'RESETID_PROJECT' }),
+  searchTags: (data) => dispatch({ type: 'SEARCH_TAGS', data }),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([
+  firestoreConnect(props => props.search ? [
     {
       storeAs: 'projects', collection: 'projects',
-      orderBy: ['date', 'desc'],
+      where: [['emails', 'array-contains', props.email]],
+    },
+    {
+      storeAs: 'results', collection: 'projects',
+      where: [['tags', 'array-contains-any', props.search]],
+    },
+    { storeAs: 'tags', collection: 'tags', doc: 'tags' },
+  ] : [
+    {
+      storeAs: 'projects', collection: 'projects',
+      where: [['emails', 'array-contains', props.email]],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
   ]),

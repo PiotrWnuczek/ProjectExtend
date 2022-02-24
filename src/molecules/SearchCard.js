@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Button, Card, Box } from '@mui/material';
 import { Autocomplete, TextField } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
-const SearchCard = ({ tags }) => {
+const SearchCard = ({ searchTags, tags }) => {
   const [value, setValue] = useState([]);
 
   return (
@@ -24,7 +25,7 @@ const SearchCard = ({ tags }) => {
           size='small'
         />
         <Button
-          onClick={() => { console.log(value); setValue([]); }}
+          onClick={() => { value.length && searchTags(value) }}
           variant='outlined'
         >
           <Search />
@@ -34,4 +35,9 @@ const SearchCard = ({ tags }) => {
   )
 };
 
-export default SearchCard;
+const mapDispatchToProps = (dispatch) => ({
+  searchTags: (data) => dispatch({ type: 'SEARCH_TAGS', data }),
+});
+
+export default connect(null, mapDispatchToProps)
+  (SearchCard);
