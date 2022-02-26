@@ -24,6 +24,12 @@ const projectsReducer = (state = initial, action) => {
     case 'REMOVEPROJECT_ERROR':
       console.log(action.err);
       return state;
+    case 'UPDATETEAM_SUCCESS':
+      console.log(action.data);
+      return state;
+    case 'UPDATETEAM_ERROR':
+      console.log(action.err);
+      return state;
     case 'UPDATETASKS_SUCCESS':
       console.log(action.data);
       return state;

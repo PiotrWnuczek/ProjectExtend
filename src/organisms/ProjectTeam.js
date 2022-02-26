@@ -32,11 +32,11 @@ const ProjectTeam = ({ team, id }) => {
         <CardContent>
           <List sx={{ p: 0 }}>
             {team.members.map(member =>
-              <ListItem sx={{ p: 0 }} key={member}>
+              <ListItem sx={{ p: 0 }} key={member.uid}>
                 <ListItemIcon>
                   <Person />
                 </ListItemIcon>
-                <ListItemText primary={member} />
+                <ListItemText primary={member.email} />
               </ListItem>
             )}
           </List>

@@ -1,12 +1,13 @@
 export const createProject = (data) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
-  const auth = getState().firebase.auth;
+  const uid = getState().firebase.auth.uid;
+  const email = getState().firebase.auth.email;
   const ref = firestore.collection('projects');
   ref.add({
-    ...data, tags: [data.name], emails: [auth.email],
+    ...data, tags: [data.name], team: [email],
   }).then((resp) => {
     const content = ref.doc(resp.id).collection('content');
-    content.doc('team').set({ members: [auth.email], candidates: [] });
+    content.doc('team').set({ members: [{ email, uid }], candidates: [] });
     content.doc('tasks').set({ todo: [], done: [] });
     content.doc('chats').set({ threads: [] });
     dispatch({ type: 'CREATEPROJECT_SUCCESS', data, resp });
@@ -34,6 +35,18 @@ export const removeProject = (id) => (dispatch, gs, { getFirestore }) => {
     dispatch({ type: 'REMOVEPROJECT_SUCCESS', id });
   }).catch((err) => {
     dispatch({ type: 'REMOVEPROJECT_SUCCESS', err });
+  })
+};
+
+export const updateTeam = (data, project) => (dispatch, gs, { getFirestore }) => {
+  const firestore = getFirestore();
+  const ref = firestore.collection('projects').doc(project).collection('content');
+  ref.doc('team').update({
+    ...data,
+  }).then(() => {
+    dispatch({ type: 'UPDATETEAM_SUCCESS', data });
+  }).catch((err) => {
+    dispatch({ type: 'UPDATETEAM_ERROR', err });
   })
 };
 

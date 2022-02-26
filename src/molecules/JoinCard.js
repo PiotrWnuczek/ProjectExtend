@@ -1,32 +1,54 @@
 import React from 'react';
-import { Card, CardContent } from '@mui/material';
-import { Email } from '@mui/icons-material';
+import { connect } from 'react-redux';
+import { updateTeam } from 'store/projectsActions';
+import { Card, CardContent, Button } from '@mui/material';
 import { Formik } from 'formik';
-import IconInput from 'atoms/IconInput';
+import TextInput from 'atoms/TextInput';
 
-const JoinCard = () => (
+const JoinCard = ({ updateTeam, team, id }) => (
   <Card
     sx={{ bgcolor: 'secondary.light', mb: 2 }}
     variant='outlined'
   >
     <CardContent>
-      JoinCard
       <Formik
-        initialValues={{ email: '' }}
-        onSubmit={(values) => { console.log(values) }}
+        initialValues={{
+          email: '',
+          message: '',
+        }}
+        onSubmit={(values) => {
+          updateTeam({ candidates: [...team.candidates, { ...values }] }, id);
+        }}
       >
         {({ values, handleChange, handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <IconInput
-              icon={<Email />}
-              sx={{ my: 1.5, mr: 2 }}
+            <TextInput
               onChange={handleChange}
               value={values.email}
               label='Email'
               name='email'
               type='email'
               size='small'
+              autoFocus
+              required
             />
+            <TextInput
+              onChange={handleChange}
+              value={values.message}
+              label='Message'
+              name='message'
+              type='text'
+              size='small'
+              multiline
+              rows={3}
+            />
+            <Button
+              type='submit'
+              variant='outlined'
+              size='small'
+            >
+              Join Project
+            </Button>
           </form>
         )}
       </Formik>
@@ -34,4 +56,9 @@ const JoinCard = () => (
   </Card>
 );
 
-export default JoinCard;
+const mapDispatchToProps = (dispatch) => ({
+  updateTeam: (data, project) => dispatch(updateTeam(data, project)),
+});
+
+export default connect(null, mapDispatchToProps)
+  (JoinCard);

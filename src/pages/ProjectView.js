@@ -77,7 +77,7 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags }) => {
       {project ? <div>
         {tabs === 0 && <Box sx={{ p: 2 }}>
           <Collapse in={join} timeout='auto'>
-            <JoinCard />
+            <JoinCard team={team} id={id} />
           </Collapse>
           <ProjectContent project={project} id={id} />
           <ProjectTags project={project} id={id} tags={tags && tags.list} />
@@ -106,7 +106,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default withRouter(compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect(props => props.team && props.team.members.includes(props.email) ? [
+  firestoreConnect(props => props.project && props.project.team.includes(props.email) ? [
     {
       storeAs: props.id,
       collection: 'projects', doc: props.id

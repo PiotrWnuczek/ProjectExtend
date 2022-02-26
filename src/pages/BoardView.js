@@ -107,7 +107,7 @@ export default compose(
   firestoreConnect(props => props.search ? [
     {
       storeAs: 'projects', collection: 'projects',
-      where: [['emails', 'array-contains', props.email]],
+      where: [['team', 'array-contains', props.email]],
     },
     {
       storeAs: 'results', collection: 'projects',
@@ -117,7 +117,7 @@ export default compose(
   ] : [
     {
       storeAs: 'projects', collection: 'projects',
-      where: [['emails', 'array-contains', props.email]],
+      where: [['team', 'array-contains', props.email]],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
   ]),
