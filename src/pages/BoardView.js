@@ -13,13 +13,13 @@ import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
 import SearchCard from 'molecules/SearchCard';
 
-const BoardView = ({ createProject, resetId, searchTags, projects, results, id, tags }) => {
+const BoardView = ({ createProject, resetId, searchTags, projects, results, id, tags, email }) => {
   const [sidebar, setSidebar] = useApp();
   const [search, setSearch] = useState(false);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
   const navigate = useNavigate();
   useEffect(() => { id && navigate('/project/' + id); resetId() });
-  useEffect(() => { !search && searchTags([null]) }, [searchTags, search]);
+  useEffect(() => { !search && searchTags(null) }, [searchTags, search]);
 
   return (
     <MainLayout navbar={
@@ -55,7 +55,7 @@ const BoardView = ({ createProject, resetId, searchTags, projects, results, id, 
         <Collapse in={search} timeout='auto' unmountOnExit>
           <SearchCard tags={tags && tags.list} />
         </Collapse>
-        <Masonry
+        {!search && <Masonry
           breakpointCols={breakpoints}
           className='masonryGrid'
           columnClassName='masonryGridColumn'
@@ -66,22 +66,20 @@ const BoardView = ({ createProject, resetId, searchTags, projects, results, id, 
               key={project.id}
             />
           )}
+        </Masonry>}
+        {projects && projects.length > 0 && <Divider sx={{ mb: 2 }} />}
+        <Masonry
+          breakpointCols={breakpoints}
+          className='masonryGrid'
+          columnClassName='masonryGridColumn'
+        >
+          {results && results.map(result =>
+            !result.new && !result.emails.includes(email) && <ProjectCard
+              project={result}
+              key={result.id}
+            />
+          )}
         </Masonry>
-        {search && <div>
-          <Divider sx={{ mb: 2 }} />
-          <Masonry
-            breakpointCols={breakpoints}
-            className='masonryGrid'
-            columnClassName='masonryGridColumn'
-          >
-            {results && results.map(result =>
-              !result.new && <ProjectCard
-                project={result}
-                key={result.id}
-              />
-            )}
-          </Masonry>
-        </div>}
       </Box>
     </MainLayout>
   )
@@ -107,7 +105,7 @@ export default compose(
   firestoreConnect(props => props.search ? [
     {
       storeAs: 'projects', collection: 'projects',
-      where: [['team', 'array-contains', props.email]],
+      where: [['emails', 'array-contains', props.email]],
     },
     {
       storeAs: 'results', collection: 'projects',
@@ -117,8 +115,9 @@ export default compose(
   ] : [
     {
       storeAs: 'projects', collection: 'projects',
-      where: [['team', 'array-contains', props.email]],
+      where: [['emails', 'array-contains', props.email]],
     },
+    { storeAs: 'results', collection: 'projects', limit: 30 },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
   ]),
 )(BoardView);

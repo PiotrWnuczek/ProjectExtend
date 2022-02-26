@@ -106,7 +106,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default withRouter(compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect(props => props.project && props.project.team.includes(props.email) ? [
+  firestoreConnect(props => props.project && props.project.emails.includes(props.email) ? [
     {
       storeAs: props.id,
       collection: 'projects', doc: props.id

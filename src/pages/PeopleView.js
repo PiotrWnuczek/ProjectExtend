@@ -3,7 +3,7 @@ import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { Box, Collapse, Divider } from '@mui/material';
+import { Box, Collapse } from '@mui/material';
 import { Button, IconButton } from '@mui/material';
 import { Menu, Search } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
@@ -11,11 +11,11 @@ import MainLayout from 'pages/MainLayout';
 import ProfileCard from 'molecules/ProfileCard';
 import SearchCard from 'molecules/SearchCard';
 
-const PeopleView = ({ searchTags, users, results, tags }) => {
+const PeopleView = ({ searchTags, users, tags }) => {
   const [sidebar, setSidebar] = useApp();
   const [search, setSearch] = useState(false);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
-  useEffect(() => { !search && searchTags([null]) }, [searchTags, search]);
+  useEffect(() => { !search && searchTags(null) }, [searchTags, search]);
 
   return (
     <MainLayout navbar={
@@ -61,21 +61,6 @@ const PeopleView = ({ searchTags, users, results, tags }) => {
             />
           )}
         </Masonry>
-        {search && <div>
-          <Divider sx={{ mb: 2 }} />
-          <Masonry
-            breakpointCols={breakpoints}
-            className='masonryGrid'
-            columnClassName='masonryGridColumn'
-          >
-            {results && results.map(result =>
-              !result.new && <ProfileCard
-                user={result}
-                key={result.id}
-              />
-            )}
-          </Masonry>
-        </div>}
       </Box>
     </MainLayout>
   )
@@ -83,7 +68,6 @@ const PeopleView = ({ searchTags, users, results, tags }) => {
 
 const mapStateToProps = (state) => ({
   users: state.firestore.ordered.users,
-  results: state.firestore.ordered.results,
   tags: state.firestore.data.tags,
   search: state.tags.search,
   email: state.firebase.auth.email,
@@ -98,18 +82,11 @@ export default compose(
   firestoreConnect(props => props.search ? [
     {
       storeAs: 'users', collection: 'users',
-      where: [['email', '==', props.email]],
-    },
-    {
-      storeAs: 'results', collection: 'users',
       where: [['tags', 'array-contains-any', props.search]],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
   ] : [
-    {
-      storeAs: 'users', collection: 'users',
-      where: [['email', '==', props.email]],
-    },
+    { storeAs: 'users', collection: 'users', limit: 30 },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
   ]),
 )(PeopleView);

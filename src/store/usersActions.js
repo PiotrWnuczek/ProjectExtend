@@ -33,10 +33,9 @@ export const signoutUser = () => (dispatch, gs, { getFirebase }) => {
   })
 };
 
-export const updateProfile = (data) => (dispatch, getState, { getFirestore }) => {
+export const updateProfile = (data, id) => (dispatch, gs, { getFirestore }) => {
   const firestore = getFirestore();
-  const authorid = getState().firebase.auth.uid;
-  const ref = firestore.collection('users').doc(authorid);
+  const ref = firestore.collection('users').doc(id);
   ref.update({
     ...data,
   }).then(() => {
