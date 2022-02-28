@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -17,10 +17,12 @@ import ProjectChats from 'organisms/ProjectChats';
 import JoinCard from 'molecules/JoinCard';
 import OptionsMenu from 'atoms/OptionsMenu';
 
-const ProjectView = ({ createTask, project, id, team, tasks, chats, tags }) => {
+const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email }) => {
   const [sidebar, setSidebar] = useApp();
   const [join, setJoin] = useState(false);
   const [tabs, setTabs] = useState(0);
+  const candidate = team && team.candidates.find(c => c.email === email);
+  useEffect(() => { setJoin(candidate ? true : false) }, [candidate, setJoin]);
 
   return (
     <MainLayout navbar={
@@ -77,7 +79,7 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags }) => {
       {project ? <div>
         {tabs === 0 && <Box sx={{ p: 2 }}>
           <Collapse in={join} timeout='auto'>
-            <JoinCard team={team} id={id} />
+            <JoinCard team={team} id={id} email={email} />
           </Collapse>
           <ProjectContent project={project} id={id} />
           <ProjectTags project={project} id={id} tags={tags && tags.list} />
