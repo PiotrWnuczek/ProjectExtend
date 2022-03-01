@@ -10,7 +10,7 @@ import TextInput from 'atoms/TextInput';
 const ProjectContent = ({ updateProject, project, id }) => {
   const [expand, setExpand] = useState(true);
   const [edit, setEdit] = useState(project.new);
-  useEffect(() => { project.new && updateProject({ new: false }, id) });
+  useEffect(() => { !project.key && updateProject({ key: id }, id) });
 
   return (
     <Card

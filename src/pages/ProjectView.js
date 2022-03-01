@@ -15,7 +15,7 @@ import ProjectTeam from 'organisms/ProjectTeam';
 import ProjectTasks from 'organisms/ProjectTasks';
 import ProjectChats from 'organisms/ProjectChats';
 import JoinCard from 'molecules/JoinCard';
-import OptionsMenu from 'atoms/OptionsMenu';
+import ProjectMenu from 'molecules/ProjectMenu';
 
 const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email }) => {
   const [sidebar, setSidebar] = useApp();
@@ -81,15 +81,17 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email 
       {project ? <div>
         {tabs === 0 && <Box sx={{ p: 2 }}>
           <Collapse in={join} timeout='auto'>
-            {!member && <JoinCard team={team} id={id} email={email} candidate={candidate} />}
-            {member && team.candidates.map((c, i) =>
-              <JoinCard team={team} id={id} email={email} key={i} candidate={c} member={true} />
-            )}
+            {!member && <JoinCard
+              pro={project} team={team} id={id} email={email} candidate={candidate}
+            />}
+            {member && team.candidates.map((c, i) => <JoinCard
+              pro={project} team={team} id={id} email={email} key={i} candidate={c} member={true}
+            />)}
           </Collapse>
           <ProjectContent project={project} id={id} />
           <ProjectTags project={project} id={id} tags={tags && tags.list} />
-          {team && <ProjectTeam team={team} id={id} />}
-          {true && <OptionsMenu />}
+          {team && <ProjectTeam team={team} />}
+          {member && <ProjectMenu pro={project} id={id} team={team} email={email} />}
         </Box>}
         {tasks && tabs === 1 && <ProjectTasks tasks={tasks} id={id} />}
         {chats && tabs === 2 && <ProjectChats chats={chats} id={id} />}

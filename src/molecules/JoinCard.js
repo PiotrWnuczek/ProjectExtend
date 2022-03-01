@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { updateTeam } from 'store/projectsActions';
-import { Box, Typography, IconButton, Button } from '@mui/material';
-import { Card, CardHeader, Collapse } from '@mui/material';
+import { updateTeam, updateProject } from 'store/projectsActions';
+import { Typography, IconButton, Button } from '@mui/material';
+import { Box, Card, CardHeader, Collapse } from '@mui/material';
 import { ExpandMore, Send } from '@mui/icons-material';
 import { Formik } from 'formik';
 import IconInput from 'atoms/IconInput';
 
-const JoinCard = ({ updateTeam, team, id, email, candidate, member }) => {
+const JoinCard = ({ updateTeam, updateProject, pro, team, id, email, candidate, member }) => {
   const [expand, setExpand] = useState(false);
   useEffect(() => { !member && setExpand(true) }, [member, setExpand]);
 
@@ -23,10 +23,25 @@ const JoinCard = ({ updateTeam, team, id, email, candidate, member }) => {
           </Typography>
           {member && <Button
             sx={{ ml: 1, mt: 0.5 }}
-            onClick={() => console.log('accept')}
+            onClick={() => {
+              updateTeam({
+                candidates: team.candidates.filter(c => c.email !== candidate.email),
+                members: [...team.members, { email: candidate.email }],
+              }, id);
+              updateProject({ emails: [...pro.emails, candidate.email] }, id);
+            }}
             size='small'
           >
             Accept
+          </Button>}
+          {member && <Button
+            sx={{ ml: 1, mt: 0.5 }}
+            onClick={() => updateTeam({
+              candidates: team.candidates.filter(c => c.email !== candidate.email),
+            }, id)}
+            size='small'
+          >
+            Delete
           </Button>}
         </Box>}
         action={<>
@@ -45,13 +60,14 @@ const JoinCard = ({ updateTeam, team, id, email, candidate, member }) => {
           <Formik
             initialValues={{ message: '' }}
             onSubmit={(values, { resetForm }) => {
+              resetForm();
               candidate && updateTeam({
-                candidates: team.candidates.map(c =>
-                  c.email === candidate.email ? { ...c, content: [...c.content, { email, ...values }] } : c),
-              }, id); resetForm();
+                candidates: team.candidates.map(c => c.email === candidate.email ?
+                  { ...c, content: [...c.content, { email, ...values }] } : c)
+              }, id);
               !candidate && updateTeam({
                 candidates: [...team.candidates, { email, content: [{ email, ...values }] }],
-              }, id); resetForm();
+              }, id);
             }}
           >
             {({ values, handleChange, handleSubmit }) => (
@@ -78,6 +94,7 @@ const JoinCard = ({ updateTeam, team, id, email, candidate, member }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   updateTeam: (data, project) => dispatch(updateTeam(data, project)),
+  updateProject: (data, id) => dispatch(updateProject(data, id)),
 });
 
 export default connect(null, mapDispatchToProps)

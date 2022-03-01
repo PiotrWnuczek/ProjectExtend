@@ -4,7 +4,7 @@ import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Typography, IconButton, Collapse } from '@mui/material';
 import { Groups, ExpandMore, Edit, Person } from '@mui/icons-material';
 
-const ProjectTeam = ({ team, id }) => {
+const ProjectTeam = ({ team }) => {
   const [expand, setExpand] = useState(false);
 
   return (
@@ -32,7 +32,7 @@ const ProjectTeam = ({ team, id }) => {
         <CardContent>
           <List sx={{ p: 0 }}>
             {team.members.map(member =>
-              <ListItem sx={{ p: 0 }} key={member.uid}>
+              <ListItem sx={{ p: 0 }} key={member.email}>
                 <ListItemIcon>
                   <Person />
                 </ListItemIcon>
