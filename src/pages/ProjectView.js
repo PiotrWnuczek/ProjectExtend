@@ -104,7 +104,7 @@ const mapStateToProps = (state, props) => ({
   project: state.firestore.data[props.id],
   team: state.firestore.data[props.id + 'team'],
   tasks: state.firestore.data[props.id + 'tasks'],
-  chats: state.firestore.data[props.id + 'team'],
+  chats: state.firestore.data[props.id + 'chats'],
   tags: state.firestore.data.tags,
   email: state.firebase.auth.email,
 });

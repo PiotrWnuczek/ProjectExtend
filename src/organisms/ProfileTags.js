@@ -12,7 +12,7 @@ const ProfileTags = ({ createTag, profile, id, tags }) => {
   const [expand, setExpand] = useState(false);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
-  const breakpoints = { default: 3, 1100: 2, 700: 1 };
+  const breakpoints = { default: 5, 1100: 4, 700: 3 };
 
   return (
     <Card
@@ -62,7 +62,7 @@ const ProfileTags = ({ createTag, profile, id, tags }) => {
             columnClassName='masonryGridColumn'
           >
             {profile.tags.map(tag =>
-              <TagCard key={tag} tag={tag} />
+              <TagCard key={tag} tag={tag} profile={id} project={null} />
             )}
           </Masonry>
         </CardContent>

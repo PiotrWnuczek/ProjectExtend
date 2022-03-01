@@ -52,7 +52,7 @@ export const updateTeam = (data, project) => (dispatch, gs, { getFirestore }) =>
 
 export const createTask = (data, project) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
-  const tasks = getState().firestore.data.tasks;
+  const tasks = getState().firestore.data[project + 'tasks'];
   const id = Math.random().toString(16).slice(2);
   const ref = firestore.collection('projects').doc(project).collection('content');
   ref.doc('tasks').update({
@@ -66,7 +66,7 @@ export const createTask = (data, project) => (dispatch, getState, { getFirestore
 
 export const updateTask = (data, id, project) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
-  const tasks = getState().firestore.data.tasks;
+  const tasks = getState().firestore.data[project + 'tasks'];
   const ref = firestore.collection('projects').doc(project).collection('content');
   ref.doc('tasks').update({
     todo: tasks.todo.map(task => task.id === id ? { ...task, ...data } : task),
@@ -80,7 +80,7 @@ export const updateTask = (data, id, project) => (dispatch, getState, { getFires
 
 export const removeTask = (id, project) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
-  const tasks = getState().firestore.data.tasks;
+  const tasks = getState().firestore.data[project + 'tasks'];
   const ref = firestore.collection('projects').doc(project).collection('content');
   ref.doc('tasks').update({
     todo: tasks.todo.filter(task => task.id !== id),
@@ -106,7 +106,7 @@ export const updateTasks = (data, project) => (dispatch, gs, { getFirestore }) =
 
 export const createChat = (data, project) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
-  const chats = getState().firestore.data.chats;
+  const chats = getState().firestore.data[project + 'chats'];
   const id = Math.random().toString(16).slice(2);
   const ref = firestore.collection('projects').doc(project).collection('content');
   ref.doc('chats').update({
@@ -120,7 +120,7 @@ export const createChat = (data, project) => (dispatch, getState, { getFirestore
 
 export const updateChat = (data, id, project) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
-  const chats = getState().firestore.data.chats;
+  const chats = getState().firestore.data[project + 'chats'];
   const ref = firestore.collection('projects').doc(project).collection('content');
   ref.doc('chats').update({
     threads: chats.threads.map(chat => chat.id === id ? { ...chat, ...data } : chat),
@@ -133,7 +133,7 @@ export const updateChat = (data, id, project) => (dispatch, getState, { getFires
 
 export const removeChat = (id, project) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
-  const chats = getState().firestore.data.chats;
+  const chats = getState().firestore.data[project + 'chats'];
   const ref = firestore.collection('projects').doc(project).collection('content');
   ref.doc('chats').update({
     threads: chats.threads.filter(chat => chat.id !== id),

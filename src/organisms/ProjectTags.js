@@ -62,7 +62,7 @@ const ProjectTags = ({ createTag, project, id, tags }) => {
             columnClassName='masonryGridColumn'
           >
             {project.tags.map(tag =>
-              <TagCard key={tag} tag={tag} />
+              <TagCard key={tag} tag={tag} project={id} profile={null} />
             )}
           </Masonry>
         </CardContent>

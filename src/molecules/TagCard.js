@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { removeTag } from 'store/tagsActions';
 import { Card, CardHeader, IconButton, Typography } from '@mui/material';
 import { Delete, Tag } from '@mui/icons-material';
 
-const TagCard = ({ tag }) => (
+const TagCard = ({ removeTag, tag, project, profile }) => (
   <Card
     sx={{ bgcolor: 'secondary.light' }}
     variant='outlined'
@@ -18,7 +20,10 @@ const TagCard = ({ tag }) => (
         <Tag color='info' size='small' />
       }
       action={
-        <IconButton size='small'>
+        <IconButton
+          onClick={() => removeTag(tag, project, profile)}
+          size='small'
+        >
           <Delete sx={{ fontSize: 18, mt: 0.3 }} />
         </IconButton>
       }
@@ -26,4 +31,9 @@ const TagCard = ({ tag }) => (
   </Card>
 );
 
-export default TagCard;
+const mapDispatchToProps = (dispatch) => ({
+  removeTag: (data, project, profile) => dispatch(removeTag(data, project, profile)),
+});
+
+export default connect(null, mapDispatchToProps)
+  (TagCard);
