@@ -22,7 +22,9 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email 
   const [join, setJoin] = useState(false);
   const [tabs, setTabs] = useState(0);
   const candidate = team && team.candidates.find(c => c.email === email);
-  useEffect(() => { setJoin(candidate ? true : false) }, [candidate, setJoin]);
+  const member = team && team.members.find(m => m.email === email);
+  useEffect(() => { candidate && setJoin(true) }, [candidate, setJoin]);
+  useEffect(() => { member && setJoin(true) }, [member, setJoin]);
 
   return (
     <MainLayout navbar={
@@ -79,7 +81,10 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email 
       {project ? <div>
         {tabs === 0 && <Box sx={{ p: 2 }}>
           <Collapse in={join} timeout='auto'>
-            <JoinCard team={team} id={id} email={email} />
+            {!member && <JoinCard team={team} id={id} email={email} candidate={candidate} />}
+            {member && team.candidates.map((c, i) =>
+              <JoinCard team={team} id={id} email={email} key={i} candidate={c} member={true} />
+            )}
           </Collapse>
           <ProjectContent project={project} id={id} />
           <ProjectTags project={project} id={id} tags={tags && tags.list} />
@@ -95,9 +100,9 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email 
 
 const mapStateToProps = (state, props) => ({
   project: state.firestore.data[props.id],
-  team: state.firestore.data.team,
-  tasks: state.firestore.data.tasks,
-  chats: state.firestore.data.chats,
+  team: state.firestore.data[props.id + 'team'],
+  tasks: state.firestore.data[props.id + 'tasks'],
+  chats: state.firestore.data[props.id + 'team'],
   tags: state.firestore.data.tags,
   email: state.firebase.auth.email,
 });
@@ -114,15 +119,15 @@ export default withRouter(compose(
       collection: 'projects', doc: props.id
     },
     {
-      storeAs: 'team', collection: 'projects', doc: props.id,
+      storeAs: props.id + 'team', collection: 'projects', doc: props.id,
       subcollections: [{ collection: 'content', doc: 'team' }],
     },
     {
-      storeAs: 'tasks', collection: 'projects', doc: props.id,
+      storeAs: props.id + 'tasks', collection: 'projects', doc: props.id,
       subcollections: [{ collection: 'content', doc: 'tasks' }],
     },
     {
-      storeAs: 'chats', collection: 'projects', doc: props.id,
+      storeAs: props.id + 'chats', collection: 'projects', doc: props.id,
       subcollections: [{ collection: 'content', doc: 'chats' }],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
@@ -132,7 +137,7 @@ export default withRouter(compose(
       collection: 'projects', doc: props.id
     },
     {
-      storeAs: 'team', collection: 'projects', doc: props.id,
+      storeAs: props.id + 'team', collection: 'projects', doc: props.id,
       subcollections: [{ collection: 'content', doc: 'team' }],
     },
   ]),
