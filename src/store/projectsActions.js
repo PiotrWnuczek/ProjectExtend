@@ -2,6 +2,11 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   const firestore = getFirestore();
   const uid = getState().firebase.auth.uid;
   const email = getState().firebase.auth.email;
+  firestore.collection('users').doc(uid).get().then(doc => {
+    const firstname = doc.data().firstname;
+    const lastname = doc.data().lastname;
+    console.log(firstname, lastname);
+  });
   const ref = firestore.collection('projects');
   ref.add({
     ...data, tags: [data.name], emails: [email],
