@@ -7,9 +7,9 @@ import { Task, ExpandMore, Edit, Check } from '@mui/icons-material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 
-const TaskCard = ({ updateTask, task, id }) => {
+const TaskCard = ({ updateTask, task, id, open }) => {
   const [expand, setExpand] = useState(false);
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(open);
 
   return (
     <Card

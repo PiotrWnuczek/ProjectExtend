@@ -53,10 +53,9 @@ export const updateTeam = (data, project) => (dispatch, gs, { getFirestore }) =>
 export const createTask = (data, project) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
   const tasks = getState().firestore.data[project + 'tasks'];
-  const id = Math.random().toString(16).slice(2);
   const ref = firestore.collection('projects').doc(project).collection('content');
   ref.doc('tasks').update({
-    todo: [{ id, ...data }, ...tasks.todo],
+    todo: [{ ...data }, ...tasks.todo],
   }).then(() => {
     dispatch({ type: 'UPDATETASKS_SUCCESS', data });
   }).catch((err) => {

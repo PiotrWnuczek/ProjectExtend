@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Box, Grid, Typography } from '@mui/material';
 import TaskCard from 'molecules/TaskCard';
 
-const ProjectTasks = ({ updateTasks, tasks, id }) => {
+const ProjectTasks = ({ updateTasks, tasks, id, task }) => {
   const [data, setData] = useState([tasks.todo, tasks.done]);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const ProjectTasks = ({ updateTasks, tasks, id }) => {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                         >
-                          <TaskCard task={item} id={id} />
+                          <TaskCard task={item} id={id} open={item.id === task && true} />
                         </Box>
                       )}
                     </Draggable>

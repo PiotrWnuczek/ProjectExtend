@@ -7,7 +7,7 @@ import { FolderOpen, ExpandMore, Edit, Check } from '@mui/icons-material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 
-const ProjectContent = ({ updateProject, project, id }) => {
+const ProjectContent = ({ updateProject, project, id, member }) => {
   const [expand, setExpand] = useState(true);
   const [edit, setEdit] = useState(!project.key);
   useEffect(() => { !project.key && updateProject({ key: id }, id) });
@@ -25,12 +25,12 @@ const ProjectContent = ({ updateProject, project, id }) => {
           <FolderOpen />
         </Avatar>}
         action={<>
-          {!edit && <IconButton onClick={() => {
+          {member && !edit && <IconButton onClick={() => {
             setEdit(true); setExpand(true);
           }}>
             <Edit />
           </IconButton>}
-          {edit && <IconButton type='submit' form='edit'>
+          {member && edit && <IconButton type='submit' form='edit'>
             <Check />
           </IconButton>}
           <IconButton onClick={() => setExpand(!expand)}>

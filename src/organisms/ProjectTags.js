@@ -8,7 +8,7 @@ import { Tag, ExpandMore, Edit, Add } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import TagCard from 'molecules/TagCard';
 
-const ProjectTags = ({ createTag, project, id, tags }) => {
+const ProjectTags = ({ createTag, project, id, tags, member }) => {
   const [expand, setExpand] = useState(false);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
@@ -27,9 +27,9 @@ const ProjectTags = ({ createTag, project, id, tags }) => {
           <Tag />
         </Avatar>}
         action={<>
-          <IconButton onClick={() => { setOpen(!open); setExpand(true); }}>
+          {member && <IconButton onClick={() => { setOpen(!open); setExpand(true); }}>
             <Edit />
-          </IconButton>
+          </IconButton>}
           <IconButton onClick={() => setExpand(!expand)}>
             <ExpandMore sx={{ transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)' }} />
           </IconButton>

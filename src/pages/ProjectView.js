@@ -21,6 +21,8 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email 
   const [sidebar, setSidebar] = useApp();
   const [join, setJoin] = useState(false);
   const [tabs, setTabs] = useState(0);
+  const [task, setTask] = useState(null);
+  const random = Math.random().toString(16).slice(2);
   const candidate = team && team.candidates.find(c => c.email === email);
   const member = team && team.members.find(m => m.email === email);
   useEffect(() => { candidate && setJoin(true) }, [candidate, setJoin]);
@@ -46,7 +48,10 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email 
           </Button>}
           {tabs === 1 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-            onClick={() => createTask({ content: 'New Content' }, id)}
+            onClick={() => {
+              createTask({ id: random, content: 'New Content' }, id);
+              setTask(random);
+            }}
             variant='outlined'
           >
             Create Task
@@ -68,10 +73,12 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email 
             icon={<Subject />}
           />
           <Tab
+            disabled={member ? false : true}
             sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
             icon={<Task />}
           />
           <Tab
+            disabled={member ? false : true}
             sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
             icon={<Chat />}
           />
@@ -88,13 +95,13 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email 
               pro={project} team={team} id={id} email={email} key={i} candidate={c} member={true}
             />)}
           </Collapse>
-          <ProjectContent project={project} id={id} />
-          <ProjectTags project={project} id={id} tags={tags && tags.list} />
-          {team && <ProjectTeam team={team} />}
+          <ProjectContent project={project} id={id} member={member} />
+          <ProjectTags project={project} id={id} tags={tags && tags.list} member={member} />
+          {team && <ProjectTeam team={team} member={member} />}
           {member && <ProjectMenu pro={project} id={id} team={team} email={email} />}
         </Box>}
-        {tasks && tabs === 1 && <ProjectTasks tasks={tasks} id={id} />}
-        {chats && tabs === 2 && <ProjectChats chats={chats} id={id} />}
+        {member && tasks && tabs === 1 && <ProjectTasks tasks={tasks} id={id} task={task} />}
+        {member && chats && tabs === 2 && <ProjectChats chats={chats} id={id} />}
       </div> : <p>loading...</p>}
     </MainLayout>
   )
