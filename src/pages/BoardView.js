@@ -92,6 +92,7 @@ const mapStateToProps = (state) => ({
   id: state.projects.id,
   search: state.tags.search,
   email: state.firebase.auth.email,
+  uid: state.firebase.auth.uid,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -112,6 +113,7 @@ export default compose(
       where: [['tags', 'array-contains-any', props.search]],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
+    { storeAs: props.uid, collection: 'users', doc: props.uid },
   ] : [
     {
       storeAs: 'projects', collection: 'projects',
@@ -119,5 +121,6 @@ export default compose(
     },
     { storeAs: 'results', collection: 'projects', limit: 30 },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
+    { storeAs: props.uid, collection: 'users', doc: props.uid },
   ]),
 )(BoardView);

@@ -7,10 +7,12 @@ export const createTag = (data, project, profile) => (dispatch, getState, { getF
   const projectTags = project && getState().firestore.data[project].tags;
   const profileTags = profile && getState().firestore.data[profile].tags;
   const ref = firestore.collection('tags');
-  project && !projectTags.includes(data) &&
-    dispatch(updateProject({ tags: [data, ...projectTags] }, project));
-  profile && !profileTags.includes(data) &&
-    dispatch(updateProfile({ tags: [data, ...profileTags] }, profile));
+  project && !projectTags.includes(data) && dispatch(
+    updateProject({ tags: [data, ...projectTags] }, project)
+  );
+  profile && !profileTags.includes(data) && dispatch(
+    updateProfile({ tags: [data, ...profileTags] }, profile)
+  );
   !tags.list.includes(data) && ref.doc('tags').update({
     list: [data, ...tags.list],
   }).then(() => {
@@ -26,10 +28,12 @@ export const removeTag = (data, project, profile) => (dispatch, getState, { getF
   const projectTags = project && getState().firestore.data[project].tags;
   const profileTags = profile && getState().firestore.data[profile].tags;
   const ref = firestore.collection('tags');
-  project && projectTags.includes(data) &&
-    dispatch(updateProject({ tags: projectTags.filter(tag => tag !== data) }, project));
-  profile && profileTags.includes(data) &&
-    dispatch(updateProfile({ tags: profileTags.filter(tag => tag !== data) }, profile));
+  project && projectTags.includes(data) && dispatch(
+    updateProject({ tags: projectTags.filter(tag => tag !== data) }, project)
+  );
+  profile && profileTags.includes(data) && dispatch(
+    updateProfile({ tags: profileTags.filter(tag => tag !== data) }, profile)
+  );
   tags.list.includes(data) && ref.doc('tags').update({
     list: tags.list.filter(tag => tag !== data),
   }).then(() => {

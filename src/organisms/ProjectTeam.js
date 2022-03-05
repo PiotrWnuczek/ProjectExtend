@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { connect } from 'react-redux';
+import { updateTeam } from 'store/projectsActions';
+import { Box, Card, CardHeader, CardContent, Avatar } from '@mui/material';
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Typography, IconButton, Collapse } from '@mui/material';
 import { Groups, ExpandMore, Edit, Person } from '@mui/icons-material';
+import { Formik } from 'formik';
+import TextInput from 'atoms/TextInput';
 
-const ProjectTeam = ({ team, member }) => {
+const ProjectTeam = ({ updateTeam, id, team, member }) => {
   const [expand, setExpand] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   return (
     <Card
@@ -20,7 +25,7 @@ const ProjectTeam = ({ team, member }) => {
           <Groups />
         </Avatar>}
         action={<>
-          {member && <IconButton onClick={() => console.log('edit')}>
+          {member && <IconButton onClick={() => setEdit(!edit)}>
             <Edit />
           </IconButton>}
           <IconButton onClick={() => setExpand(!expand)}>
@@ -32,18 +37,58 @@ const ProjectTeam = ({ team, member }) => {
         <CardContent>
           <List sx={{ p: 0 }}>
             {team.members.map(member =>
-              <ListItem sx={{ p: 0 }} key={member.email}>
+              <ListItem sx={{ p: 0 }} key={member.uid}>
                 <ListItemIcon>
                   <Person />
                 </ListItemIcon>
-                <ListItemText primary={member.email} />
+                <ListItemText
+                  primary={<>
+                    {!edit && <Typography>
+                      {member.firstname} {member.lastname} | {member.email} : {member.nickname}
+                    </Typography>}
+                    {edit && <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography>
+                        {member.firstname} {member.lastname} | {member.email} :
+                      </Typography>
+                      <Formik
+                        initialValues={{ nickname: member.nickname }}
+                        onSubmit={(values) => {
+                          updateTeam({
+                            members: team.members.map(m => m === member ?
+                              { ...m, nickname: values.nickname } : m)
+                          }, id);
+                          setEdit(false);
+                        }}
+                      >
+                        {({ values, handleChange, handleSubmit }) => (
+                          <form onSubmit={handleSubmit} id='edit' autoComplete='off'>
+                            <TextInput
+                              sx={{ m: 0 }}
+                              onChange={handleChange}
+                              value={values.nickname}
+                              label='Nickname'
+                              name='nickname'
+                              type='text'
+                              size='small'
+                            />
+                          </form>
+                        )}
+                      </Formik>
+                    </Box>}
+                  </>}
+                />
               </ListItem>
             )}
           </List>
         </CardContent>
       </Collapse>
-    </Card>
+    </Card >
   )
 };
 
-export default ProjectTeam;
+const mapDispatchToProps = (dispatch) => ({
+  updateTeam: (data, project) => dispatch(updateTeam(data, project)),
+});
+
+export default connect(null, mapDispatchToProps)
+  (ProjectTeam);

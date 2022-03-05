@@ -7,7 +7,9 @@ import { ExpandMore, Send } from '@mui/icons-material';
 import { Formik } from 'formik';
 import IconInput from 'atoms/IconInput';
 
-const JoinCard = ({ updateTeam, updateProject, pro, team, id, email, candidate, member }) => {
+const JoinCard = (
+  { updateTeam, updateProject, pro, team, id, email, uid, user, candidate, member }
+) => {
   const [expand, setExpand] = useState(false);
   useEffect(() => { !member && setExpand(true) }, [member, setExpand]);
 
@@ -26,7 +28,13 @@ const JoinCard = ({ updateTeam, updateProject, pro, team, id, email, candidate, 
             onClick={() => {
               updateTeam({
                 candidates: team.candidates.filter(c => c.email !== candidate.email),
-                members: [...team.members, { email: candidate.email }],
+                members: [...team.members, {
+                  email: candidate.email,
+                  uid: candidate.uid,
+                  firesname: candidate.firstname,
+                  lastname: candidate.lastname,
+                  nickname: candidate.nickname,
+                }],
               }, id);
               updateProject({ emails: [...pro.emails, candidate.email] }, id);
             }}
@@ -66,7 +74,13 @@ const JoinCard = ({ updateTeam, updateProject, pro, team, id, email, candidate, 
                   { ...c, content: [...c.content, { email, ...values }] } : c)
               }, id);
               !candidate && updateTeam({
-                candidates: [...team.candidates, { email, content: [{ email, ...values }] }],
+                candidates: [...team.candidates, {
+                  email, uid,
+                  firesname: user.firstname,
+                  lastname: user.lastname,
+                  nickname: user.firstname[0] + user.lastname[0],
+                  content: [{ email, ...values }],
+                }],
               }, id);
             }}
           >

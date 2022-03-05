@@ -2,17 +2,15 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   const firestore = getFirestore();
   const uid = getState().firebase.auth.uid;
   const email = getState().firebase.auth.email;
-  firestore.collection('users').doc(uid).get().then(doc => {
-    const firstname = doc.data().firstname;
-    const lastname = doc.data().lastname;
-    console.log(firstname, lastname);
-  });
+  const firstname = getState().firestore.data[uid].firstname;
+  const lastname = getState().firestore.data[uid].lastname;
+  const user = { uid, email, firstname, lastname, nickname: firstname[0] + lastname[0] };
   const ref = firestore.collection('projects');
   ref.add({
     ...data, tags: [data.name], emails: [email],
   }).then((resp) => {
     const content = ref.doc(resp.id).collection('content');
-    content.doc('team').set({ members: [{ email, uid }], candidates: [] });
+    content.doc('team').set({ members: [user], candidates: [] });
     content.doc('tasks').set({ todo: [], done: [] });
     content.doc('chats').set({ threads: [] });
     dispatch({ type: 'CREATEPROJECT_SUCCESS', data, resp });

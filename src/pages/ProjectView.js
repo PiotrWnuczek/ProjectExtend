@@ -3,7 +3,7 @@ import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { createTask } from 'store/projectsActions';
+import { createTask, createChat } from 'store/projectsActions';
 import { Box, Button, Collapse } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
 import { Menu, Subject, Task, Chat } from '@mui/icons-material';
@@ -17,7 +17,9 @@ import ProjectChats from 'organisms/ProjectChats';
 import JoinCard from 'molecules/JoinCard';
 import ProjectMenu from 'molecules/ProjectMenu';
 
-const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email }) => {
+const ProjectView = (
+  { createTask, createChat, project, id, team, tasks, chats, tags, email, uid, user }
+) => {
   const [sidebar, setSidebar] = useApp();
   const [join, setJoin] = useState(false);
   const [tabs, setTabs] = useState(0);
@@ -42,9 +44,8 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email 
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
             onClick={() => setJoin(!join)}
             variant='outlined'
-            color={true ? 'primary' : 'info'}
           >
-            {true ? 'Join Project' : 'Joined Project'}
+            Join Project
           </Button>}
           {tabs === 1 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
@@ -58,6 +59,7 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email 
           </Button>}
           {tabs === 2 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
+            onClick={() => createChat({ id: random, content: 'New Content' }, id)}
             variant='outlined'
           >
             Create Chat
@@ -89,15 +91,17 @@ const ProjectView = ({ createTask, project, id, team, tasks, chats, tags, email 
         {tabs === 0 && <Box sx={{ p: 2 }}>
           <Collapse in={join} timeout='auto'>
             {!member && <JoinCard
-              pro={project} team={team} id={id} email={email} candidate={candidate}
+              pro={project} team={team} id={id} email={email} uid={uid} user={user}
+              candidate={candidate}
             />}
             {member && team.candidates.map((c, i) => <JoinCard
-              pro={project} team={team} id={id} email={email} key={i} candidate={c} member={true}
+              pro={project} team={team} id={id} email={email} uid={uid} user={user} key={i}
+              candidate={c} member={true}
             />)}
           </Collapse>
           <ProjectContent project={project} id={id} member={member} />
           <ProjectTags project={project} id={id} tags={tags && tags.list} member={member} />
-          {team && <ProjectTeam team={team} member={member} />}
+          {team && <ProjectTeam team={team} member={member} id={id} />}
           {member && <ProjectMenu pro={project} id={id} team={team} email={email} />}
         </Box>}
         {member && tasks && tabs === 1 && <ProjectTasks tasks={tasks} id={id} task={task} />}
@@ -114,19 +118,19 @@ const mapStateToProps = (state, props) => ({
   chats: state.firestore.data[props.id + 'chats'],
   tags: state.firestore.data.tags,
   email: state.firebase.auth.email,
+  uid: state.firebase.auth.uid,
+  user: state.firestore.data[state.firebase.auth.uid],
 });
 
 const mapDispatchToProps = (dispatch) => ({
   createTask: (data, project) => dispatch(createTask(data, project)),
+  createChat: (data, project) => dispatch(createChat(data, project)),
 });
 
 export default withRouter(compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect(props => props.project && props.project.emails.includes(props.email) ? [
-    {
-      storeAs: props.id,
-      collection: 'projects', doc: props.id
-    },
+    { storeAs: props.id, collection: 'projects', doc: props.id },
     {
       storeAs: props.id + 'team', collection: 'projects', doc: props.id,
       subcollections: [{ collection: 'content', doc: 'team' }],
@@ -140,14 +144,13 @@ export default withRouter(compose(
       subcollections: [{ collection: 'content', doc: 'chats' }],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
+    { storeAs: props.uid, collection: 'users', doc: props.uid },
   ] : [
-    {
-      storeAs: props.id,
-      collection: 'projects', doc: props.id
-    },
+    { storeAs: props.id, collection: 'projects', doc: props.id },
     {
       storeAs: props.id + 'team', collection: 'projects', doc: props.id,
       subcollections: [{ collection: 'content', doc: 'team' }],
     },
+    { storeAs: props.uid, collection: 'users', doc: props.uid },
   ]),
 )(ProjectView));
