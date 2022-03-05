@@ -31,7 +31,7 @@ const JoinCard = (
                 members: [...team.members, {
                   email: candidate.email,
                   uid: candidate.uid,
-                  firesname: candidate.firstname,
+                  firstname: candidate.firstname,
                   lastname: candidate.lastname,
                   nickname: candidate.nickname,
                 }],
@@ -76,7 +76,7 @@ const JoinCard = (
               !candidate && updateTeam({
                 candidates: [...team.candidates, {
                   email, uid,
-                  firesname: user.firstname,
+                  firstname: user.firstname,
                   lastname: user.lastname,
                   nickname: user.firstname[0] + user.lastname[0],
                   content: [{ email, ...values }],
