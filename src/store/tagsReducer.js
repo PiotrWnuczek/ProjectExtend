@@ -4,8 +4,8 @@ const initial = {
 
 const tagsReducer = (state = initial, action) => {
   switch (action.type) {
-    case 'SEARCH_TAGS':
-      return { ...state, search: action.data };
+    case 'QUERY_TAGS':
+      return { ...state, query: action.data };
     case 'CREATETAG_SUCCESS':
       console.log(action.data);
       return state;

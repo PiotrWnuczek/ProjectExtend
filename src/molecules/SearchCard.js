@@ -4,7 +4,7 @@ import { Button, Card, Box } from '@mui/material';
 import { Autocomplete, TextField } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
-const SearchCard = ({ searchTags, tags }) => {
+const SearchCard = ({ queryTags, tags }) => {
   const [value, setValue] = useState([]);
 
   return (
@@ -12,7 +12,11 @@ const SearchCard = ({ searchTags, tags }) => {
       sx={{ bgcolor: 'secondary.light', mb: 2 }}
       variant='outlined'
     >
-      <Box sx={{ p: 2, display: 'flex' }}>
+      <Box
+        sx={{ p: 2, display: 'flex' }}
+        onSubmit={(e) => { e.preventDefault(); value.length && queryTags(value); }}
+        component='form'
+      >
         <Autocomplete
           value={value}
           onChange={(e, value) => setValue(value)}
@@ -25,7 +29,7 @@ const SearchCard = ({ searchTags, tags }) => {
           size='small'
         />
         <Button
-          onClick={() => { value.length && searchTags(value) }}
+          type='submit'
           variant='outlined'
         >
           <Search />
@@ -36,7 +40,7 @@ const SearchCard = ({ searchTags, tags }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  searchTags: (data) => dispatch({ type: 'SEARCH_TAGS', data }),
+  queryTags: (data) => dispatch({ type: 'QUERY_TAGS', data }),
 });
 
 export default connect(null, mapDispatchToProps)

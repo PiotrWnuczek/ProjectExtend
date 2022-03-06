@@ -11,11 +11,11 @@ import MainLayout from 'pages/MainLayout';
 import ProfileCard from 'molecules/ProfileCard';
 import SearchCard from 'molecules/SearchCard';
 
-const PeopleView = ({ searchTags, users, tags }) => {
+const PeopleView = ({ queryTags, users, tags }) => {
   const [sidebar, setSidebar] = useApp();
   const [search, setSearch] = useState(false);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
-  useEffect(() => { !search && searchTags(null) }, [searchTags, search]);
+  useEffect(() => { !search && queryTags(null) }, [queryTags, search]);
 
   return (
     <MainLayout navbar={
@@ -69,20 +69,20 @@ const PeopleView = ({ searchTags, users, tags }) => {
 const mapStateToProps = (state) => ({
   users: state.firestore.ordered.users,
   tags: state.firestore.data.tags,
-  search: state.tags.search,
+  query: state.tags.query,
   email: state.firebase.auth.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  searchTags: (data) => dispatch({ type: 'SEARCH_TAGS', data }),
+  queryTags: (data) => dispatch({ type: 'QUERY_TAGS', data }),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect(props => props.search ? [
+  firestoreConnect(props => props.query ? [
     {
       storeAs: 'users', collection: 'users',
-      where: [['tags', 'array-contains-any', props.search]],
+      where: [['tags', 'array-contains-any', props.query]],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
   ] : [

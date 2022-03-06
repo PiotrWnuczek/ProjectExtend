@@ -37,7 +37,11 @@ const ProjectTags = ({ createTag, project, id, tags, member }) => {
       />
       <Collapse in={expand} timeout='auto'>
         <Collapse in={open} timeout='auto'>
-          <Box sx={{ p: 2, display: 'flex' }}>
+          <Box
+            sx={{ p: 2, display: 'flex' }}
+            onSubmit={(e) => { e.preventDefault(); createTag(value, id, null); setValue(''); }}
+            component='form'
+          >
             <Autocomplete
               value={value}
               onInputChange={(e, value) => setValue(value)}
@@ -48,7 +52,7 @@ const ProjectTags = ({ createTag, project, id, tags, member }) => {
               size='small'
             />
             <Button
-              onClick={() => { createTag(value, id, null); setValue(''); }}
+              type='submit'
               variant='outlined'
             >
               <Add />

@@ -13,13 +13,21 @@ import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
 import SearchCard from 'molecules/SearchCard';
 
-const BoardView = ({ createProject, resetId, searchTags, projects, results, id, tags, email }) => {
+const BoardView = (
+  { createProject, resetId, queryTags, projects, results, id, tags, email, query }
+) => {
   const [sidebar, setSidebar] = useApp();
   const [search, setSearch] = useState(false);
   const breakpoints = { default: 3, 1100: 2, 700: 1 };
   const navigate = useNavigate();
   useEffect(() => { id && navigate('/project/' + id); resetId() });
-  useEffect(() => { !search && searchTags(null) }, [searchTags, search]);
+  useEffect(() => { !search && queryTags(null) }, [queryTags, search]);
+
+  /*const converted = results && results.map(r => ({ ...r, count: 0 }));
+  const counted = converted && converted.map(c => ({
+    ...c, count: query && query.every(q => c.tags.includes(q)),
+  }));
+  console.log(counted);*/
 
   return (
     <MainLayout navbar={
@@ -90,7 +98,7 @@ const mapStateToProps = (state) => ({
   results: state.firestore.ordered.results,
   tags: state.firestore.data.tags,
   id: state.projects.id,
-  search: state.tags.search,
+  query: state.tags.query,
   email: state.firebase.auth.email,
   uid: state.firebase.auth.uid,
 });
@@ -98,19 +106,19 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   createProject: (data) => dispatch(createProject(data)),
   resetId: () => dispatch({ type: 'RESETID_PROJECT' }),
-  searchTags: (data) => dispatch({ type: 'SEARCH_TAGS', data }),
+  queryTags: (data) => dispatch({ type: 'QUERY_TAGS', data }),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect(props => props.search ? [
+  firestoreConnect(props => props.query ? [
     {
       storeAs: 'projects', collection: 'projects',
       where: [['emails', 'array-contains', props.email]],
     },
     {
       storeAs: 'results', collection: 'projects',
-      where: [['tags', 'array-contains-any', props.search]],
+      where: [['tags', 'array-contains-any', props.query]],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
     { storeAs: props.uid, collection: 'users', doc: props.uid },
