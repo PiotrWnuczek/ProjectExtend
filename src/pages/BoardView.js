@@ -22,12 +22,15 @@ const BoardView = (
   const navigate = useNavigate();
   useEffect(() => { id && navigate('/project/' + id); resetId() });
   useEffect(() => { !search && queryTags(null) }, [queryTags, search]);
-
-  /*const converted = results && results.map(r => ({ ...r, count: 0 }));
-  const counted = converted && converted.map(c => ({
-    ...c, count: query && query.every(q => c.tags.includes(q)),
-  }));
-  console.log(counted);*/
+  const counted = results && results.map(r =>
+    !r.emails.includes(email) && ({ ...r, count: 0 })
+  );
+  counted && counted.forEach(c =>
+    query && query.forEach(q => c.tags.includes(q) && c.count++)
+  );
+  const sorted = counted && counted.sort((a, b) =>
+    ((a.count < b.count) ? 1 : -1)
+  );
 
   return (
     <MainLayout navbar={
@@ -81,10 +84,10 @@ const BoardView = (
           className='masonryGrid'
           columnClassName='masonryGridColumn'
         >
-          {results && results.map(result =>
-            result.key && !result.emails.includes(email) && <ProjectCard
-              project={result}
-              key={result.id}
+          {sorted && sorted.map(project =>
+            project.key && <ProjectCard
+              project={project}
+              key={project.id}
             />
           )}
         </Masonry>

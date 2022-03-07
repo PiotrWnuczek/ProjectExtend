@@ -1,15 +1,40 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { updateTask } from 'store/projectsActions';
-import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
-import { Typography, IconButton, Collapse } from '@mui/material';
+import { MenuItem, OutlinedInput, InputLabel, Select } from '@mui/material';
+import { Card, CardHeader, CardContent, Avatar, Typography } from '@mui/material';
+import { Grid, IconButton, Collapse, TextField, FormControl } from '@mui/material';
+import { LocalizationProvider, DateTimePicker } from '@mui/lab';
 import { Task, ExpandMore, Edit, Check } from '@mui/icons-material';
 import { Formik } from 'formik';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import TextInput from 'atoms/TextInput';
 
 const TaskCard = ({ updateTask, task, id, open }) => {
   const [expand, setExpand] = useState(false);
   const [edit, setEdit] = useState(open);
+  const [date, setDate] = useState(new Date());
+  const [person, setPerson] = useState([]);
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setPerson(
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
+  const names = [
+    'Oliver Hansen',
+    'Van Henry',
+    'April Tucker',
+    'Ralph Hubbard',
+    'Omar Alexander',
+    'Carlos Abbott',
+    'Miriam Wagner',
+    'Bradley Wilkerson',
+    'Virginia Andrews',
+    'Kelly Snyder',
+  ];
 
   return (
     <Card
@@ -59,7 +84,37 @@ const TaskCard = ({ updateTask, task, id, open }) => {
       />
       <Collapse in={expand} timeout='auto'>
         <CardContent>
-          Lorem ipsum dolor sit amet.
+          <Grid container>
+            <Grid item>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  value={date}
+                  onChange={(v) => setDate(v)}
+                  renderInput={(params) => <TextField {...params} size='small' />}
+                />
+              </LocalizationProvider>
+            </Grid>
+            <Grid item>
+              <FormControl size='small' sx={{ width: 200 }}>
+                <InputLabel>Name</InputLabel>
+                <Select
+                  multiple
+                  value={person}
+                  onChange={handleChange}
+                  input={<OutlinedInput label='Name' size='small' />}
+                >
+                  {names.map((name) => (
+                    <MenuItem
+                      key={name}
+                      value={name}
+                    >
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
         </CardContent>
       </Collapse>
     </Card>
