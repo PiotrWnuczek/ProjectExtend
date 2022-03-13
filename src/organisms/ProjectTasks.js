@@ -56,7 +56,7 @@ const ProjectTasks = ({ updateTasks, tasks, id, task }) => {
         {data.map((el, ind) => (
           <Grid
             sx={ind === 0 ? { pr: 2, borderRight: '1px solid lightgray' } : { pl: 2 }}
-            key={ind} item xs
+            key={ind} item xs={6}
           >
             <Typography variant='h6'>
               {ind === 0 ? 'Todo' : 'Done'}
