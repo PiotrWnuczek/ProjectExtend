@@ -28,7 +28,7 @@ const App = () => {
   return (
     <AppProvider>
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Routes>
             <Route path='/signin' element={<SigninView />} />
             <Route path='/signup' element={<SignupView />} />

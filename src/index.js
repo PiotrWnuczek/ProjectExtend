@@ -10,6 +10,7 @@ import appDatabase from 'store/appDatabase';
 import thunk from 'redux-thunk';
 import App from 'App';
 import 'index.css';
+import * as serviceWorkerRegistration from 'serviceWorkerRegistration.js';
 
 const store = createStore(
   appReducer,
@@ -44,3 +45,5 @@ ReactDOM.render(
   </ReactReduxFirebaseProvider>,
   document.getElementById('root'),
 );
+
+serviceWorkerRegistration.register();
