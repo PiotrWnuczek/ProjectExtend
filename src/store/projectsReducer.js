@@ -36,12 +36,6 @@ const projectsReducer = (state = initial, action) => {
     case 'UPDATETASKS_ERROR':
       console.log(action.err);
       return state;
-    case 'UPDATECHATS_SUCCESS':
-      console.log(action.data);
-      return state;
-    case 'UPDATECHATS_ERROR':
-      console.log(action.err);
-      return state;
     default: return state;
   }
 };

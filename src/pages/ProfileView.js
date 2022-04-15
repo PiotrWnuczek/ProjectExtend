@@ -34,12 +34,6 @@ const ProfileView = ({ profile, id, tags }) => {
           >
             {true ? 'Like Profile' : 'Liked Profile'}
           </Button>}
-          {tabs === 1 && <Button
-            sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-            variant='outlined'
-          >
-            Create Chat
-          </Button>}
         </Box>
         <Tabs
           sx={{ mr: 2 }}

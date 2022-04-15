@@ -19,9 +19,9 @@ const SideBar = ({ signoutUser, auth, ...props }) => {
   const location = useLocation();
 
   const menu = [
-    { text: 'Profile', icon: <Person />, path: profilePath },
-    { text: 'Board', icon: <Dashboard />, path: '/board' },
-    { text: 'People', icon: <People />, path: '/people' },
+    { text: <>Your<br />Profile</>, icon: <Person />, path: profilePath },
+    { text: <>Your<br />Board</>, icon: <Dashboard />, path: '/board' },
+    { text: <>Social<br />Space</>, icon: <People />, path: '/space' },
   ];
 
   return (
@@ -37,7 +37,7 @@ const SideBar = ({ signoutUser, auth, ...props }) => {
         {menu.map(item =>
           <ListItem
             sx={{ textTransform: 'uppercase' }}
-            key={item.text}
+            key={item.path}
             selected={location.pathname === item.path}
             onClick={() => navigate(item.path)}
             button
@@ -62,7 +62,7 @@ const SideBar = ({ signoutUser, auth, ...props }) => {
               <Logout />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText secondary='Sign Out' />
+          <ListItemText secondary={<>Sign<br />Out</>} />
         </ListItem>
       </List>
     </Drawer>

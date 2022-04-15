@@ -3,23 +3,20 @@ import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { createTask, createChat } from 'store/projectsActions';
+import { createTask } from 'store/projectsActions';
 import { Box, Button, Collapse } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
-import { Menu, Subject, Task, Chat } from '@mui/icons-material';
+import { Menu, Subject, Task } from '@mui/icons-material';
 import withRouter from 'assets/withRouter';
 import MainLayout from 'pages/MainLayout';
 import ProjectContent from 'organisms/ProjectContent';
 import ProjectTags from 'organisms/ProjectTags';
 import ProjectTeam from 'organisms/ProjectTeam';
 import ProjectTasks from 'organisms/ProjectTasks';
-import ProjectChats from 'organisms/ProjectChats';
 import JoinCard from 'molecules/JoinCard';
 import ProjectMenu from 'molecules/ProjectMenu';
 
-const ProjectView = (
-  { createTask, createChat, project, id, team, tasks, chats, tags, email, uid, user }
-) => {
+const ProjectView = ({ createTask, project, id, team, tasks, tags, email, uid, user }) => {
   const [sidebar, setSidebar] = useApp();
   const [join, setJoin] = useState(false);
   const [tabs, setTabs] = useState(0);
@@ -57,13 +54,6 @@ const ProjectView = (
           >
             Create Task
           </Button>}
-          {tabs === 2 && <Button
-            sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-            onClick={() => createChat({ id: random, content: 'New Content' }, id)}
-            variant='outlined'
-          >
-            Create Chat
-          </Button>}
         </Box>
         <Tabs
           sx={{ mr: 2 }}
@@ -78,11 +68,6 @@ const ProjectView = (
             disabled={member ? false : true}
             sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
             icon={<Task />}
-          />
-          <Tab
-            disabled={member ? false : true}
-            sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
-            icon={<Chat />}
           />
         </Tabs>
       </Box>
@@ -105,7 +90,6 @@ const ProjectView = (
           {member && <ProjectMenu pro={project} id={id} team={team} email={email} />}
         </Box>}
         {member && tasks && tabs === 1 && <ProjectTasks tasks={tasks} id={id} task={task} />}
-        {member && chats && tabs === 2 && <ProjectChats chats={chats} id={id} />}
       </div> : <p>loading...</p>}
     </MainLayout>
   )
@@ -115,7 +99,6 @@ const mapStateToProps = (state, props) => ({
   project: state.firestore.data[props.id],
   team: state.firestore.data[props.id + 'team'],
   tasks: state.firestore.data[props.id + 'tasks'],
-  chats: state.firestore.data[props.id + 'chats'],
   tags: state.firestore.data.tags,
   email: state.firebase.auth.email,
   uid: state.firebase.auth.uid,
@@ -124,7 +107,6 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   createTask: (data, project) => dispatch(createTask(data, project)),
-  createChat: (data, project) => dispatch(createChat(data, project)),
 });
 
 export default withRouter(compose(
@@ -138,10 +120,6 @@ export default withRouter(compose(
     {
       storeAs: props.id + 'tasks', collection: 'projects', doc: props.id,
       subcollections: [{ collection: 'content', doc: 'tasks' }],
-    },
-    {
-      storeAs: props.id + 'chats', collection: 'projects', doc: props.id,
-      subcollections: [{ collection: 'content', doc: 'chats' }],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
     { storeAs: props.uid, collection: 'users', doc: props.uid },

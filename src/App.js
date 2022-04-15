@@ -10,7 +10,7 @@ import AppProvider from 'assets/useApp';
 import SigninView from 'pages/SigninView';
 import SignupView from 'pages/SignupView';
 import BoardView from 'pages/BoardView';
-import PeopleView from 'pages/PeopleView';
+import SpaceView from 'pages/SpaceView';
 import ProfileView from 'pages/ProfileView';
 import ProjectView from 'pages/ProjectView';
 
@@ -33,7 +33,7 @@ const App = () => {
             <Route path='/signin' element={<SigninView />} />
             <Route path='/signup' element={<SignupView />} />
             <Route path='/board' element={access ? <BoardView /> : <Navigate to='/signin' />} />
-            <Route path='/people' element={access ? <PeopleView /> : <Navigate to='/signin' />} />
+            <Route path='/space' element={access ? <SpaceView /> : <Navigate to='/signin' />} />
             <Route path='/project/:id' element={access ? <ProjectView /> : <Navigate to='/signin' />} />
             <Route path='/profile/:id' element={access ? <ProfileView /> : <Navigate to='/signin' />} />
             <Route exact path='/' element={<Navigate to='/board' />} />
