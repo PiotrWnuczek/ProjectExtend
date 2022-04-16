@@ -7,12 +7,11 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   const user = { uid, email, firstname, lastname, nickname: firstname[0] + lastname[0] };
   const ref = firestore.collection('projects');
   ref.add({
-    ...data, tags: ['new'], emails: [email],
+    ...data, tags: [], emails: [email],
   }).then((resp) => {
     const content = ref.doc(resp.id).collection('content');
     content.doc('team').set({ members: [user], candidates: [] });
     content.doc('tasks').set({ todo: [], done: [] });
-    content.doc('chats').set({ threads: [] });
     dispatch({ type: 'CREATEPROJECT_SUCCESS', data, resp });
   }).catch((err) => {
     dispatch({ type: 'CREATEPROJECT_ERROR', err });

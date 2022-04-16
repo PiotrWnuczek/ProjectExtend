@@ -4,13 +4,13 @@ import { createTag } from 'store/tagsActions';
 import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
 import { Typography, Button, IconButton, Collapse } from '@mui/material';
 import { Box, Autocomplete, TextField } from '@mui/material';
-import { Tag, ExpandMore, Edit, Add } from '@mui/icons-material';
+import { Tag, ExpandMore, Edit, Check, Add } from '@mui/icons-material';
 import Masonry from 'react-masonry-css';
 import TagCard from 'molecules/TagCard';
 
 const ProjectTags = ({ createTag, project, id, tags, member }) => {
   const [expand, setExpand] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
   const breakpoints = { default: 5, 1100: 4, 700: 3 };
 
@@ -27,8 +27,11 @@ const ProjectTags = ({ createTag, project, id, tags, member }) => {
           <Tag />
         </Avatar>}
         action={<>
-          {member && <IconButton onClick={() => { setOpen(!open); setExpand(true); }}>
+          {member && !edit && <IconButton onClick={() => { setEdit(true); setExpand(true); }}>
             <Edit />
+          </IconButton>}
+          {member && edit && <IconButton onClick={() => { setEdit(false); }}>
+            <Check />
           </IconButton>}
           <IconButton onClick={() => setExpand(!expand)}>
             <ExpandMore sx={{ transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)' }} />
@@ -36,7 +39,7 @@ const ProjectTags = ({ createTag, project, id, tags, member }) => {
         </>}
       />
       <Collapse in={expand} timeout='auto'>
-        <Collapse in={open} timeout='auto'>
+        <Collapse in={edit} timeout='auto'>
           <Box
             sx={{ p: 2, display: 'flex' }}
             onSubmit={(e) => { e.preventDefault(); createTag(value, id, null); setValue(''); }}

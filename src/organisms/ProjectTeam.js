@@ -4,7 +4,7 @@ import { updateTeam } from 'store/projectsActions';
 import { Box, Card, CardHeader, CardContent, Avatar } from '@mui/material';
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Typography, IconButton, Collapse } from '@mui/material';
-import { Groups, ExpandMore, Edit, Person } from '@mui/icons-material';
+import { Groups, ExpandMore, Edit, Check, Person } from '@mui/icons-material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 
@@ -25,8 +25,11 @@ const ProjectTeam = ({ updateTeam, id, team, member }) => {
           <Groups />
         </Avatar>}
         action={<>
-          {member && <IconButton onClick={() => setEdit(!edit)}>
+          {member && !edit && <IconButton onClick={() => { setEdit(true); setExpand(true); }}>
             <Edit />
+          </IconButton>}
+          {member && edit && <IconButton type='submit' form='edit'>
+            <Check />
           </IconButton>}
           <IconButton onClick={() => setExpand(!expand)}>
             <ExpandMore sx={{ transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)' }} />
@@ -54,7 +57,7 @@ const ProjectTeam = ({ updateTeam, id, team, member }) => {
                         initialValues={{ nickname: member.nickname }}
                         onSubmit={(values) => {
                           updateTeam({
-                            members: team.members.map(m => m === member ?
+                            members: team.members.map(m => m.email === member.email ?
                               { ...m, nickname: values.nickname } : m)
                           }, id);
                           setEdit(false);
