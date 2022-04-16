@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateProject } from 'store/projectsActions';
-import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { Card, CardHeader, Box, Avatar } from '@mui/material';
 import { Typography, IconButton, Collapse } from '@mui/material';
-import { FolderOpen, ExpandMore, Edit, Check } from '@mui/icons-material';
+import { FolderOpen, Edit, Check } from '@mui/icons-material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 
 const ProjectContent = ({ updateProject, project, id, member }) => {
-  const [expand, setExpand] = useState(true);
+  const [expand, setExpand] = useState(!project.key);
   const [edit, setEdit] = useState(!project.key);
   useEffect(() => { !project.key && updateProject({ key: id }, id) });
 
   return (
     <Card
-      sx={{ bgcolor: 'secondary.light', mb: 2 }}
+      sx={{ bgcolor: 'secondary.light', borderRadius: 2, mb: 2 }}
       variant='outlined'
     >
       <CardHeader
-        title={<Typography variant='h6'>
-          {project.name}
+        title={<Typography variant='button'>
+          Content
         </Typography>}
-        avatar={<Avatar>
+        avatar={<Avatar
+          sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'info.light' } }}
+          onClick={() => setExpand(!expand)}
+        >
           <FolderOpen />
         </Avatar>}
         action={<>
@@ -33,16 +36,18 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
           {member && edit && <IconButton type='submit' form='edit'>
             <Check />
           </IconButton>}
-          <IconButton onClick={() => setExpand(!expand)}>
-            <ExpandMore sx={{ transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)' }} />
-          </IconButton>
         </>}
       />
       <Collapse in={expand} timeout='auto'>
-        <CardContent>
-          {!edit && <Typography>
-            {project.description}
-          </Typography>}
+        <Box sx={{ p: 2 }}>
+          {!edit && <>
+            <Typography variant='h6'>
+              {project.name}
+            </Typography>
+            <Typography variant='subtitle1'>
+              {project.description}
+            </Typography>
+          </>}
           {edit && <Formik
             initialValues={{
               name: project.name,
@@ -68,12 +73,12 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
                   type='text'
                   size='small'
                   multiline
-                  rows={7}
+                  rows={3}
                 />
               </form>
             )}
           </Formik>}
-        </CardContent>
+        </Box>
       </Collapse>
     </Card>
   )

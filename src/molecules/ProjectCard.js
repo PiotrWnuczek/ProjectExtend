@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IconButton, Typography } from '@mui/material';
-import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { CardActionArea, Typography } from '@mui/material';
+import { Card, CardHeader, Box, Avatar } from '@mui/material';
 import { green, cyan, orange, indigo, purple } from '@mui/material/colors';
-import { FolderOpen, Input } from '@mui/icons-material';
+import { FolderOpen } from '@mui/icons-material';
 
 const ProjectCard = ({ project }) => {
   const colors = [green, cyan, orange, indigo, purple];
@@ -13,31 +13,23 @@ const ProjectCard = ({ project }) => {
 
   return (
     <Card
-      sx={{ bgcolor: 'secondary.light' }}
-      variant='outlined'
-      key={project.id}
+      sx={{ bgcolor: 'secondary.light', borderRadius: 2 }}
+      variant='outlined' key={project.id}
     >
-      <CardHeader
-        title={project.name}
-        subheader={project.tags.map(tag => '#' + tag + ' ')}
-        avatar={
-          <Avatar sx={{ bgcolor: avatarColor }}>
+      <CardActionArea onClick={() => navigate('/project/' + project.id)}>
+        <CardHeader
+          title={project.name}
+          subheader={project.tags.map(tag => '#' + tag + ' ')}
+          avatar={<Avatar sx={{ bgcolor: avatarColor }}>
             <FolderOpen />
-          </Avatar>
-        }
-        action={
-          <IconButton
-            onClick={() => navigate('/project/' + project.id)}
-          >
-            <Input />
-          </IconButton>
-        }
-      />
-      <CardContent>
-        <Typography>
-          {project.description}
-        </Typography>
-      </CardContent>
+          </Avatar>}
+        />
+        <Box sx={{ p: 2 }}>
+          <Typography>
+            {project.description}
+          </Typography>
+        </Box>
+      </CardActionArea>
     </Card>
   )
 };

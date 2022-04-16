@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { updateProject } from 'store/projectsActions';
-import { Box, Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { Box, Card, CardHeader, Avatar } from '@mui/material';
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Typography, IconButton, Collapse } from '@mui/material';
-import { Groups, ExpandMore, Edit, Check, Person } from '@mui/icons-material';
+import { Groups, Edit, Check, Person } from '@mui/icons-material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 
@@ -14,14 +14,17 @@ const ProjectTeam = ({ updateProject, id, project, member }) => {
 
   return (
     <Card
-      sx={{ bgcolor: 'secondary.light', mb: 2 }}
+      sx={{ bgcolor: 'secondary.light', borderRadius: 2, mb: 2 }}
       variant='outlined'
     >
       <CardHeader
-        title={<Typography variant='h6'>
+        title={<Typography variant='button'>
           Team
         </Typography>}
-        avatar={<Avatar>
+        avatar={<Avatar
+          sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'info.light' } }}
+          onClick={() => setExpand(!expand)}
+        >
           <Groups />
         </Avatar>}
         action={<>
@@ -31,13 +34,10 @@ const ProjectTeam = ({ updateProject, id, project, member }) => {
           {member && edit && <IconButton type='submit' form='edit'>
             <Check />
           </IconButton>}
-          <IconButton onClick={() => setExpand(!expand)}>
-            <ExpandMore sx={{ transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)' }} />
-          </IconButton>
         </>}
       />
       <Collapse in={expand} timeout='auto'>
-        <CardContent>
+        <Box sx={{ p: 2 }}>
           <List sx={{ p: 0 }}>
             {project.members.map(member =>
               <ListItem sx={{ p: 0 }} key={member.uid}>
@@ -83,7 +83,7 @@ const ProjectTeam = ({ updateProject, id, project, member }) => {
               </ListItem>
             )}
           </List>
-        </CardContent>
+        </Box>
       </Collapse>
     </Card >
   )

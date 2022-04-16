@@ -9,7 +9,7 @@ const SearchCard = ({ queryTags, tags }) => {
 
   return (
     <Card
-      sx={{ bgcolor: 'secondary.light', mb: 2 }}
+      sx={{ bgcolor: 'secondary.light', borderRadius: 2, mb: 2 }}
       variant='outlined'
     >
       <Box

@@ -6,7 +6,7 @@ import { Delete, Tag } from '@mui/icons-material';
 
 const TagCard = ({ removeTag, tag, project, profile }) => (
   <Card
-    sx={{ bgcolor: 'secondary.light' }}
+    sx={{ bgcolor: 'secondary.light', borderRadius: 2 }}
     variant='outlined'
     key={tag}
   >

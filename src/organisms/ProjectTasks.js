@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateTasks } from 'store/projectsActions';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Card, Grid, IconButton, Typography } from '@mui/material';
+import { NavigateBefore, NavigateNext } from '@mui/icons-material';
 import TaskCard from 'molecules/TaskCard';
 
 const ProjectTasks = ({ updateTasks, tasks, project, id, newTask }) => {
@@ -51,54 +52,78 @@ const ProjectTasks = ({ updateTasks, tasks, project, id, newTask }) => {
   };
 
   return (
-    <Grid sx={{ p: 2 }} container>
-      <DragDropContext onDragEnd={onDragEnd}>
-        {data.map((el, ind) => (
-          <Grid
-            sx={ind === 0 ? { pr: 2, borderRight: '1px solid lightgray' } : { pl: 2 }}
-            key={ind} item xs={6}
-          >
-            <Typography variant='h6'>
-              {ind === 0 ? 'Todo' : 'Done'}
-            </Typography>
-            <Droppable droppableId={ind.toString()}>
-              {(provided) => (
-                <Box
-                  sx={{ minHeight: `calc(100vh - 8rem)` }}
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  {el.map((item, index) => (
-                    <Draggable
-                      key={item.id}
-                      draggableId={item.id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <Box
-                          sx={{ py: 1 }}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <TaskCard
-                            task={item}
-                            project={project}
-                            id={id}
-                            open={item.id === newTask}
-                          />
-                        </Box>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </Box>
-              )}
-            </Droppable>
-          </Grid>
-        ))}
-      </DragDropContext>
-    </Grid>
+    <Box sx={{ p: 2 }}>
+      <Card
+        sx={{ bgcolor: 'secondary.light', borderRadius: 2, mb: 2 }}
+        variant='outlined'
+      >
+        <Box sx={{
+          p: 2, display: 'flex',
+          justifyContent: 'space-between', alignItems: 'center',
+        }}>
+          <IconButton size='small'>
+            <NavigateBefore />
+          </IconButton>
+          <Typography variant='button'>
+            Todo
+          </Typography>
+          <Typography variant='button'>
+            Sprint Canva
+          </Typography>
+          <Typography variant='button'>
+            Done
+          </Typography>
+          <IconButton size='small'>
+            <NavigateNext />
+          </IconButton>
+        </Box>
+      </Card>
+      <Grid container>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {data.map((el, ind) => (
+            <Grid
+              sx={ind === 0 ? { pr: 2, borderRight: '1px solid lightgray' } : { pl: 2 }}
+              key={ind} item xs={6}
+            >
+              <Droppable droppableId={ind.toString()}>
+                {(provided) => (
+                  <Box
+                    sx={{ minHeight: `calc(100vh - 11.3rem)` }}
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {el.map((item, index) => (
+                      <Draggable
+                        key={item.id}
+                        draggableId={item.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <Box
+                            sx={{ pb: 2 }}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <TaskCard
+                              task={item}
+                              project={project}
+                              id={id}
+                              open={item.id === newTask}
+                            />
+                          </Box>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </Box>
+                )}
+              </Droppable>
+            </Grid>
+          ))}
+        </DragDropContext>
+      </Grid>
+    </Box>
   )
 };
 

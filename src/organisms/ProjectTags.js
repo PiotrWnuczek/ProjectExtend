@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createTag } from 'store/tagsActions';
-import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { Card, CardHeader, Avatar, Grid } from '@mui/material';
 import { Typography, Button, IconButton, Collapse } from '@mui/material';
 import { Box, Autocomplete, TextField } from '@mui/material';
-import { Tag, ExpandMore, Edit, Check, Add } from '@mui/icons-material';
-import Masonry from 'react-masonry-css';
+import { Tag, Edit, Check, Add } from '@mui/icons-material';
 import TagCard from 'molecules/TagCard';
 
 const ProjectTags = ({ createTag, project, id, tags, member }) => {
   const [expand, setExpand] = useState(false);
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
-  const breakpoints = { default: 5, 1100: 4, 700: 3 };
 
   return (
     <Card
-      sx={{ bgcolor: 'secondary.light', mb: 2 }}
+      sx={{ bgcolor: 'secondary.light', borderRadius: 2, mb: 2 }}
       variant='outlined'
     >
       <CardHeader
-        title={<Typography variant='h6'>
+        title={<Typography variant='button'>
           Tags
         </Typography>}
-        avatar={<Avatar>
+        avatar={<Avatar
+          sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'info.light' } }}
+          onClick={() => setExpand(!expand)}
+        >
           <Tag />
         </Avatar>}
         action={<>
@@ -33,9 +34,6 @@ const ProjectTags = ({ createTag, project, id, tags, member }) => {
           {member && edit && <IconButton onClick={() => { setEdit(false); }}>
             <Check />
           </IconButton>}
-          <IconButton onClick={() => setExpand(!expand)}>
-            <ExpandMore sx={{ transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)' }} />
-          </IconButton>
         </>}
       />
       <Collapse in={expand} timeout='auto'>
@@ -62,17 +60,15 @@ const ProjectTags = ({ createTag, project, id, tags, member }) => {
             </Button>
           </Box>
         </Collapse>
-        <CardContent>
-          <Masonry
-            breakpointCols={breakpoints}
-            className='masonryGrid'
-            columnClassName='masonryGridColumn'
-          >
+        <Box sx={{ p: 2 }}>
+          <Grid container spacing={2}>
             {project.tags.map(tag =>
-              <TagCard key={tag} tag={tag} project={id} profile={null} />
+              <Grid item key={tag} >
+                <TagCard tag={tag} project={id} profile={null} />
+              </Grid>
             )}
-          </Masonry>
-        </CardContent>
+          </Grid>
+        </Box>
       </Collapse>
     </Card>
   )

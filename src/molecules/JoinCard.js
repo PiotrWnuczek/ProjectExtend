@@ -6,7 +6,7 @@ import { Box, Card } from '@mui/material';
 
 const JoinCard = ({ updateProject, project, id, email, uid, user, candidate, member }) => (
   <Card
-    sx={{ bgcolor: 'secondary.light', mb: 2 }}
+    sx={{ bgcolor: 'secondary.light', borderRadius: 2, mb: 2 }}
     variant='outlined'
   >
     <Box sx={{ p: 2, display: 'flex' }}>

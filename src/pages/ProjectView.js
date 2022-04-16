@@ -77,7 +77,7 @@ const ProjectView = ({ createTask, project, id, tasks, tags, email, uid, user })
             />}
             {member && project.candidates.map((c, i) => <JoinCard
               project={project} id={id} email={email}
-              uid={uid} user={user} key={i} candidate={c} member={true}
+              uid={uid} user={user} key={i} candidate={c} member={member}
             />)}
           </Collapse>
           <ProjectContent project={project} id={id} member={member} />

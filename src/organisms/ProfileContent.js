@@ -1,47 +1,52 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { updateProfile } from 'store/usersActions';
-import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { Card, CardHeader, Box, Avatar } from '@mui/material';
 import { Typography, IconButton, Collapse } from '@mui/material';
-import { PersonOutline, ExpandMore, Edit, Check } from '@mui/icons-material';
+import { PersonOutline, Edit, Check } from '@mui/icons-material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 
-const ProfileContent = ({ updateProfile, profile, id }) => {
-  const [expand, setExpand] = useState(true);
+const ProfileContent = ({ updateProfile, profile, id, owner }) => {
+  const [expand, setExpand] = useState(false);
   const [edit, setEdit] = useState(false);
 
   return (
     <Card
-      sx={{ bgcolor: 'secondary.light', mb: 2 }}
+      sx={{ bgcolor: 'secondary.light', borderRadius: 2, mb: 2 }}
       variant='outlined'
     >
       <CardHeader
-        title={<Typography variant='h6'>
-          {profile.email}
+        title={<Typography variant='button'>
+          Content
         </Typography>}
-        avatar={<Avatar>
+        avatar={<Avatar
+          sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'info.light' } }}
+          onClick={() => setExpand(!expand)}
+        >
           <PersonOutline />
         </Avatar>}
         action={<>
-          {!edit && <IconButton onClick={() => {
+          {owner && !edit && <IconButton onClick={() => {
             setEdit(true); setExpand(true);
           }}>
             <Edit />
           </IconButton>}
-          {edit && <IconButton type='submit' form='edit'>
+          {owner && edit && <IconButton type='submit' form='edit'>
             <Check />
           </IconButton>}
-          <IconButton onClick={() => setExpand(!expand)}>
-            <ExpandMore sx={{ transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)' }} />
-          </IconButton>
         </>}
       />
       <Collapse in={expand} timeout='auto'>
-        <CardContent>
-          {!edit && <Typography>
-            {profile.description}
-          </Typography>}
+        <Box sx={{ p: 2 }}>
+          {!edit && <>
+            <Typography variant='h6'>
+              {profile.firstname} {profile.lastname}
+            </Typography>
+            <Typography variant='subtitle1'>
+              {profile.description}
+            </Typography>
+          </>}
           {edit && <Formik
             initialValues={{
               email: profile.email,
@@ -67,12 +72,12 @@ const ProfileContent = ({ updateProfile, profile, id }) => {
                   type='text'
                   size='small'
                   multiline
-                  rows={7}
+                  rows={3}
                 />
               </form>
             )}
           </Formik>}
-        </CardContent>
+        </Box>
       </Collapse>
     </Card>
   )

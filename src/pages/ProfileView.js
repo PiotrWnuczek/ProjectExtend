@@ -10,8 +10,9 @@ import MainLayout from 'pages/MainLayout';
 import ProfileContent from 'organisms/ProfileContent';
 import ProfileTags from 'organisms/ProfileTags';
 
-const ProfileView = ({ profile, id, tags }) => {
+const ProfileView = ({ profile, id, tags, uid }) => {
   const [sidebar, setSidebar] = useApp();
+  const owner = uid && uid === id;
 
   return (
     <MainLayout navbar={
@@ -32,8 +33,8 @@ const ProfileView = ({ profile, id, tags }) => {
       </Box>
     }>
       {profile ? <Box sx={{ p: 2 }}>
-        <ProfileContent profile={profile} id={id} />
-        <ProfileTags profile={profile} id={id} tags={tags && tags.list} />
+        <ProfileContent profile={profile} id={id} owner={owner} />
+        <ProfileTags profile={profile} id={id} tags={tags && tags.list} owner={owner} />
       </Box> : <p>loading...</p>}
     </MainLayout>
   )
@@ -42,6 +43,7 @@ const ProfileView = ({ profile, id, tags }) => {
 const mapStateToProps = (state, props) => ({
   profile: state.firestore.data[props.id],
   tags: state.firestore.data.tags,
+  uid: state.firebase.auth.uid,
 });
 
 export default withRouter(compose(
