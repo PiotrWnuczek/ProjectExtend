@@ -1,113 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { updateTeam, updateProject } from 'store/projectsActions';
-import { Typography, IconButton, Button } from '@mui/material';
-import { Box, Card, CardHeader, Collapse } from '@mui/material';
-import { ExpandMore, Send } from '@mui/icons-material';
-import { Formik } from 'formik';
-import IconInput from 'atoms/IconInput';
+import { updateProject } from 'store/projectsActions';
+import { Typography, Button } from '@mui/material';
+import { Box, Card } from '@mui/material';
 
-const JoinCard = (
-  { updateTeam, updateProject, pro, team, id, email, uid, user, candidate, member }
-) => {
-  const [expand, setExpand] = useState(false);
-  useEffect(() => { !member && setExpand(true) }, [member, setExpand]);
-
-  return (
-    <Card
-      sx={{ bgcolor: 'secondary.light', mb: 2 }}
-      variant='outlined'
-    >
-      {candidate && <CardHeader
-        title={<Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography>
-            {candidate.email}
-          </Typography>
-          {member && <Button
-            sx={{ ml: 1, mt: 0.5 }}
-            onClick={() => {
-              updateTeam({
-                candidates: team.candidates.filter(c => c.email !== candidate.email),
-                members: [...team.members, {
-                  email: candidate.email,
-                  uid: candidate.uid,
-                  firstname: candidate.firstname,
-                  lastname: candidate.lastname,
-                  nickname: candidate.nickname,
-                }],
-              }, id);
-              updateProject({ emails: [...pro.emails, candidate.email] }, id);
-            }}
-            size='small'
-          >
-            Accept
-          </Button>}
-          {member && <Button
-            sx={{ ml: 1, mt: 0.5 }}
-            onClick={() => updateTeam({
-              candidates: team.candidates.filter(c => c.email !== candidate.email),
-            }, id)}
-            size='small'
-          >
-            Delete
-          </Button>}
-        </Box>}
-        action={<>
-          <IconButton onClick={() => setExpand(!expand)}>
-            <ExpandMore sx={{ transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)' }} />
-          </IconButton>
-        </>}
-      />}
-      <Collapse in={expand} timeout='auto'>
-        <Box sx={candidate ? { p: 2, pt: 0 } : { p: 2 }}>
-          {candidate && candidate.content.map((item, i) =>
-            <Typography key={i}>
-              {item.email} : {item.message}
-            </Typography>
-          )}
-          <Formik
-            initialValues={{ message: '' }}
-            onSubmit={(values, { resetForm }) => {
-              resetForm();
-              candidate && updateTeam({
-                candidates: team.candidates.map(c => c.email === candidate.email ?
-                  { ...c, content: [...c.content, { email, ...values }] } : c)
-              }, id);
-              !candidate && updateTeam({
-                candidates: [...team.candidates, {
-                  email, uid,
-                  firstname: user.firstname,
-                  lastname: user.lastname,
-                  nickname: user.firstname[0] + user.lastname[0],
-                  content: [{ email, ...values }],
-                }],
-              }, id);
-            }}
-          >
-            {({ values, handleChange, handleSubmit }) => (
-              <form onSubmit={handleSubmit}>
-                <IconInput
-                  icon={<Send />}
-                  onChange={handleChange}
-                  value={values.message}
-                  label='Message'
-                  name='message'
-                  type='text'
-                  size='small'
-                  multiline
-                  rows={2}
-                />
-              </form>
-            )}
-          </Formik>
-        </Box>
-      </Collapse>
-    </Card>
-  )
-};
+const JoinCard = ({ updateProject, project, id, email, uid, user, candidate, member }) => (
+  <Card
+    sx={{ bgcolor: 'secondary.light', mb: 2 }}
+    variant='outlined'
+  >
+    <Box sx={{ p: 2, display: 'flex' }}>
+      {!candidate && !member && <Typography>
+        Send request to join:
+        <Button
+          sx={{ ml: 1 }}
+          onClick={() => updateProject({
+            candidates: [...project.candidates, {
+              email, uid,
+              firstname: user.firstname,
+              lastname: user.lastname,
+              nickname: user.firstname[0] + user.lastname[0],
+            }],
+          }, id)}
+          size='small'
+        >
+          Send Request
+        </Button>
+      </Typography>}
+      {candidate && !member && <Typography>
+        Request to join sent, you can also send email:
+        <Button
+          sx={{ ml: 1 }}
+          onClick={() =>
+            window.location = 'mailto:' + project.emails[0] +
+            '?subject=PROJECT EXTEND ' + project.name + ' request to join'
+          }
+          size='small'
+        >
+          Send Email
+        </Button>
+      </Typography>}
+      {candidate && member && <Typography>
+        Accept or delete request to join:
+        <Button
+          sx={{ ml: 1 }}
+          onClick={() => updateProject({
+            candidates: project.candidates.filter(c => c.email !== candidate.email),
+            members: [...project.members, {
+              email: candidate.email,
+              uid: candidate.uid,
+              firstname: candidate.firstname,
+              lastname: candidate.lastname,
+              nickname: candidate.nickname,
+            }],
+            emails: [...project.emails, candidate.email],
+          }, id)}
+          size='small'
+        >
+          Accept
+        </Button>
+        <Button
+          sx={{ ml: 1 }}
+          onClick={() => updateProject({
+            candidates: project.candidates.filter(c => c.email !== candidate.email),
+          }, id)}
+          size='small'
+        >
+          Delete
+        </Button>
+      </Typography>}
+    </Box>
+  </Card>
+);
 
 const mapDispatchToProps = (dispatch) => ({
-  updateTeam: (data, project) => dispatch(updateTeam(data, project)),
   updateProject: (data, id) => dispatch(updateProject(data, id)),
 });
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { updateTeam } from 'store/projectsActions';
+import { updateProject } from 'store/projectsActions';
 import { Box, Card, CardHeader, CardContent, Avatar } from '@mui/material';
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Typography, IconButton, Collapse } from '@mui/material';
@@ -8,7 +8,7 @@ import { Groups, ExpandMore, Edit, Check, Person } from '@mui/icons-material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 
-const ProjectTeam = ({ updateTeam, id, team, member }) => {
+const ProjectTeam = ({ updateProject, id, project, member }) => {
   const [expand, setExpand] = useState(false);
   const [edit, setEdit] = useState(false);
 
@@ -39,7 +39,7 @@ const ProjectTeam = ({ updateTeam, id, team, member }) => {
       <Collapse in={expand} timeout='auto'>
         <CardContent>
           <List sx={{ p: 0 }}>
-            {team.members.map(member =>
+            {project.members.map(member =>
               <ListItem sx={{ p: 0 }} key={member.uid}>
                 <ListItemIcon>
                   <Person />
@@ -56,8 +56,8 @@ const ProjectTeam = ({ updateTeam, id, team, member }) => {
                       <Formik
                         initialValues={{ nickname: member.nickname }}
                         onSubmit={(values) => {
-                          updateTeam({
-                            members: team.members.map(m => m.email === member.email ?
+                          updateProject({
+                            members: project.members.map(m => m.email === member.email ?
                               { ...m, nickname: values.nickname } : m)
                           }, id);
                           setEdit(false);
@@ -90,7 +90,7 @@ const ProjectTeam = ({ updateTeam, id, team, member }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  updateTeam: (data, project) => dispatch(updateTeam(data, project)),
+  updateProject: (data, project) => dispatch(updateProject(data, project)),
 });
 
 export default connect(null, mapDispatchToProps)

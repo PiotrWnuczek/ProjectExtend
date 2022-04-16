@@ -22,8 +22,8 @@ const ProjectView = ({ createTask, project, id, team, tasks, tags, email, uid, u
   const [tabs, setTabs] = useState(0);
   const [task, setTask] = useState(null);
   const random = Math.random().toString(16).slice(2);
-  const candidate = team && team.candidates.find(c => c.email === email);
-  const member = team && team.members.find(m => m.email === email);
+  const candidate = project && project.candidates.find(c => c.email === email);
+  const member = project && project.members.find(m => m.email === email);
   useEffect(() => { candidate && setJoin(true) }, [candidate, setJoin]);
   useEffect(() => { member && setJoin(true) }, [member, setJoin]);
 
@@ -76,18 +76,18 @@ const ProjectView = ({ createTask, project, id, team, tasks, tags, email, uid, u
         {tabs === 0 && <Box sx={{ p: 2 }}>
           <Collapse in={join} timeout='auto'>
             {!member && <JoinCard
-              pro={project} team={team} id={id} email={email} uid={uid} user={user}
+              project={project} id={id} email={email} uid={uid} user={user}
               candidate={candidate}
             />}
-            {member && team.candidates.map((c, i) => <JoinCard
-              pro={project} team={team} id={id} email={email} uid={uid} user={user} key={i}
+            {member && project.candidates.map((c, i) => <JoinCard
+              project={project} id={id} email={email} uid={uid} user={user} key={i}
               candidate={c} member={true}
             />)}
           </Collapse>
           <ProjectContent project={project} id={id} member={member} />
           <ProjectTags project={project} id={id} tags={tags && tags.list} member={member} />
-          {team && <ProjectTeam team={team} member={member} id={id} />}
-          {member && <ProjectMenu pro={project} id={id} team={team} email={email} />}
+          <ProjectTeam project={project} member={member} id={id} />
+          {member && <ProjectMenu project={project} id={id} email={email} />}
         </Box>}
         {member && tasks && tabs === 1 && <ProjectTasks tasks={tasks} id={id} task={task} />}
       </div> : <p>loading...</p>}
@@ -97,7 +97,6 @@ const ProjectView = ({ createTask, project, id, team, tasks, tags, email, uid, u
 
 const mapStateToProps = (state, props) => ({
   project: state.firestore.data[props.id],
-  team: state.firestore.data[props.id + 'team'],
   tasks: state.firestore.data[props.id + 'tasks'],
   tags: state.firestore.data.tags,
   email: state.firebase.auth.email,
@@ -114,10 +113,6 @@ export default withRouter(compose(
   firestoreConnect(props => props.project && props.project.emails.includes(props.email) ? [
     { storeAs: props.id, collection: 'projects', doc: props.id },
     {
-      storeAs: props.id + 'team', collection: 'projects', doc: props.id,
-      subcollections: [{ collection: 'content', doc: 'team' }],
-    },
-    {
       storeAs: props.id + 'tasks', collection: 'projects', doc: props.id,
       subcollections: [{ collection: 'content', doc: 'tasks' }],
     },
@@ -125,10 +120,6 @@ export default withRouter(compose(
     { storeAs: props.uid, collection: 'users', doc: props.uid },
   ] : [
     { storeAs: props.id, collection: 'projects', doc: props.id },
-    {
-      storeAs: props.id + 'team', collection: 'projects', doc: props.id,
-      subcollections: [{ collection: 'content', doc: 'team' }],
-    },
     { storeAs: props.uid, collection: 'users', doc: props.uid },
   ]),
 )(ProjectView));
