@@ -16,11 +16,10 @@ import ProjectTasks from 'organisms/ProjectTasks';
 import JoinCard from 'molecules/JoinCard';
 import ProjectMenu from 'molecules/ProjectMenu';
 
-const ProjectView = ({ createTask, project, id, team, tasks, tags, email, uid, user }) => {
+const ProjectView = ({ createTask, project, id, tasks, tags, email, uid, user }) => {
   const [sidebar, setSidebar] = useApp();
   const [join, setJoin] = useState(false);
   const [tabs, setTabs] = useState(0);
-  const [task, setTask] = useState(null);
   const random = Math.random().toString(16).slice(2);
   const candidate = project && project.candidates.find(c => c.email === email);
   const member = project && project.members.find(m => m.email === email);
@@ -46,10 +45,7 @@ const ProjectView = ({ createTask, project, id, team, tasks, tags, email, uid, u
           </Button>}
           {tabs === 1 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
-            onClick={() => {
-              createTask({ id: random, content: 'New Content' }, id);
-              setTask(random);
-            }}
+            onClick={() => createTask({ id: random, content: 'New Content' }, id)}
             variant='outlined'
           >
             Create Task
@@ -76,20 +72,22 @@ const ProjectView = ({ createTask, project, id, team, tasks, tags, email, uid, u
         {tabs === 0 && <Box sx={{ p: 2 }}>
           <Collapse in={join} timeout='auto'>
             {!member && <JoinCard
-              project={project} id={id} email={email} uid={uid} user={user}
-              candidate={candidate}
+              project={project} id={id} email={email}
+              uid={uid} user={user} candidate={candidate}
             />}
             {member && project.candidates.map((c, i) => <JoinCard
-              project={project} id={id} email={email} uid={uid} user={user} key={i}
-              candidate={c} member={true}
+              project={project} id={id} email={email}
+              uid={uid} user={user} key={i} candidate={c} member={true}
             />)}
           </Collapse>
           <ProjectContent project={project} id={id} member={member} />
           <ProjectTags project={project} id={id} tags={tags && tags.list} member={member} />
-          <ProjectTeam project={project} member={member} id={id} />
+          <ProjectTeam project={project} id={id} member={member} />
           {member && <ProjectMenu project={project} id={id} email={email} />}
         </Box>}
-        {member && tasks && tabs === 1 && <ProjectTasks tasks={tasks} id={id} task={task} />}
+        {member && tasks && tabs === 1 && <ProjectTasks
+          project={project} id={id} tasks={tasks}
+        />}
       </div> : <p>loading...</p>}
     </MainLayout>
   )

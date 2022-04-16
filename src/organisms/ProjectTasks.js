@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Box, Grid, Typography } from '@mui/material';
 import TaskCard from 'molecules/TaskCard';
 
-const ProjectTasks = ({ updateTasks, tasks, id, task }) => {
+const ProjectTasks = ({ updateTasks, tasks, project, id, newTask }) => {
   const [data, setData] = useState([tasks.todo, tasks.done]);
 
   useEffect(() => {
@@ -81,7 +81,12 @@ const ProjectTasks = ({ updateTasks, tasks, id, task }) => {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                         >
-                          <TaskCard task={item} id={id} open={item.id === task && true} />
+                          <TaskCard
+                            task={item}
+                            project={project}
+                            id={id}
+                            open={item.id === newTask}
+                          />
                         </Box>
                       )}
                     </Draggable>
@@ -97,9 +102,13 @@ const ProjectTasks = ({ updateTasks, tasks, id, task }) => {
   )
 };
 
+const mapStateToProps = (state) => ({
+  newTask: state.projects.newTask,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   updateTasks: (data, project) => dispatch(updateTasks(data, project)),
 });
 
-export default connect(null, mapDispatchToProps)
+export default connect(mapStateToProps, mapDispatchToProps)
   (ProjectTasks);

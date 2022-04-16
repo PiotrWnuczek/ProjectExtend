@@ -5,10 +5,10 @@ const initial = {
 const projectsReducer = (state = initial, action) => {
   switch (action.type) {
     case 'RESETID_PROJECT':
-      return { ...state, id: null };
+      return { ...state, newProject: null };
     case 'CREATEPROJECT_SUCCESS':
       console.log(action.data);
-      return { ...state, id: action.resp.id };
+      return { ...state, newProject: action.resp.id };
     case 'CREATEPROJECT_ERROR':
       console.log(action.err);
       return state;
@@ -24,10 +24,24 @@ const projectsReducer = (state = initial, action) => {
     case 'REMOVEPROJECT_ERROR':
       console.log(action.err);
       return state;
-    case 'UPDATETEAM_SUCCESS':
+    case 'RESETID_TASK':
+      return { ...state, newTask: null };
+    case 'CREATETASK_SUCCESS':
+      console.log(action.data);
+      return { ...state, newTask: action.data.id };
+    case 'CREATETASK_ERROR':
+      console.log(action.err);
+      return state;
+    case 'UPDATETASK_SUCCESS':
       console.log(action.data);
       return state;
-    case 'UPDATETEAM_ERROR':
+    case 'UPDATETASK_ERROR':
+      console.log(action.err);
+      return state;
+    case 'REMOVETASK_SUCCESS':
+      console.log(action.id);
+      return state;
+    case 'REMOVETASK_ERROR':
       console.log(action.err);
       return state;
     case 'UPDATETASKS_SUCCESS':

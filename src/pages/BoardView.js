@@ -11,11 +11,11 @@ import Masonry from 'react-masonry-css';
 import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
 
-const BoardView = ({ createProject, resetId, projects, id }) => {
+const BoardView = ({ createProject, resetId, projects, newProject }) => {
   const [sidebar, setSidebar] = useApp();
   const breakpoints = { default: 2, 1000: 1 };
   const navigate = useNavigate();
-  useEffect(() => { id && navigate('/project/' + id); resetId() });
+  useEffect(() => { newProject && navigate('/project/' + newProject); resetId() });
 
   return (
     <MainLayout navbar={
@@ -57,7 +57,7 @@ const BoardView = ({ createProject, resetId, projects, id }) => {
 
 const mapStateToProps = (state) => ({
   projects: state.firestore.ordered.projects,
-  id: state.projects.id,
+  newProject: state.projects.newProject,
   email: state.firebase.auth.email,
   uid: state.firebase.auth.uid,
 });

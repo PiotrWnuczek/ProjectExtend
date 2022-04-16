@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateTask } from 'store/projectsActions';
 import { Box, MenuItem, OutlinedInput, InputLabel, Select } from '@mui/material';
@@ -10,12 +10,13 @@ import { Formik } from 'formik';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import TextInput from 'atoms/TextInput';
 
-const TaskCard = ({ updateTask, task, id, open, team }) => {
+const TaskCard = ({ updateTask, task, id, open, project, resetId }) => {
   const [expand, setExpand] = useState(false);
-  const [edit, setEdit] = useState(open);
+  const [edit, setEdit] = useState(false);
   const [date, setDate] = useState(new Date());
   const [assigned, setAssigned] = useState([]);
-  const names = team.members.map(m => m.nickname);
+  const names = project.members.map(m => m.nickname);
+  useEffect(() => { open && setEdit(true) }, [open, setEdit]);
 
   return (
     <Card
@@ -29,7 +30,11 @@ const TaskCard = ({ updateTask, task, id, open, team }) => {
           </Typography>}
           {edit && <Formik
             initialValues={{ content: task.content }}
-            onSubmit={(values) => { updateTask(values, task.id, id); setEdit(false); }}
+            onSubmit={(values) => {
+              updateTask(values, task.id, id);
+              resetId();
+              setEdit(false);
+            }}
           >
             {({ values, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit} id='edit' autoComplete='off'>
@@ -99,13 +104,10 @@ const TaskCard = ({ updateTask, task, id, open, team }) => {
   )
 };
 
-const mapStateToProps = (state, props) => ({
-  team: state.firestore.data[props.id + 'team'],
-});
-
 const mapDispatchToProps = (dispatch) => ({
   updateTask: (data, id, project) => dispatch(updateTask(data, id, project)),
+  resetId: () => dispatch({ type: 'RESETID_TASK' }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)
+export default connect(null, mapDispatchToProps)
   (TaskCard);

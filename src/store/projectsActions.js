@@ -48,9 +48,9 @@ export const createTask = (data, project) => (dispatch, getState, { getFirestore
   ref.doc('tasks').update({
     todo: [{ ...data }, ...tasks.todo],
   }).then(() => {
-    dispatch({ type: 'UPDATETASKS_SUCCESS', data });
+    dispatch({ type: 'CREATETASK_SUCCESS', data });
   }).catch((err) => {
-    dispatch({ type: 'UPDATETASKS_ERROR', err });
+    dispatch({ type: 'CREATETASK_ERROR', err });
   })
 };
 
@@ -62,9 +62,9 @@ export const updateTask = (data, id, project) => (dispatch, getState, { getFires
     todo: tasks.todo.map(task => task.id === id ? { ...task, ...data } : task),
     done: tasks.done.map(task => task.id === id ? { ...task, ...data } : task),
   }).then(() => {
-    dispatch({ type: 'UPDATETASKS_SUCCESS', data });
+    dispatch({ type: 'UPDATETASK_SUCCESS', data });
   }).catch((err) => {
-    dispatch({ type: 'UPDATETASKS_ERROR', err });
+    dispatch({ type: 'UPDATETASK_ERROR', err });
   })
 };
 
@@ -76,9 +76,9 @@ export const removeTask = (id, project) => (dispatch, getState, { getFirestore }
     todo: tasks.todo.filter(task => task.id !== id),
     done: tasks.done.filter(task => task.id !== id),
   }).then(() => {
-    dispatch({ type: 'UPDATETASKS_SUCCESS', id });
+    dispatch({ type: 'REMOVETASK_SUCCESS', id });
   }).catch((err) => {
-    dispatch({ type: 'UPDATETASKS_ERROR', err });
+    dispatch({ type: 'REMOVETASK_ERROR', err });
   })
 };
 
