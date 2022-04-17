@@ -1,84 +1,87 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { updateProfile } from 'store/usersActions';
-import { Card, CardHeader, Box, Avatar } from '@mui/material';
-import { Typography, IconButton, Collapse } from '@mui/material';
-import { PersonOutline, Edit, Check } from '@mui/icons-material';
+import { Card, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
+import { Source } from '@mui/icons-material';
+import { Box } from '@mui/system';
 
 const ProfileContent = ({ updateProfile, profile, id, owner }) => {
-  const [expand, setExpand] = useState(false);
-  const [edit, setEdit] = useState(false);
+  const [name, setName] = useState(false);
+  const [description, setDescription] = useState(false);
 
   return (
     <Card
-      sx={{ bgcolor: 'secondary.light', borderRadius: 2, mb: 2 }}
+      sx={{ bgcolor: 'secondary.light', borderRadius: 2, p: 2, mb: 2 }}
       variant='outlined'
     >
-      <CardHeader
-        title={<Typography variant='button'>
+      <Box sx={{ display: 'flex', pb: 2 }} >
+        <Source sx={{ color: 'primary.main', pr: 1 }} />
+        <Typography variant='button'>
           Content
-        </Typography>}
-        avatar={<Avatar
-          sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'info.light' } }}
-          onClick={() => setExpand(!expand)}
-        >
-          <PersonOutline />
-        </Avatar>}
-        action={<>
-          {owner && !edit && <IconButton onClick={() => {
-            setEdit(true); setExpand(true);
-          }}>
-            <Edit />
-          </IconButton>}
-          {owner && edit && <IconButton type='submit' form='edit'>
-            <Check />
-          </IconButton>}
-        </>}
-      />
-      <Collapse in={expand} timeout='auto'>
-        <Box sx={{ p: 2 }}>
-          {!edit && <>
-            <Typography variant='h6'>
-              {profile.firstname} {profile.lastname}
-            </Typography>
-            <Typography variant='subtitle1'>
-              {profile.description}
-            </Typography>
-          </>}
-          {edit && <Formik
-            initialValues={{
-              email: profile.email,
-              description: profile.description,
-            }}
-            onSubmit={(values) => { updateProfile(values, id); setEdit(false); }}
-          >
-            {({ values, handleChange, handleSubmit }) => (
-              <form onSubmit={handleSubmit} id='edit' autoComplete='off'>
-                <TextInput
-                  onChange={handleChange}
-                  value={values.email}
-                  label='Email'
-                  name='email'
-                  type='email'
-                  size='small'
-                />
-                <TextInput
-                  onChange={handleChange}
-                  value={values.description}
-                  label='Description'
-                  name='description'
-                  type='text'
-                  size='small'
-                  multiline
-                  rows={3}
-                />
-              </form>
-            )}
-          </Formik>}
-        </Box>
-      </Collapse>
+        </Typography>
+      </Box>
+      {(!owner || !name) && <Typography
+        sx={{ cursor: 'pointer' }}
+        onClick={() => setName(true)}
+        variant='h6'
+      >
+        {profile.name}
+      </Typography>}
+      {(owner && name) && <Formik
+        initialValues={{ name: profile.name }}
+        onSubmit={(values) => {
+          values.name !== profile.name && updateProfile(values, id);
+          setName(false);
+        }}
+      >
+        {({ values, handleChange, handleSubmit }) => (
+          <form onBlur={handleSubmit} id='name' autoComplete='off'>
+            <TextInput
+              sx={{ mb: 0, mt: 1 }}
+              onChange={handleChange}
+              value={values.name}
+              label='Name'
+              name='name'
+              type='text'
+              size='small'
+              autoFocus
+            />
+          </form>
+        )}
+      </Formik>}
+      {(!owner || !description) && <Typography
+        sx={{ cursor: 'pointer' }}
+        onClick={() => setDescription(true)}
+        variant='subtitle1'
+      >
+        {profile.description}
+      </Typography>}
+      {(owner && description) && <Formik
+        initialValues={{ description: profile.description }}
+        onSubmit={(values) => {
+          values.description !== profile.description && updateProfile(values, id);
+          setDescription(false);
+        }}
+      >
+        {({ values, handleChange, handleSubmit }) => (
+          <form onBlur={handleSubmit} id='name' autoComplete='off'>
+            <TextInput
+              sx={{ mb: 0, my: 1 }}
+              onChange={handleChange}
+              value={values.description}
+              label='Description'
+              name='description'
+              type='text'
+              size='small'
+              multiline
+              rows={3}
+              autoFocus
+            />
+          </form>
+        )}
+      </Formik>}
     </Card>
   )
 };

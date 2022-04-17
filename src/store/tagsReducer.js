@@ -12,12 +12,6 @@ const tagsReducer = (state = initial, action) => {
     case 'CREATETAG_ERROR':
       console.log(action.err);
       return state;
-    case 'REMOVETAG_SUCCESS':
-      console.log(action.id);
-      return state;
-    case 'REMOVETAG_ERROR':
-      console.log(action.err);
-      return state;
     default: return state;
   }
 };
