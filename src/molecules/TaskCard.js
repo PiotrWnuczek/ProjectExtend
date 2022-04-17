@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateTask } from 'store/projectsActions';
-import { Box, MenuItem, OutlinedInput, InputLabel, Select } from '@mui/material';
-import { Card, CardHeader, Avatar, Typography } from '@mui/material';
-import { Grid, IconButton, Collapse, TextField, FormControl } from '@mui/material';
+import { Box, MenuItem, OutlinedInput, InputLabel, } from '@mui/material';
+import { Card, Typography, Select, Button } from '@mui/material';
+import { Grid, Collapse, TextField, FormControl } from '@mui/material';
 import { LocalizationProvider, DesktopDateTimePicker } from '@mui/lab';
-import { Task, Edit, Check } from '@mui/icons-material';
+import { Task } from '@mui/icons-material';
 import { Formik } from 'formik';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import TextInput from 'atoms/TextInput';
@@ -17,90 +17,81 @@ const TaskCard = ({ updateTask, task, id, open, project, resetId }) => {
   const [assigned, setAssigned] = useState([]);
   const names = project.members.map(m => m.nickname);
   useEffect(() => { open && setEdit(true) }, [open, setEdit]);
-  useEffect(() => { open && setExpand(true) }, [open, setExpand]);
 
   return (
     <Card
-      sx={{ bgcolor: 'secondary.light', borderRadius: 2 }}
+      sx={{ bgcolor: 'secondary.light', borderRadius: 2, p: 2 }}
       variant='outlined'
     >
-      <CardHeader
-        title={<Typography>
-          {task.content}
-        </Typography>}
-        avatar={<Avatar
-          sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'info.light' } }}
-          onClick={() => setExpand(!expand)}
-        >
-          <Task />
-        </Avatar>}
-        action={<Box sx={{ display: 'block', textAlign: 'right' }}>
-          {!edit && <IconButton onClick={() => { setEdit(true); setExpand(true); }}>
-            <Edit />
-          </IconButton>}
-          {edit && <IconButton type='submit' form='edit'>
-            <Check />
-          </IconButton>}
-        </Box>}
-      />
+      <Typography
+        sx={{ cursor: 'pointer' }}
+        onClick={() => setEdit(true)}
+      >
+        {task.content}
+      </Typography>
+      {edit && <Formik
+        initialValues={{ content: task.content }}
+        onSubmit={(values) => {
+          updateTask(values, task.id, id);
+          resetId(); setEdit(false);
+        }}
+      >
+        {({ values, handleChange, handleSubmit }) => (
+          <form onBlur={handleSubmit} autoComplete='off'>
+            <TextInput
+              sx={{ mb: 0, mt: 1 }}
+              onChange={handleChange}
+              value={values.content}
+              label='Content'
+              name='content'
+              type='text'
+              size='small'
+              multiline
+              rows={3}
+              autoFocus
+            />
+          </form>
+        )}
+      </Formik>}
       <Collapse in={expand} timeout='auto'>
-        <Box sx={{ p: 2, pt: 0 }}>
-          {edit && <Box sx={{ pb: 2 }}>
-            <Formik
-              initialValues={{ content: task.content }}
-              onSubmit={(values) => {
-                updateTask(values, task.id, id);
-                resetId();
-                setEdit(false);
-              }}
-            >
-              {({ values, handleChange, handleSubmit }) => (
-                <form onSubmit={handleSubmit} id='edit' autoComplete='off'>
-                  <TextInput
-                    sx={{ m: 0 }}
-                    onChange={handleChange}
-                    value={values.content}
-                    label='Content'
-                    name='content'
-                    type='text'
-                    size='small'
-                    multiline
-                    rows={3}
-                  />
-                </form>
-              )}
-            </Formik>
-          </Box>}
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={6}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DesktopDateTimePicker
-                  value={date}
-                  onChange={(v) => setDate(v)}
-                  renderInput={(params) => <TextField {...params} size='small' fullWidth />}
-                />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl sx={{ maxWidth: '40vw' }} size='small' fullWidth>
-                <InputLabel>Name</InputLabel>
-                <Select
-                  multiple
-                  value={assigned}
-                  onChange={(e) => setAssigned(e.target.value)}
-                  input={<OutlinedInput label='Assigned' size='small' />}
-                >
-                  {names.map((name) => (
-                    <MenuItem key={name} value={name} >
-                      {name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+        <Grid sx={{ pt: 1 }} container spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DesktopDateTimePicker
+                value={date}
+                onChange={(v) => setDate(v)}
+                renderInput={(params) => <TextField {...params} size='small' fullWidth />}
+              />
+            </LocalizationProvider>
           </Grid>
-        </Box>
+          <Grid item xs={12} sm={6}>
+            <FormControl sx={{ maxWidth: '40vw' }} size='small' fullWidth>
+              <InputLabel>Name</InputLabel>
+              <Select
+                multiple
+                value={assigned}
+                onChange={(e) => setAssigned(e.target.value)}
+                input={<OutlinedInput label='Assigned' size='small' />}
+              >
+                {names.map((name) => (
+                  <MenuItem key={name} value={name} >
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
       </Collapse>
+      <Box sx={{ display: 'flex', alignItems: 'center', pt: 1 }}>
+        <Task sx={{ color: 'primary.main', pr: 1, fontSize: 20 }} />
+        <Button
+          onClick={() => setExpand(!expand)}
+          size='small'
+        >
+          Task Details
+        </Button>
+      </Box>
     </Card>
   )
 };

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateTasks } from 'store/projectsActions';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Box, Grid } from '@mui/material';
+import { Box, Divider, Grid } from '@mui/material';
 import TaskCard from 'molecules/TaskCard';
 import CanvaCard from 'molecules/CanvaCard';
 
@@ -54,17 +54,17 @@ const ProjectTasks = ({ updateTasks, tasks, project, id, newTask }) => {
   return (
     <Box sx={{ p: 2 }}>
       <CanvaCard />
-      <Grid container>
+      <Grid container spacing={2}>
         <DragDropContext onDragEnd={onDragEnd}>
           {data.map((el, ind) => (
-            <Grid
-              sx={ind === 0 ? { pr: 2, borderRight: '1px solid lightgray' } : { pl: 2 }}
-              key={ind} item xs={6}
-            >
+            <Grid item xs={6} key={ind}>
+              <Divider sx={{ my: 1 }} textAlign='left'>
+                {ind === 0 ? 'TODO' : 'DONE'}
+              </Divider>
               <Droppable droppableId={ind.toString()}>
                 {(provided) => (
                   <Box
-                    sx={{ minHeight: `calc(100vh - 11.3rem)` }}
+                    sx={{ minHeight: '70vh' }}
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
@@ -76,7 +76,7 @@ const ProjectTasks = ({ updateTasks, tasks, project, id, newTask }) => {
                       >
                         {(provided) => (
                           <Box
-                            sx={{ pb: 2 }}
+                            sx={{ py: 1 }}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
