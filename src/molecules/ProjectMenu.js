@@ -29,16 +29,13 @@ const ProjectMenu = ({ updateProject, removeProject, project, id, email }) => {
                 members: project.members.filter(m => m.email !== email),
               }, id);
             }}
-            variant='outlined'
-            size='small'
+            variant='outlined' size='small' color='error'
           >
             Leave Project
           </Button>}
           {project.emails && project.emails.length <= 1 && <Button
             onClick={() => { removeProject(id); navigate('/board'); }}
-            variant='outlined'
-            size='small'
-            color='error'
+            variant='outlined' size='small' color='error'
           >
             Delete Project
           </Button>}

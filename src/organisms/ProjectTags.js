@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createTag, removeTag } from 'store/tagsActions';
 import { Card, Autocomplete, TextField } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { Tag } from '@mui/icons-material';
 
 const ProjectTags = ({ createTag, removeTag, id, tags, project, member }) => {
   const [value, setValue] = useState(project.tags);
@@ -12,6 +14,12 @@ const ProjectTags = ({ createTag, removeTag, id, tags, project, member }) => {
       sx={{ bgcolor: 'secondary.light', borderRadius: 2, p: 2, mb: 2 }}
       variant='outlined'
     >
+      <Box sx={{ display: 'flex', pb: 2 }} >
+        <Tag sx={{ color: 'primary.main', pr: 1 }} />
+        <Typography variant='button'>
+          Tags
+        </Typography>
+      </Box>
       <Autocomplete
         value={value}
         onChange={(e, value) => {
@@ -20,11 +28,11 @@ const ProjectTags = ({ createTag, removeTag, id, tags, project, member }) => {
           value.length < length && removeTag(value, id, null);
           setLength(value.length);
         }}
-        renderInput={(params) => <TextField {...params} label='Tags' />}
+        renderInput={(params) => <TextField {...params} label='Project tags' />}
         options={tags ? tags : []}
         filterSelectedOptions
         disableClearable
-        readOnly={member ? 0 : 1}
+        readOnly={!member}
         multiple
         freeSolo
         fullWidth

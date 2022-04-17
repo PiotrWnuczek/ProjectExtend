@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateTasks } from 'store/projectsActions';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Box, Card, Grid, IconButton, Typography } from '@mui/material';
-import { NavigateBefore, NavigateNext } from '@mui/icons-material';
+import { Box, Grid } from '@mui/material';
 import TaskCard from 'molecules/TaskCard';
+import CanvaCard from 'molecules/CanvaCard';
 
 const ProjectTasks = ({ updateTasks, tasks, project, id, newTask }) => {
   const [data, setData] = useState([tasks.todo, tasks.done]);
@@ -53,31 +53,7 @@ const ProjectTasks = ({ updateTasks, tasks, project, id, newTask }) => {
 
   return (
     <Box sx={{ p: 2 }}>
-      <Card
-        sx={{ bgcolor: 'secondary.light', borderRadius: 2, mb: 2 }}
-        variant='outlined'
-      >
-        <Box sx={{
-          p: 2, display: 'flex',
-          justifyContent: 'space-between', alignItems: 'center',
-        }}>
-          <IconButton size='small'>
-            <NavigateBefore />
-          </IconButton>
-          <Typography variant='button'>
-            Todo
-          </Typography>
-          <Typography variant='button'>
-            Sprint Canva
-          </Typography>
-          <Typography variant='button'>
-            Done
-          </Typography>
-          <IconButton size='small'>
-            <NavigateNext />
-          </IconButton>
-        </Box>
-      </Card>
+      <CanvaCard />
       <Grid container>
         <DragDropContext onDragEnd={onDragEnd}>
           {data.map((el, ind) => (

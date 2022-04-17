@@ -3,7 +3,6 @@ import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { createProject } from 'store/projectsActions';
 import { useNavigate } from 'react-router-dom';
 import { Box, Collapse } from '@mui/material';
 import { Button, IconButton } from '@mui/material';
@@ -13,11 +12,12 @@ import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
 import SearchCard from 'molecules/SearchCard';
 
-const SpaceView = ({ createProject, resetId, queryTags, results, id, tags, email, query }) => {
+const SpaceView = ({ resetId, queryTags, results, id, tags, email, query }) => {
   const [sidebar, setSidebar] = useApp();
   const [search, setSearch] = useState(false);
   const breakpoints = { default: 2, 1000: 1 };
   const navigate = useNavigate();
+
   useEffect(() => { id && navigate('/project/' + id); resetId() });
   useEffect(() => { !search && queryTags(null) }, [queryTags, search]);
 
@@ -80,7 +80,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  createProject: (data) => dispatch(createProject(data)),
   resetId: () => dispatch({ type: 'RESETID_PROJECT' }),
   queryTags: (data) => dispatch({ type: 'QUERY_TAGS', data }),
 });

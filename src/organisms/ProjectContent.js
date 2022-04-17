@@ -38,7 +38,7 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
         }}
       >
         {({ values, handleChange, handleSubmit }) => (
-          <form onBlur={handleSubmit} id='name' autoComplete='off'>
+          <form onBlur={handleSubmit} autoComplete='off'>
             <TextInput
               sx={{ mb: 0, mt: 1 }}
               onChange={handleChange}
@@ -67,7 +67,7 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
         }}
       >
         {({ values, handleChange, handleSubmit }) => (
-          <form onBlur={handleSubmit} id='name' autoComplete='off'>
+          <form onBlur={handleSubmit} autoComplete='off'>
             <TextInput
               sx={{ mb: 0, my: 1 }}
               onChange={handleChange}

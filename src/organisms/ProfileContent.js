@@ -27,23 +27,23 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
         onClick={() => setName(true)}
         variant='h6'
       >
-        {profile.name}
+        {profile.firstname}
       </Typography>}
       {(owner && name) && <Formik
-        initialValues={{ name: profile.name }}
+        initialValues={{ firstname: profile.firstname }}
         onSubmit={(values) => {
-          values.name !== profile.name && updateProfile(values, id);
+          values.firstname !== profile.firstname && updateProfile(values, id);
           setName(false);
         }}
       >
         {({ values, handleChange, handleSubmit }) => (
-          <form onBlur={handleSubmit} id='name' autoComplete='off'>
+          <form onBlur={handleSubmit} autoComplete='off'>
             <TextInput
               sx={{ mb: 0, mt: 1 }}
               onChange={handleChange}
-              value={values.name}
-              label='Name'
-              name='name'
+              value={values.firstname}
+              label='Firstname'
+              name='firstname'
               type='text'
               size='small'
               autoFocus
@@ -66,7 +66,7 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
         }}
       >
         {({ values, handleChange, handleSubmit }) => (
-          <form onBlur={handleSubmit} id='name' autoComplete='off'>
+          <form onBlur={handleSubmit} autoComplete='off'>
             <TextInput
               sx={{ mb: 0, my: 1 }}
               onChange={handleChange}
