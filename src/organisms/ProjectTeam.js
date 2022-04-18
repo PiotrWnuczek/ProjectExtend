@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { updateProject } from 'store/projectsActions';
 import { Box, Card, Typography } from '@mui/material';
-import { List, ListItem } from '@mui/material';
+import { Button, List, ListItem } from '@mui/material';
 import { Groups, Person } from '@mui/icons-material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 
 const ProjectTeam = ({ updateProject, id, project, member }) => {
   const [edit, setEdit] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Card
@@ -30,6 +32,13 @@ const ProjectTeam = ({ updateProject, id, project, member }) => {
               onClick={() => setEdit(mb.uid)}
             >
               {mb.firstname} {mb.lastname} {mb.nickname}
+              <Button
+                sx={{ ml: 1 }}
+                onClick={() => navigate('/profile/' + mb.uid)}
+                size='small'
+              >
+                View Profile
+              </Button>
             </Typography>}
             {(member && edit === mb.uid) && <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography>

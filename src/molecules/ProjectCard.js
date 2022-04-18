@@ -1,9 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CardActionArea, Typography } from '@mui/material';
-import { Card, CardHeader, Box, Avatar } from '@mui/material';
+import { Card, Box, Avatar } from '@mui/material';
+import { CardActionArea, CardHeader } from '@mui/material';
 import { green, cyan, orange, indigo, purple } from '@mui/material/colors';
 import { FolderOpen } from '@mui/icons-material';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const ProjectCard = ({ project }) => {
   const colors = [green, cyan, orange, indigo, purple];
@@ -24,10 +26,10 @@ const ProjectCard = ({ project }) => {
             <FolderOpen />
           </Avatar>}
         />
-        <Box sx={{ p: 2 }}>
-          <Typography>
+        <Box sx={{ p: 2, fontSize: '90%' }}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {project.description}
-          </Typography>
+          </ReactMarkdown>
         </Box>
       </CardActionArea>
     </Card>

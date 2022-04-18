@@ -4,8 +4,8 @@ import { Box, AppBar, Divider, Toolbar } from '@mui/material';
 import SideBar from 'organisms/SideBar';
 
 const MainLayout = ({ children, navbar }) => {
-  const width = { xs: 160, sm: 120, md: 160 };
-  const appbar = { sm: `calc(100% - 120px)`, md: `calc(100% - 160px)` };
+  const width = { xs: 160, sm: 140, md: 160 };
+  const appbar = { sm: `calc(100% - 140px)`, md: `calc(100% - 160px)` };
   const [sidebar, setSidebar] = useApp();
 
   return (

@@ -27,7 +27,7 @@ const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, r
       variant='outlined'
     >
       <Box
-        sx={{ cursor: 'pointer', fontSize: '70%' }}
+        sx={{ cursor: 'pointer', fontSize: '90%' }}
         onClick={() => setEdit(true)}
       >
         <ReactMarkdown remarkPlugins={[remarkGfm]}>

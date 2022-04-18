@@ -6,6 +6,8 @@ import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 import { Source } from '@mui/icons-material';
 import { Box } from '@mui/system';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const ProfileContent = ({ updateProfile, profile, id, owner }) => {
   const [name, setName] = useState(false);
@@ -51,13 +53,14 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
           </form>
         )}
       </Formik>}
-      {(!owner || !description) && <Typography
-        sx={{ cursor: 'pointer' }}
+      {(!owner || !description) && <Box
+        sx={{ cursor: 'pointer', fontSize: '90%' }}
         onClick={() => setDescription(true)}
-        variant='subtitle1'
       >
-        {profile.description}
-      </Typography>}
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {profile.description}
+        </ReactMarkdown>
+      </Box>}
       {(owner && description) && <Formik
         initialValues={{ description: profile.description }}
         onSubmit={(values) => {

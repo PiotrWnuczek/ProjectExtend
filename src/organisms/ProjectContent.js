@@ -56,7 +56,7 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
         )}
       </Formik>}
       {(!member || !description) && <Box
-        sx={{ cursor: 'pointer', fontSize: '80%' }}
+        sx={{ cursor: 'pointer', fontSize: '90%' }}
         onClick={() => setDescription(true)}
       >
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
