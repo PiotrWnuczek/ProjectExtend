@@ -84,11 +84,11 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
           </form>
         )}
       </Formik>}
-      <FormControlLabel
+      {member && <FormControlLabel
         control={<Switch checked={project.public} />}
         onChange={(e, value) => updateProject({ public: value }, id)}
         label='public'
-      />
+      />}
     </Card>
   )
 };

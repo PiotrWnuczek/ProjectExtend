@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateTask, removeTask } from 'store/projectsActions';
-import { Box, MenuItem, OutlinedInput, InputLabel, IconButton, } from '@mui/material';
+import { Box, MenuItem, OutlinedInput, InputLabel, IconButton } from '@mui/material';
 import { Card, Typography, Select, Button } from '@mui/material';
 import { Grid, Collapse, TextField, FormControl } from '@mui/material';
 import { LocalizationProvider, DesktopDateTimePicker } from '@mui/lab';
@@ -10,7 +10,7 @@ import { Formik } from 'formik';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import TextInput from 'atoms/TextInput';
 
-const TaskCard = ({ updateTask, removeTask, task, sprint, id, open, project, resetId }) => {
+const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, resetId }) => {
   const [expand, setExpand] = useState(false);
   const [edit, setEdit] = useState(false);
   const [options, setOptions] = useState(false);
@@ -33,7 +33,7 @@ const TaskCard = ({ updateTask, removeTask, task, sprint, id, open, project, res
       {edit && <Formik
         initialValues={{ content: task.content }}
         onSubmit={(values) => {
-          updateTask(values, task.id, sprint, id);
+          updateTask(values, task.id, sprintId, id);
           resetId(); setEdit(false);
         }}
       >
@@ -94,7 +94,7 @@ const TaskCard = ({ updateTask, removeTask, task, sprint, id, open, project, res
         </Button>
         <Box sx={{ ml: 'auto' }}>
           {options && <Button
-            onClick={() => removeTask(task.id, sprint, id)}
+            onClick={() => removeTask(task.id, sprintId, id)}
             size='small'
             color='error'
           >

@@ -11,7 +11,7 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
     emails: [email], members: [user], candidates: [],
   }).then((resp) => {
     const sprints = ref.doc(resp.id).collection('sprints');
-    sprints.add({ todo: [], done: [] });
+    sprints.add({ todo: [], done: [], date: new Date() });
     dispatch({ type: 'CREATEPROJECT_SUCCESS', data, resp });
   }).catch((err) => {
     dispatch({ type: 'CREATEPROJECT_ERROR', err });

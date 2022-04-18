@@ -7,13 +7,12 @@ import TaskCard from 'molecules/TaskCard';
 import SprintCard from 'molecules/SprintCard';
 
 const ProjectTasks = (
-  { updateTasks, tasks, project, sprint, id, newTask, previous, next }
+  { updateTasks, project, sprint, id, newTask, previous, next, nr }
 ) => {
-  const [data, setData] = useState([tasks.todo, tasks.done]);
-
+  const [data, setData] = useState(sprint && [sprint.todo, sprint.done]);
   useEffect(() => {
-    setData([tasks.todo, tasks.done]);
-  }, [tasks]);
+    setData(sprint && [sprint.todo, sprint.done]);
+  }, [sprint]);
 
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -42,22 +41,26 @@ const ProjectTasks = (
       const newData = [...data];
       newData[sInd] = items;
       setData(newData);
-      updateTasks({ todo: newData[0], done: newData[1] }, sprint, id);
+      updateTasks({ todo: newData[0], done: newData[1] }, sprint.id, id);
     } else {
       const result = move(data[sInd], data[dInd], source, destination);
       const newData = [...data];
       newData[sInd] = result[sInd];
       newData[dInd] = result[dInd];
       setData(newData);
-      updateTasks({ todo: newData[0], done: newData[1] }, sprint, id);
+      updateTasks({ todo: newData[0], done: newData[1] }, sprint.id, id);
     }
   };
 
   return (
     <Box sx={{ p: 2 }}>
       <SprintCard
+        sprintDate={sprint.date}
+        sprintId={sprint.id}
+        id={id}
         previous={previous}
         next={next}
+        nr={nr}
       />
       <Grid container spacing={2}>
         <DragDropContext onDragEnd={onDragEnd}>
@@ -89,7 +92,7 @@ const ProjectTasks = (
                             <TaskCard
                               task={item}
                               project={project}
-                              sprint={sprint}
+                              sprintId={sprint.id}
                               id={id}
                               open={item.id === newTask}
                             />

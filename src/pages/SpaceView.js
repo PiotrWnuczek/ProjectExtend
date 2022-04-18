@@ -88,13 +88,16 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect(props => props.query ? [
     {
-      storeAs: 'results', collection: 'projects',
-      where: [['tags', 'array-contains-any', props.query]],
+      storeAs: 'results', collection: 'projects', limit: 30,
+      where: [['public', '==', true], ['tags', 'array-contains-any', props.query]],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
     { storeAs: props.uid, collection: 'users', doc: props.uid },
   ] : [
-    { storeAs: 'results', collection: 'projects', limit: 30 },
+    {
+      storeAs: 'results', collection: 'projects',
+      where: [['public', '==', true]], limit: 30,
+    },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
     { storeAs: props.uid, collection: 'users', doc: props.uid },
   ]),

@@ -29,11 +29,9 @@ const ProjectView = (
   useEffect(() => { member && setJoin(true) }, [member, setJoin]);
 
   const [nr, setNr] = useState(0);
-  const previous = () => setNr(nr + 1);
-  const next = () => nr > 0 ? setNr(nr - 1) : createSprint(id);
-  const sprint = sprints && sprints[nr] && sprints[nr].id;
-
-  console.log(sprint, nr);
+  const previous = () => nr < (sprints && sprints.length - 1) && setNr(nr + 1);
+  const next = () => nr > 0 ? setNr(nr - 1) : nr < 21 && createSprint(id);
+  let sprint = sprints && sprints[nr];
 
   return (
     <MainLayout navbar={
@@ -55,9 +53,8 @@ const ProjectView = (
           {tabs === 1 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
             onClick={() => createTask({
-              id: random,
-              content: 'New Content',
-            }, sprint, id)}
+              id: random, content: 'New Content',
+            }, sprint.id, id)}
             variant='outlined'
           >
             Create Task
@@ -98,8 +95,8 @@ const ProjectView = (
           {member && <ProjectMenu project={project} id={id} email={email} />}
         </Box>}
         {member && sprints && tabs === 1 && <ProjectTasks
-          project={project} sprint={sprint} id={id} tasks={sprints[0]}
-          previous={previous} next={next}
+          project={project} sprint={sprint} id={id}
+          previous={previous} next={next} nr={{ n: nr, l: sprints.length }}
         />}
       </div> : <p>loading...</p>}
     </MainLayout>
@@ -126,7 +123,7 @@ export default withRouter(compose(
     { storeAs: props.id, collection: 'projects', doc: props.id },
     {
       storeAs: props.id + 'sprints', collection: 'projects', doc: props.id,
-      subcollections: [{ collection: 'sprints' }],
+      subcollections: [{ collection: 'sprints' }], orderBy: ['date', 'desc'],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
     { storeAs: props.uid, collection: 'users', doc: props.uid },
