@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { updateTask } from 'store/projectsActions';
-import { Box, MenuItem, OutlinedInput, InputLabel, } from '@mui/material';
+import { updateTask, removeTask } from 'store/projectsActions';
+import { Box, MenuItem, OutlinedInput, InputLabel, IconButton, } from '@mui/material';
 import { Card, Typography, Select, Button } from '@mui/material';
 import { Grid, Collapse, TextField, FormControl } from '@mui/material';
 import { LocalizationProvider, DesktopDateTimePicker } from '@mui/lab';
-import { Task } from '@mui/icons-material';
+import { MoreVert, Task } from '@mui/icons-material';
 import { Formik } from 'formik';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import TextInput from 'atoms/TextInput';
 
-const TaskCard = ({ updateTask, task, id, open, project, resetId }) => {
+const TaskCard = ({ updateTask, removeTask, task, sprint, id, open, project, resetId }) => {
   const [expand, setExpand] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [options, setOptions] = useState(false);
   const [date, setDate] = useState(new Date());
   const [assigned, setAssigned] = useState([]);
   const names = project.members.map(m => m.nickname);
@@ -32,7 +33,7 @@ const TaskCard = ({ updateTask, task, id, open, project, resetId }) => {
       {edit && <Formik
         initialValues={{ content: task.content }}
         onSubmit={(values) => {
-          updateTask(values, task.id, id);
+          updateTask(values, task.id, sprint, id);
           resetId(); setEdit(false);
         }}
       >
@@ -89,15 +90,31 @@ const TaskCard = ({ updateTask, task, id, open, project, resetId }) => {
           onClick={() => setExpand(!expand)}
           size='small'
         >
-          Task Details
+          Details
         </Button>
+        <Box sx={{ ml: 'auto' }}>
+          {options && <Button
+            onClick={() => removeTask(task.id, sprint, id)}
+            size='small'
+            color='error'
+          >
+            Remove
+          </Button>}
+          <IconButton
+            onClick={() => setOptions(!options)}
+            size='small'
+          >
+            <MoreVert />
+          </IconButton>
+        </Box>
       </Box>
     </Card>
   )
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  updateTask: (data, id, project) => dispatch(updateTask(data, id, project)),
+  updateTask: (data, id, sprint, project) => dispatch(updateTask(data, id, sprint, project)),
+  removeTask: (id, sprint, project) => dispatch(removeTask(id, sprint, project)),
   resetId: () => dispatch({ type: 'RESETID_TASK' }),
 });
 

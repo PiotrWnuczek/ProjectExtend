@@ -4,9 +4,11 @@ import { updateTasks } from 'store/projectsActions';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Box, Divider, Grid } from '@mui/material';
 import TaskCard from 'molecules/TaskCard';
-import CanvaCard from 'molecules/CanvaCard';
+import SprintCard from 'molecules/SprintCard';
 
-const ProjectTasks = ({ updateTasks, tasks, project, id, newTask }) => {
+const ProjectTasks = (
+  { updateTasks, tasks, project, sprint, id, newTask, previous, next }
+) => {
   const [data, setData] = useState([tasks.todo, tasks.done]);
 
   useEffect(() => {
@@ -40,31 +42,34 @@ const ProjectTasks = ({ updateTasks, tasks, project, id, newTask }) => {
       const newData = [...data];
       newData[sInd] = items;
       setData(newData);
-      updateTasks({ todo: newData[0], done: newData[1] }, id);
+      updateTasks({ todo: newData[0], done: newData[1] }, sprint, id);
     } else {
       const result = move(data[sInd], data[dInd], source, destination);
       const newData = [...data];
       newData[sInd] = result[sInd];
       newData[dInd] = result[dInd];
       setData(newData);
-      updateTasks({ todo: newData[0], done: newData[1] }, id);
+      updateTasks({ todo: newData[0], done: newData[1] }, sprint, id);
     }
   };
 
   return (
     <Box sx={{ p: 2 }}>
-      <CanvaCard />
+      <SprintCard
+        previous={previous}
+        next={next}
+      />
       <Grid container spacing={2}>
         <DragDropContext onDragEnd={onDragEnd}>
           {data.map((el, ind) => (
-            <Grid item xs={6} key={ind}>
+            <Grid item xs={12} md={6} key={ind}>
               <Divider sx={{ my: 1 }} textAlign='left'>
                 {ind === 0 ? 'TODO' : 'DONE'}
               </Divider>
               <Droppable droppableId={ind.toString()}>
                 {(provided) => (
                   <Box
-                    sx={{ minHeight: '70vh' }}
+                    sx={{ minHeight: { xs: '10vh', md: '70vh' } }}
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
@@ -84,6 +89,7 @@ const ProjectTasks = ({ updateTasks, tasks, project, id, newTask }) => {
                             <TaskCard
                               task={item}
                               project={project}
+                              sprint={sprint}
                               id={id}
                               open={item.id === newTask}
                             />
@@ -108,7 +114,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateTasks: (data, project) => dispatch(updateTasks(data, project)),
+  updateTasks: (data, sprint, project) => dispatch(updateTasks(data, sprint, project)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)

@@ -7,11 +7,11 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   const user = { uid, email, firstname, lastname, nickname: firstname[0] + lastname[0] };
   const ref = firestore.collection('projects');
   ref.add({
-    ...data, tags: [], emails: [email],
-    members: [user], candidates: [],
+    ...data, public: false, tags: [],
+    emails: [email], members: [user], candidates: [],
   }).then((resp) => {
-    const content = ref.doc(resp.id).collection('content');
-    content.doc('tasks').set({ todo: [], done: [] });
+    const sprints = ref.doc(resp.id).collection('sprints');
+    sprints.add({ todo: [], done: [] });
     dispatch({ type: 'CREATEPROJECT_SUCCESS', data, resp });
   }).catch((err) => {
     dispatch({ type: 'CREATEPROJECT_ERROR', err });
@@ -41,11 +41,33 @@ export const removeProject = (id) => (dispatch, gs, { getFirestore }) => {
   })
 };
 
-export const createTask = (data, project) => (dispatch, getState, { getFirestore }) => {
+export const createSprint = (project) => (dispatch, gs, { getFirestore }) => {
   const firestore = getFirestore();
-  const tasks = getState().firestore.data[project + 'tasks'];
-  const ref = firestore.collection('projects').doc(project).collection('content');
-  ref.doc('tasks').update({
+  const ref = firestore.collection('projects').doc(project).collection('sprints');
+  ref.add({
+    todo: [], done: [], date: new Date(),
+  }).then(() => {
+    dispatch({ type: 'CREATESPRINT_SUCCESS', project });
+  }).catch((err) => {
+    dispatch({ type: 'CREATESPRINT_ERROR', err });
+  })
+};
+
+export const removeSprint = (id, project) => (dispatch, gs, { getFirestore }) => {
+  const firestore = getFirestore();
+  const ref = firestore.collection('projects').doc(project).collection('sprints');
+  ref.doc(id).delete().then(() => {
+    dispatch({ type: 'REMOVESPRINT_SUCCESS', id });
+  }).catch((err) => {
+    dispatch({ type: 'REMOVESPRINT_SUCCESS', err });
+  })
+};
+
+export const createTask = (data, sprint, project) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  const tasks = getState().firestore.data[project + 'sprints'][sprint];
+  const ref = firestore.collection('projects').doc(project).collection('sprints');
+  ref.doc(sprint).update({
     todo: [{ ...data }, ...tasks.todo],
   }).then(() => {
     dispatch({ type: 'CREATETASK_SUCCESS', data });
@@ -54,11 +76,11 @@ export const createTask = (data, project) => (dispatch, getState, { getFirestore
   })
 };
 
-export const updateTask = (data, id, project) => (dispatch, getState, { getFirestore }) => {
+export const updateTask = (data, id, sprint, project) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
-  const tasks = getState().firestore.data[project + 'tasks'];
-  const ref = firestore.collection('projects').doc(project).collection('content');
-  ref.doc('tasks').update({
+  const tasks = getState().firestore.data[project + 'sprints'][sprint];
+  const ref = firestore.collection('projects').doc(project).collection('sprints');
+  ref.doc(sprint).update({
     todo: tasks.todo.map(task => task.id === id ? { ...task, ...data } : task),
     done: tasks.done.map(task => task.id === id ? { ...task, ...data } : task),
   }).then(() => {
@@ -68,11 +90,11 @@ export const updateTask = (data, id, project) => (dispatch, getState, { getFires
   })
 };
 
-export const removeTask = (id, project) => (dispatch, getState, { getFirestore }) => {
+export const removeTask = (id, sprint, project) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
-  const tasks = getState().firestore.data[project + 'tasks'];
-  const ref = firestore.collection('projects').doc(project).collection('content');
-  ref.doc('tasks').update({
+  const tasks = getState().firestore.data[project + 'sprints'][sprint];
+  const ref = firestore.collection('projects').doc(project).collection('sprints');
+  ref.doc(sprint).update({
     todo: tasks.todo.filter(task => task.id !== id),
     done: tasks.done.filter(task => task.id !== id),
   }).then(() => {
@@ -82,10 +104,10 @@ export const removeTask = (id, project) => (dispatch, getState, { getFirestore }
   })
 };
 
-export const updateTasks = (data, project) => (dispatch, gs, { getFirestore }) => {
+export const updateTasks = (data, sprint, project) => (dispatch, gs, { getFirestore }) => {
   const firestore = getFirestore();
-  const ref = firestore.collection('projects').doc(project).collection('content');
-  ref.doc('tasks').update({
+  const ref = firestore.collection('projects').doc(project).collection('sprints');
+  ref.doc(sprint).update({
     ...data,
   }).then(() => {
     dispatch({ type: 'UPDATETASKS_SUCCESS', data });

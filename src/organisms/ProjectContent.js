@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateProject } from 'store/projectsActions';
 import { Card, Typography } from '@mui/material';
+import { FormControlLabel, Switch } from '@mui/material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 import { Source } from '@mui/icons-material';
@@ -83,6 +84,11 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
           </form>
         )}
       </Formik>}
+      <FormControlLabel
+        control={<Switch checked={project.public} />}
+        onChange={(e, value) => updateProject({ public: value }, id)}
+        label='public'
+      />
     </Card>
   )
 };
