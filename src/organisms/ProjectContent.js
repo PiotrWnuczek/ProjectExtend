@@ -7,6 +7,8 @@ import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 import { Source } from '@mui/icons-material';
 import { Box } from '@mui/system';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const ProjectContent = ({ updateProject, project, id, member }) => {
   const [name, setName] = useState(!project.key);
@@ -53,13 +55,14 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
           </form>
         )}
       </Formik>}
-      {(!member || !description) && <Typography
-        sx={{ cursor: 'pointer' }}
+      {(!member || !description) && <Box
+        sx={{ cursor: 'pointer', fontSize: '80%' }}
         onClick={() => setDescription(true)}
-        variant='subtitle1'
       >
-        {project.description}
-      </Typography>}
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {project.description}
+        </ReactMarkdown>
+      </Box>}
       {(member && description) && <Formik
         initialValues={{ description: project.description }}
         onSubmit={(values) => {
@@ -73,12 +76,12 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
               sx={{ mb: 0, my: 1 }}
               onChange={handleChange}
               value={values.description}
-              label='Description'
+              label='Description (MarkDown)'
               name='description'
               type='text'
               size='small'
               multiline
-              rows={3}
+              minRows={4}
               autoFocus
             />
           </form>

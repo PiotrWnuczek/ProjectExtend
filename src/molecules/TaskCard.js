@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateTask, removeTask } from 'store/projectsActions';
 import { Box, MenuItem, OutlinedInput, InputLabel, IconButton } from '@mui/material';
-import { Card, Typography, Select, Button } from '@mui/material';
-import { Grid, Collapse, TextField, FormControl } from '@mui/material';
+import { Grid, Card, Select, Button } from '@mui/material';
+import { Collapse, TextField, FormControl } from '@mui/material';
 import { LocalizationProvider, DesktopDateTimePicker } from '@mui/lab';
 import { MoreVert, Task } from '@mui/icons-material';
 import { Formik } from 'formik';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import TextInput from 'atoms/TextInput';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, resetId }) => {
   const [expand, setExpand] = useState(false);
@@ -24,12 +26,14 @@ const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, r
       sx={{ bgcolor: 'secondary.light', borderRadius: 2, p: 2 }}
       variant='outlined'
     >
-      <Typography
-        sx={{ cursor: 'pointer' }}
+      <Box
+        sx={{ cursor: 'pointer', fontSize: '70%' }}
         onClick={() => setEdit(true)}
       >
-        {task.content}
-      </Typography>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {task.content}
+        </ReactMarkdown>
+      </Box>
       {edit && <Formik
         initialValues={{ content: task.content }}
         onSubmit={(values) => {
@@ -43,12 +47,12 @@ const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, r
               sx={{ mb: 0, mt: 1 }}
               onChange={handleChange}
               value={values.content}
-              label='Content'
+              label='Content (MarkDown)'
               name='content'
               type='text'
               size='small'
               multiline
-              rows={3}
+              minRows={3}
               autoFocus
             />
           </form>
