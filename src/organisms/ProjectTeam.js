@@ -28,7 +28,7 @@ const ProjectTeam = ({ updateProject, id, project, member }) => {
           <ListItem sx={{ p: 0 }} key={mb.uid}>
             <Person sx={{ color: 'info.light', mr: 1 }} />
             {(!member || edit !== mb.uid) && <Typography
-              sx={{ cursor: 'pointer' }}
+              sx={{ cursor: member && 'pointer' }}
               onClick={() => setEdit(mb.uid)}
             >
               {mb.firstname} {mb.lastname} {mb.nickname}

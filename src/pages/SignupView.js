@@ -10,7 +10,7 @@ import TextInput from 'atoms/TextInput';
 import Logo from 'logo.png';
 
 const StyledLogo = styled('img')({
-  maxWidth: '100%',
+  maxWidth: 200,
 });
 
 const SignupView = ({ signupUser, error, auth }) => {

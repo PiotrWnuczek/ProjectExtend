@@ -25,7 +25,7 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
         </Typography>
       </Box>
       {(!owner || !name) && <Typography
-        sx={{ cursor: 'pointer' }}
+        sx={{ cursor: owner && 'pointer' }}
         onClick={() => setName(true)}
         variant='h6'
       >
@@ -39,7 +39,7 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
         }}
       >
         {({ values, handleChange, handleSubmit }) => (
-          <form onBlur={handleSubmit} autoComplete='off'>
+          <form onBlur={handleSubmit} onSubmit={handleSubmit} autoComplete='off'>
             <TextInput
               sx={{ mb: 0, mt: 1 }}
               onChange={handleChange}
@@ -54,7 +54,7 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
         )}
       </Formik>}
       {(!owner || !description) && <Box
-        sx={{ cursor: 'pointer', fontSize: '90%' }}
+        sx={{ cursor: owner && 'pointer', fontSize: '90%' }}
         onClick={() => setDescription(true)}
       >
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
@@ -69,7 +69,7 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
         }}
       >
         {({ values, handleChange, handleSubmit }) => (
-          <form onBlur={handleSubmit} autoComplete='off'>
+          <form onBlur={handleSubmit} onSubmit={handleSubmit} autoComplete='off'>
             <TextInput
               sx={{ mb: 0, my: 1 }}
               onChange={handleChange}

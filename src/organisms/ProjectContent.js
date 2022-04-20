@@ -27,7 +27,7 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
         </Typography>
       </Box>
       {(!member || !name) && <Typography
-        sx={{ cursor: 'pointer' }}
+        sx={{ cursor: member && 'pointer' }}
         onClick={() => setName(true)}
         variant='h6'
       >
@@ -41,7 +41,7 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
         }}
       >
         {({ values, handleChange, handleSubmit }) => (
-          <form onBlur={handleSubmit} autoComplete='off'>
+          <form onBlur={handleSubmit} onSubmit={handleSubmit} autoComplete='off'>
             <TextInput
               sx={{ mb: 0, mt: 1 }}
               onChange={handleChange}
@@ -56,7 +56,7 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
         )}
       </Formik>}
       {(!member || !description) && <Box
-        sx={{ cursor: 'pointer', fontSize: '90%' }}
+        sx={{ cursor: member && 'pointer', fontSize: '90%' }}
         onClick={() => setDescription(true)}
       >
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
@@ -71,7 +71,7 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
         }}
       >
         {({ values, handleChange, handleSubmit }) => (
-          <form onBlur={handleSubmit} autoComplete='off'>
+          <form onBlur={handleSubmit} onSubmit={handleSubmit} autoComplete='off'>
             <TextInput
               sx={{ mb: 0, my: 1 }}
               onChange={handleChange}

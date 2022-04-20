@@ -7,8 +7,9 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   const user = { uid, email, firstname, lastname, nickname: firstname[0] + lastname[0] };
   const ref = firestore.collection('projects');
   ref.add({
-    ...data, public: false, tags: [],
-    emails: [email], members: [user], candidates: [],
+    ...data, public: false,
+    tags: [], emails: [email],
+    members: [user], candidates: [],
   }).then((resp) => {
     const sprints = ref.doc(resp.id).collection('sprints');
     sprints.add({ todo: [], done: [], date: new Date() });
@@ -30,11 +31,12 @@ export const updateProject = (data, id) => (dispatch, gs, { getFirestore }) => {
   })
 };
 
-export const removeProject = (id) => (dispatch, gs, { getFirestore }) => {
+export const removeProject = (id) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
+  const sprints = getState().firestore.ordered[id + 'sprints'];
   const ref = firestore.collection('projects');
   ref.doc(id).delete().then(() => {
-    ref.doc(id).collection('content').doc('tasks').delete();
+    sprints.forEach(s => ref.doc(id).collection('sprints').doc(s.id).delete());
     dispatch({ type: 'REMOVEPROJECT_SUCCESS', id });
   }).catch((err) => {
     dispatch({ type: 'REMOVEPROJECT_SUCCESS', err });

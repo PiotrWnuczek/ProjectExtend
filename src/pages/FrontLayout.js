@@ -14,15 +14,12 @@ const FrontLayout = ({ children }) => (
   <StyledWrapper>
     <Container maxWidth='sm'>
       <Card
-        sx={{
-          bgcolor: 'inherit', m: 2,
-          px: { xs: 2, md: 4 }, py: { xs: 3, md: 5 }
-        }}
+        sx={{ bgcolor: 'secondary.light', borderRadius: 2, p: 3, mb: 2 }}
         variant='outlined'
       >
         {children}
       </Card>
-      <Typography mt={2}>
+      <Typography>
         Copyright © projectextend.com
       </Typography>
     </Container>

@@ -4,7 +4,7 @@ import { updateTask, removeTask } from 'store/projectsActions';
 import { Box, MenuItem, OutlinedInput, InputLabel, IconButton } from '@mui/material';
 import { Grid, Card, Select, Button } from '@mui/material';
 import { Collapse, TextField, FormControl } from '@mui/material';
-import { LocalizationProvider, DesktopDateTimePicker } from '@mui/lab';
+import { LocalizationProvider, DesktopDatePicker } from '@mui/lab';
 import { MoreVert, Task } from '@mui/icons-material';
 import { Formik } from 'formik';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -16,8 +16,6 @@ const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, r
   const [expand, setExpand] = useState(false);
   const [edit, setEdit] = useState(false);
   const [options, setOptions] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const [assigned, setAssigned] = useState([]);
   const names = project.members.map(m => m.nickname);
   useEffect(() => { open && setEdit(true) }, [open, setEdit]);
 
@@ -42,7 +40,7 @@ const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, r
         }}
       >
         {({ values, handleChange, handleSubmit }) => (
-          <form onBlur={handleSubmit} autoComplete='off'>
+          <form onBlur={handleSubmit} onSubmit={handleSubmit} autoComplete='off'>
             <TextInput
               sx={{ mb: 0, mt: 1 }}
               onChange={handleChange}
@@ -60,22 +58,22 @@ const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, r
       </Formik>}
       <Collapse in={expand} timeout='auto'>
         <Grid sx={{ pt: 1 }} container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={6}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DesktopDateTimePicker
-                value={date}
-                onChange={(v) => setDate(v)}
+              <DesktopDatePicker
+                value={task.date ? task.date.toDate() : null}
+                onChange={(v) => updateTask({ date: v }, task.id, sprintId, id)}
                 renderInput={(params) => <TextField {...params} size='small' fullWidth />}
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl sx={{ maxWidth: '40vw' }} size='small' fullWidth>
+          <Grid item xs={6}>
+            <FormControl sx={{ maxWidth: '50vw' }} size='small' fullWidth>
               <InputLabel>Name</InputLabel>
               <Select
                 multiple
-                value={assigned}
-                onChange={(e) => setAssigned(e.target.value)}
+                value={task.assigned ? task.assigned : []}
+                onChange={(e) => updateTask({ assigned: e.target.value }, task.id, sprintId, id)}
                 input={<OutlinedInput label='Assigned' size='small' />}
               >
                 {names.map((name) => (
