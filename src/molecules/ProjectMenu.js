@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { removeProject } from 'store/projectsActions';
-import { updateProject } from 'store/projectsActions';
+import { updateProject, removeProject } from 'store/projectsActions';
+import { updateProfile } from 'store/usersActions';
 import { useNavigate } from 'react-router-dom';
 import { Box, Collapse, Button } from '@mui/material';
 import { Settings } from '@mui/icons-material';
 
-const ProjectMenu = ({ updateProject, removeProject, project, id, email }) => {
+const ProjectMenu = (
+  { updateProject, removeProject, updateProfile, project, id, email, uid, user }
+) => {
   const [options, setOptions] = useState(false);
   const navigate = useNavigate();
 
@@ -28,14 +30,20 @@ const ProjectMenu = ({ updateProject, removeProject, project, id, email }) => {
                 emails: project.emails.filter(e => e !== email),
                 members: project.members.filter(m => m.email !== email),
               }, id);
+              updateProfile({ projects: user.projects.filter(p => p !== id) }, uid);
+              navigate('/board');
             }}
-            variant='outlined' size='small' color='error'
+            variant='outlined'
+            size='small'
+            color='error'
           >
             Leave Project
           </Button>}
           {project.emails && project.emails.length <= 1 && <Button
             onClick={() => { removeProject(id); navigate('/board'); }}
-            variant='outlined' size='small' color='error'
+            variant='outlined'
+            size='small'
+            color='error'
           >
             Delete Project
           </Button>}
@@ -48,6 +56,7 @@ const ProjectMenu = ({ updateProject, removeProject, project, id, email }) => {
 const mapDispatchToProps = (dispatch) => ({
   updateProject: (data, id) => dispatch(updateProject(data, id)),
   removeProject: (id) => dispatch(removeProject(id)),
+  updateProfile: (data, id) => dispatch(updateProfile(data, id)),
 });
 
 export default connect(null, mapDispatchToProps)

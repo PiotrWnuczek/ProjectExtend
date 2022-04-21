@@ -92,7 +92,9 @@ const ProjectView = (
           <ProjectContent project={project} id={id} member={member} />
           <ProjectTags project={project} id={id} tags={tags && tags.list} member={member} />
           <ProjectTeam project={project} id={id} member={member} />
-          {member && <ProjectMenu project={project} id={id} email={email} />}
+          {member && <ProjectMenu
+            project={project} id={id} email={email} user={user} uid={uid}
+          />}
         </Box>}
         {member && sprints && tabs === 1 && <ProjectTasks
           project={project} sprint={sprint} id={id}

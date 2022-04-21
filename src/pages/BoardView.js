@@ -69,13 +69,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect(props => props.query ? [
-    {
-      storeAs: 'projects', collection: 'projects',
-      where: [['emails', 'array-contains', props.email]],
-    },
-    { storeAs: props.uid, collection: 'users', doc: props.uid },
-  ] : [
+  firestoreConnect(props => [
     {
       storeAs: 'projects', collection: 'projects',
       where: [['emails', 'array-contains', props.email]],

@@ -1,9 +1,12 @@
+import { updateProfile } from 'store/usersActions';
+
 export const createProject = (data) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
   const uid = getState().firebase.auth.uid;
   const email = getState().firebase.auth.email;
   const firstname = getState().firestore.data[uid].firstname;
   const lastname = getState().firestore.data[uid].lastname;
+  const projects = getState().firestore.data[uid].projects;
   const user = { uid, email, firstname, lastname, nickname: firstname[0] + lastname[0] };
   const ref = firestore.collection('projects');
   ref.add({
@@ -13,6 +16,7 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   }).then((resp) => {
     const sprints = ref.doc(resp.id).collection('sprints');
     sprints.add({ todo: [], done: [], date: new Date() });
+    dispatch(updateProfile({ projects: [...projects, resp.id] }, uid));
     dispatch({ type: 'CREATEPROJECT_SUCCESS', data, resp });
   }).catch((err) => {
     dispatch({ type: 'CREATEPROJECT_ERROR', err });
@@ -33,10 +37,13 @@ export const updateProject = (data, id) => (dispatch, gs, { getFirestore }) => {
 
 export const removeProject = (id) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
+  const uid = getState().firebase.auth.uid;
   const sprints = getState().firestore.ordered[id + 'sprints'];
+  const projects = getState().firestore.data[uid].projects;
   const ref = firestore.collection('projects');
   ref.doc(id).delete().then(() => {
     sprints.forEach(s => ref.doc(id).collection('sprints').doc(s.id).delete());
+    dispatch(updateProfile({ projects: projects.filter(p => p !== id) }, uid));
     dispatch({ type: 'REMOVEPROJECT_SUCCESS', id });
   }).catch((err) => {
     dispatch({ type: 'REMOVEPROJECT_SUCCESS', err });

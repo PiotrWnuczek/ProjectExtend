@@ -48,7 +48,7 @@ const mapStateToProps = (state, props) => ({
 
 export default withRouter(compose(
   connect(mapStateToProps),
-  firestoreConnect((props) => [
+  firestoreConnect(props => [
     { storeAs: props.id, collection: 'users', doc: props.id },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
   ]),
