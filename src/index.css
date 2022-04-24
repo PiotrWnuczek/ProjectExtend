@@ -6,15 +6,21 @@
 
 body {
   font-family: 'Lato';
+  color: #555555;
   background: #f5f5f5;
   margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lato';
+  color: #555555;
+  font-weight: 500;
 }
 
 .masonryGrid {
   display: flex;
   margin-left: -1rem;
 }
-
 .masonryGridColumn > div {
   margin-bottom: 1rem;
   margin-left: 1rem;

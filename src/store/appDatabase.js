@@ -5,12 +5,13 @@ import 'firebase/compat/auth';
 import 'firebase/compat/storage';
 
 firebase.initializeApp({
-  apiKey: 'AIzaSyBHAejQ6pDUGwi-6R7Nor7eMSJ5fTmQKhY',
-  authDomain: 'projectextend-app.firebaseapp.com',
-  projectId: 'projectextend-app',
-  storageBucket: 'projectextend-app.appspot.com',
-  messagingSenderId: '932989112054',
-  appId: '1:932989112054:web:5498aea7e651c1a0e366d7',
+  apiKey: 'AIzaSyD7L2QpxWZ1Wy5LvrXx_fHzyPVhTc0AP4U',
+  authDomain: 'projectextend-com.firebaseapp.com',
+  projectId: 'projectextend-com',
+  storageBucket: 'projectextend-com.appspot.com',
+  messagingSenderId: '904709273754',
+  appId: '1:904709273754:web:83612ccd6526fa37470723',
+  measurementId: 'G-FBWWMF3PQ9',
 });
 
 firebase.analytics();
