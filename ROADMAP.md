@@ -2,4 +2,4 @@
 
 ## Tasks to do:
 
-- new database
+- project about modal
