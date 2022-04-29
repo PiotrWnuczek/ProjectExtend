@@ -24,14 +24,14 @@ const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, r
       sx={{ bgcolor: 'secondary.light', borderRadius: 2, p: 2 }}
       variant='outlined'
     >
-      <Box
+      {!edit && <Box
         sx={{ cursor: 'pointer', fontSize: '90%' }}
         onClick={() => setEdit(true)}
       >
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
           {task.content}
         </ReactMarkdown>
-      </Box>
+      </Box>}
       {edit && <Formik
         initialValues={{ content: task.content }}
         onSubmit={(values) => {
