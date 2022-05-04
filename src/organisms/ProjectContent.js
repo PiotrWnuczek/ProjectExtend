@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateProject } from 'store/projectsActions';
-import { Card, Typography } from '@mui/material';
+import { Card, Typography, IconButton } from '@mui/material';
 import { FormControlLabel, Switch } from '@mui/material';
+import { Source, Check } from '@mui/icons-material';
+import { Box } from '@mui/system';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
-import { Source } from '@mui/icons-material';
-import { Box } from '@mui/system';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -51,6 +51,15 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
               type='text'
               size='small'
               autoFocus
+              InputProps={{
+                endAdornment: <IconButton
+                  sx={{ mx: -1 }}
+                  type='submit'
+                  size='small'
+                >
+                  <Check />
+                </IconButton>
+              }}
             />
           </form>
         )}
@@ -83,6 +92,15 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
               multiline
               minRows={4}
               autoFocus
+              InputProps={{
+                endAdornment: <IconButton
+                  sx={{ mx: -1, mb: -0.5, mt: 'auto' }}
+                  type='submit'
+                  size='small'
+                >
+                  <Check />
+                </IconButton>
+              }}
             />
           </form>
         )}

@@ -5,7 +5,7 @@ import { Box, MenuItem, OutlinedInput, InputLabel, IconButton } from '@mui/mater
 import { Grid, Card, Select, Button } from '@mui/material';
 import { Collapse, TextField, FormControl } from '@mui/material';
 import { LocalizationProvider, DesktopDatePicker } from '@mui/lab';
-import { MoreVert, Task } from '@mui/icons-material';
+import { Check, MoreVert, Task } from '@mui/icons-material';
 import { Formik } from 'formik';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import TextInput from 'atoms/TextInput';
@@ -52,6 +52,15 @@ const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, r
               multiline
               minRows={3}
               autoFocus
+              InputProps={{
+                endAdornment: <IconButton
+                  sx={{ mx: -1, mb: -0.5, mt: 'auto' }}
+                  type='submit'
+                  size='small'
+                >
+                  <Check />
+                </IconButton>
+              }}
             />
           </form>
         )}

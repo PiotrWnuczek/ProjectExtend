@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { updateProfile } from 'store/usersActions';
-import { Card, Typography } from '@mui/material';
+import { Card, Typography, IconButton } from '@mui/material';
+import { Source, Check } from '@mui/icons-material';
+import { Box } from '@mui/system';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
-import { Source } from '@mui/icons-material';
-import { Box } from '@mui/system';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -49,6 +49,15 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
               type='text'
               size='small'
               autoFocus
+              InputProps={{
+                endAdornment: <IconButton
+                  sx={{ mx: -1 }}
+                  type='submit'
+                  size='small'
+                >
+                  <Check />
+                </IconButton>
+              }}
             />
           </form>
         )}
@@ -81,6 +90,15 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
               multiline
               rows={3}
               autoFocus
+              InputProps={{
+                endAdornment: <IconButton
+                  sx={{ mx: -1, mb: -0.5, mt: 'auto' }}
+                  type='submit'
+                  size='small'
+                >
+                  <Check />
+                </IconButton>
+              }}
             />
           </form>
         )}

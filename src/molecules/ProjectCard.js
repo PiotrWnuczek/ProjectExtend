@@ -28,7 +28,11 @@ const ProjectCard = ({ project }) => {
         />
         <Box sx={{ p: 2, fontSize: '90%' }}>
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {project.description}
+            {project.description.length < 500 ? project.description :
+              project.description.slice(0, 500) +
+              project.description.slice(500, 700).split('\n')[0] +
+              '\n #### ... open full description'
+            }
           </ReactMarkdown>
         </Box>
       </CardActionArea>

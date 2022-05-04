@@ -12,7 +12,7 @@ import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
 import SearchCard from 'molecules/SearchCard';
 
-const SpaceView = ({ resetId, queryTags, results, id, tags, email, query }) => {
+const SpaceView = ({ resetId, queryTags, results, id, tags, query }) => {
   const [sidebar, setSidebar] = useApp();
   const [search, setSearch] = useState(false);
   const breakpoints = { default: 2, 1000: 1 };
@@ -21,8 +21,7 @@ const SpaceView = ({ resetId, queryTags, results, id, tags, email, query }) => {
   useEffect(() => { id && navigate('/project/' + id); resetId() });
   useEffect(() => { !search && queryTags(null) }, [queryTags, search]);
 
-  const filtered = results && results.filter(r => !r.emails.includes(email));
-  const mapped = filtered && filtered.map(r => ({ ...r, count: 0 }));
+  const mapped = results && results.map(r => ({ ...r, count: 0 }));
   mapped && mapped.forEach(r =>
     query && query.forEach(q => r.tags.includes(q) && r.count++)
   );
@@ -75,7 +74,6 @@ const mapStateToProps = (state) => ({
   tags: state.firestore.data.tags,
   id: state.projects.id,
   query: state.tags.query,
-  email: state.firebase.auth.email,
   uid: state.firebase.auth.uid,
 });
 
