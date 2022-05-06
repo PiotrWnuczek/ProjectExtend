@@ -35,7 +35,8 @@ const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, r
       {edit && <Formik
         initialValues={{ content: task.content }}
         onSubmit={(values) => {
-          updateTask(values, task.id, sprintId, id);
+          values.content && values.content !== task.content &&
+            updateTask(values, task.id, sprintId, id);
           resetId(); setEdit(false);
         }}
       >

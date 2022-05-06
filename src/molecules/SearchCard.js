@@ -14,7 +14,7 @@ const SearchCard = ({ queryTags, tags }) => {
         value={value}
         onChange={(e, value) => {
           setValue(value);
-          value.length && queryTags(value);
+          value.length ? queryTags(value) : queryTags(null);
         }}
         renderInput={(params) => <TextField {...params} label='Search by tags' />}
         options={tags ? tags : []}
