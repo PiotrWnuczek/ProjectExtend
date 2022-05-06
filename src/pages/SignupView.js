@@ -44,7 +44,7 @@ const SignupView = ({ signupUser, error, auth }) => {
         }}
       >
         {({ values, handleChange, handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} autoComplete='on'>
             <Grid container columnSpacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextInput

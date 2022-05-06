@@ -29,12 +29,15 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
         onClick={() => setName(true)}
         variant='h6'
       >
-        {profile.firstname}
+        {profile.firstname + ' ' + profile.lastname}
       </Typography>}
       {(owner && name) && <Formik
-        initialValues={{ firstname: profile.firstname }}
+        initialValues={{ name: profile.firstname + ' ' + profile.lastname }}
         onSubmit={(values) => {
-          values.firstname !== profile.firstname && updateProfile(values, id);
+          values.name && values.name !== profile.firstname + ' ' + profile.firstname &&
+            updateProfile({
+              firstname: values.name.split(' ')[0], lastname: values.name.split(' ')[1],
+            }, id);
           setName(false);
         }}
       >
@@ -43,9 +46,9 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
             <TextInput
               sx={{ mb: 0, mt: 1 }}
               onChange={handleChange}
-              value={values.firstname}
-              label='Firstname'
-              name='firstname'
+              value={values.name}
+              label='Name'
+              name='name'
               type='text'
               size='small'
               autoFocus
@@ -73,7 +76,8 @@ const ProfileContent = ({ updateProfile, profile, id, owner }) => {
       {(owner && description) && <Formik
         initialValues={{ description: profile.description }}
         onSubmit={(values) => {
-          values.description !== profile.description && updateProfile(values, id);
+          values.description && values.description !== profile.description &&
+            updateProfile(values, id);
           setDescription(false);
         }}
       >

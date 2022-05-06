@@ -10,9 +10,8 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   const user = { uid, email, firstname, lastname, nickname: firstname[0] + lastname[0] };
   const ref = firestore.collection('projects');
   ref.add({
-    ...data, public: false,
-    tags: [], emails: [email],
-    members: [user], candidates: [],
+    ...data, name: 'New Name', description: 'New Description', public: false,
+    tags: [], emails: [email], members: [user], candidates: [],
   }).then((resp) => {
     const sprints = ref.doc(resp.id).collection('sprints');
     sprints.add({ todo: [], done: [], date: new Date() });

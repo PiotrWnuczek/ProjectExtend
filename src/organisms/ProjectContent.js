@@ -36,7 +36,8 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
       {(member && name) && <Formik
         initialValues={{ name: project.name }}
         onSubmit={(values) => {
-          values.name !== project.name && updateProject(values, id);
+          values.name && values.name !== project.name &&
+            updateProject(values, id);
           setName(false);
         }}
       >
@@ -75,7 +76,8 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
       {(member && description) && <Formik
         initialValues={{ description: project.description }}
         onSubmit={(values) => {
-          values.description !== project.description && updateProject(values, id);
+          values.description && values.description !== project.description &&
+            updateProject(values, id);
           setDescription(false);
         }}
       >

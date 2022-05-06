@@ -31,7 +31,7 @@ const ProjectCard = ({ project }) => {
             {project.description.length < 500 ? project.description :
               project.description.slice(0, 500) +
               project.description.slice(500, 700).split('\n')[0] +
-              '\n #### ... open full description'
+              '\n #### (open full description)'
             }
           </ReactMarkdown>
         </Box>

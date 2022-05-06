@@ -33,7 +33,7 @@ const SigninView = ({ signinUser, error, auth }) => {
         }}
       >
         {({ values, handleChange, handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} autoComplete='on'>
             <TextInput
               onChange={handleChange}
               value={values.email}

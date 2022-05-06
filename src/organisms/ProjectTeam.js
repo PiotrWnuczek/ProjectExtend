@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { updateProject } from 'store/projectsActions';
-import { Box, Card, Typography } from '@mui/material';
+import { Box, Card, Typography, IconButton } from '@mui/material';
 import { Button, List, ListItem } from '@mui/material';
-import { Groups, Person } from '@mui/icons-material';
+import { Groups, Person, Check } from '@mui/icons-material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 
@@ -47,15 +47,16 @@ const ProjectTeam = ({ updateProject, id, project, member }) => {
               <Formik
                 initialValues={{ nickname: mb.nickname }}
                 onSubmit={(values) => {
-                  values.nickname !== mb.nickname && updateProject({
-                    members: project.members.map(m => m.email === mb.email ?
-                      { ...m, nickname: values.nickname } : m)
-                  }, id);
+                  values.nickname && values.nickname !== mb.nickname &&
+                    updateProject({
+                      members: project.members.map(m => m.email === mb.email ?
+                        { ...m, nickname: values.nickname } : m)
+                    }, id);
                   setEdit(false);
                 }}
               >
                 {({ values, handleChange, handleSubmit }) => (
-                  <form onBlur={handleSubmit} autoComplete='off'>
+                  <form onBlur={handleSubmit} onSubmit={handleSubmit} autoComplete='off'>
                     <TextInput
                       sx={{ m: 0 }}
                       onChange={handleChange}
@@ -65,6 +66,15 @@ const ProjectTeam = ({ updateProject, id, project, member }) => {
                       type='text'
                       size='small'
                       autoFocus
+                      InputProps={{
+                        endAdornment: <IconButton
+                          sx={{ mx: -1 }}
+                          type='submit'
+                          size='small'
+                        >
+                          <Check />
+                        </IconButton>
+                      }}
                     />
                   </form>
                 )}
