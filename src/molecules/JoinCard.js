@@ -28,8 +28,8 @@ const JoinCard = (
             }, id);
             updateProfile({ projects: [...user.projects, id] }, uid);
           }}
-          size='small'
           disabled={user && user.projects.length >= user.limit}
+          size='small'
         >
           {user && user.projects.length < user.limit ? 'Send Request' : 'Used limit'}
         </Button>

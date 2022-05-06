@@ -19,14 +19,16 @@ import ProjectMenu from 'molecules/ProjectMenu';
 const ProjectView = (
   { createTask, createSprint, project, id, sprints, tags, email, uid, user }
 ) => {
-  const [sidebar, setSidebar] = useApp();
-  const [join, setJoin] = useState(false);
-  const [tabs, setTabs] = useState(0);
   const random = Math.random().toString(16).slice(2);
   const candidate = project && project.candidates.find(c => c.email === email);
   const member = project && project.members.find(m => m.email === email);
+  const [sidebar, setSidebar] = useApp();
+  const [join, setJoin] = useState(false);
+  const [tabs, setTabs] = useState(1);
   useEffect(() => { candidate && setJoin(true) }, [candidate, setJoin]);
   useEffect(() => { member && setJoin(true) }, [member, setJoin]);
+  useEffect(() => { project && !project.key && setTabs(0) }, [project]);
+  useEffect(() => { project && !member && setTabs(0) }, [project, member]);
 
   const [nr, setNr] = useState(0);
   const previous = () => nr < (sprints && sprints.length - 1) && setNr(nr + 1);
@@ -46,6 +48,7 @@ const ProjectView = (
           {tabs === 0 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
             onClick={() => setJoin(!join)}
+            disabled={member && true}
             variant='outlined'
           >
             Join Project
@@ -70,7 +73,7 @@ const ProjectView = (
             icon={<Subject />}
           />
           <Tab
-            disabled={member ? false : true}
+            disabled={!member && true}
             sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
             icon={<Task />}
           />

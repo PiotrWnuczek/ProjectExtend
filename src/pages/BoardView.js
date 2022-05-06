@@ -11,7 +11,7 @@ import Masonry from 'react-masonry-css';
 import MainLayout from 'pages/MainLayout';
 import ProjectCard from 'molecules/ProjectCard';
 
-const BoardView = ({ createProject, resetId, projects, newProject }) => {
+const BoardView = ({ createProject, resetId, projects, user, newProject }) => {
   const [sidebar, setSidebar] = useApp();
   const breakpoints = { default: 2, 1000: 1 };
   const navigate = useNavigate();
@@ -29,9 +29,10 @@ const BoardView = ({ createProject, resetId, projects, newProject }) => {
         <Button
           sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
           onClick={() => createProject({ key: null })}
+          disabled={user && user.projects.length >= user.limit}
           variant='outlined'
         >
-          New Project
+          {user && user.projects.length < user.limit ? 'New Project' : 'Used limit'}
         </Button>
       </Box>
     }>
@@ -58,6 +59,7 @@ const mapStateToProps = (state) => ({
   newProject: state.projects.newProject,
   email: state.firebase.auth.email,
   uid: state.firebase.auth.uid,
+  user: state.firestore.data[state.firebase.auth.uid],
 });
 
 const mapDispatchToProps = (dispatch) => ({

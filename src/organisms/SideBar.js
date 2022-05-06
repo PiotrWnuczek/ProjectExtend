@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { signoutUser } from 'store/usersActions';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Drawer, Avatar, List, ListItem } from '@mui/material';
 import { ListItemText, ListItemAvatar } from '@mui/material';
-import { Person, Dashboard, People, Logout } from '@mui/icons-material';
+import { Person, Dashboard, People } from '@mui/icons-material';
+import { Logout, Download } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import Logo from 'logo.png';
 
@@ -17,6 +18,24 @@ const SideBar = ({ signoutUser, auth, ...props }) => {
   const profilePath = '/profile/' + auth.uid;
   const navigate = useNavigate();
   const location = useLocation();
+  const [prompt, setPrompt] = useState(null);
+  const [support, setSupport] = useState(false);
+
+  useEffect(() => {
+    const handler = e => {
+      e.preventDefault();
+      setSupport(true);
+      setPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('transitionend', handler);
+  }, []);
+
+  const installApp = e => {
+    e.preventDefault();
+    if (!prompt) { return; }
+    prompt.prompt();
+  };
 
   const menu = [
     { text: <>Your<br />Profile</>, icon: <Person />, path: profilePath },
@@ -52,6 +71,18 @@ const SideBar = ({ signoutUser, auth, ...props }) => {
         )}
       </List>
       <List>
+        {support && <ListItem
+          sx={{ textTransform: 'uppercase', whiteSpace: 'nowrap' }}
+          onClick={installApp}
+          button
+        >
+          <ListItemAvatar>
+            <Avatar sx={{ bgcolor: 'primary.main' }}>
+              <Download />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText secondary={<>Install<br />App</>} />
+        </ListItem>}
         <ListItem
           sx={{ textTransform: 'uppercase', whiteSpace: 'nowrap' }}
           onClick={signoutUser}

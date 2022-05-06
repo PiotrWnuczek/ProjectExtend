@@ -26,6 +26,7 @@ const ProfileView = ({ profile, id, tags, uid }) => {
         <Button
           sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
           onClick={() => window.location = 'mailto:' + profile.email + '?subject=ProjectExtend'}
+          disabled={owner && true}
           variant='outlined'
         >
           Send Email

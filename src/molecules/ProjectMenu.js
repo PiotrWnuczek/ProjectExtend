@@ -5,6 +5,7 @@ import { updateProfile } from 'store/usersActions';
 import { useNavigate } from 'react-router-dom';
 import { Box, Collapse, Button } from '@mui/material';
 import { Settings } from '@mui/icons-material';
+import AlertDialog from 'atoms/AlertDialog';
 
 const ProjectMenu = (
   { updateProject, removeProject, updateProfile, project, id, email, uid, user }
@@ -24,8 +25,8 @@ const ProjectMenu = (
       </Button>
       <Collapse in={options} timeout='auto'>
         <Box sx={{ py: 1 }}>
-          {project.emails && project.emails.length > 1 && <Button
-            onClick={() => {
+          {project.emails && project.emails.length > 1 && <AlertDialog
+            clickAction={() => {
               updateProject({
                 emails: project.emails.filter(e => e !== email),
                 members: project.members.filter(m => m.email !== email),
@@ -33,20 +34,17 @@ const ProjectMenu = (
               updateProfile({ projects: user.projects.filter(p => p !== id) }, uid);
               navigate('/board');
             }}
-            variant='outlined'
-            size='small'
-            color='error'
-          >
-            Leave Project
-          </Button>}
-          {project.emails && project.emails.length <= 1 && <Button
-            onClick={() => { removeProject(id); navigate('/board'); }}
-            variant='outlined'
-            size='small'
-            color='error'
-          >
-            Delete Project
-          </Button>}
+            name='Leave Project'
+            content='Do you want to leave this project?'
+          />}
+          {project.emails && project.emails.length <= 1 && <AlertDialog
+            clickAction={() => {
+              removeProject(id);
+              navigate('/board');
+            }}
+            name='Delete Project'
+            content='Do you want to permanently delete this project?'
+          />}
         </Box>
       </Collapse>
     </div>
