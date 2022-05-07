@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, MenuItem } from '@mui/material';
 import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { Person } from '@mui/icons-material';
 
 const AssignDialog = ({ names, updateTask, task, sprintId, id }) => {
   const [open, setOpen] = useState(false);
-  const [list, setList] = useState(
-    names && names.map((n) => ({ name: n, sel: false }))
-  );
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    setList(names && names.map((n) => (
+      task.assigned && task.assigned.includes(n) ?
+        { name: n, sel: true } : { name: n, sel: false }
+    )))
+  }, [names, task]);
 
   return (
     <Box>
