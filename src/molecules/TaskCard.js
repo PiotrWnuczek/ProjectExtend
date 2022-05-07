@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateTask, removeTask } from 'store/projectsActions';
-import { Box, Grid, Card, Button, IconButton, Typography } from '@mui/material';
-import { TextField, OutlinedInput, Select, MenuItem } from '@mui/material';
-import { Dialog, DialogActions, FormControl, InputLabel } from '@mui/material';
-import { LocalizationProvider, StaticDatePicker } from '@mui/lab';
-import { Check, Event, MoreVert, Person } from '@mui/icons-material';
+import { Box, Card, Button, IconButton } from '@mui/material';
+import { Check, MoreVert } from '@mui/icons-material';
 import { Formik } from 'formik';
-import { format } from 'date-fns';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import TextInput from 'atoms/TextInput';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import DateDialog from 'atoms/DateDialog';
+import AssignDialog from 'atoms/AssignDialog';
 
 const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, resetId }) => {
-  const [date, setDate] = useState(false);
-  const [assigned, setAssigned] = useState(false);
   const [edit, setEdit] = useState(false);
   const [options, setOptions] = useState(false);
   const names = project.members.map(m => m.nickname);
@@ -68,73 +63,20 @@ const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, r
           </form>
         )}
       </Formik>}
-      <Grid sx={{ display: 'flex', pt: 1 }} container>
-        <Box
-          sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', mr: 1 }}
-          onClick={() => setDate(true)}
-        >
-          <Event sx={{ color: 'primary.main', pr: 1, fontSize: '100%' }} />
-          <Typography sx={{ fontSize: '70%' }}>
-            {task.date && format(task.date.toDate(), 'do MMMM')}
-          </Typography>
-        </Box>
-        <Dialog
-          open={date}
-          onClose={() => setDate(false)}
-        >
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <StaticDatePicker
-              renderInput={(params) => <TextField {...params} />}
-              value={task.date && task.date.toDate()}
-              onChange={(v) => updateTask({ date: v }, task.id, sprintId, id)}
-            />
-          </LocalizationProvider>
-          <DialogActions>
-            <Button
-              onClick={() => updateTask({ date: null }, task.id, sprintId, id)}
-              size='small'
-            >
-              Clear
-            </Button>
-            <Button
-              onClick={() => setDate(false)}
-              size='small'
-            >
-              Ok
-            </Button>
-          </DialogActions>
-        </Dialog>
-        {!assigned && <Box
-          sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-          onClick={() => setAssigned(true)}
-        >
-          <Person sx={{ color: 'primary.main', pr: 1, fontSize: '100%' }} />
-          <Typography sx={{ fontSize: '70%' }}>
-            {task.assigned && task.assigned.map(a => a + ' ')}
-          </Typography>
-        </Box>}
-        {assigned && <Grid item xs={6}>
-          <FormControl sx={{ maxWidth: '50vw' }} size='small' fullWidth>
-            <InputLabel sx={{ fontSize: '70%', pt: 0.5 }}>Assigned</InputLabel>
-            <Select
-              sx={{ maxWidth: '50vw', fontSize: '70%' }}
-              input={<OutlinedInput size='small' label='Assigned' />}
-              value={task.assigned ? task.assigned : []}
-              onChange={(e) => updateTask({ assigned: e.target.value }, task.id, sprintId, id)}
-              onBlur={() => setAssigned(false)}
-              multiple autoFocus
-            >
-              {names.map((name) => (
-                <MenuItem
-                  sx={{ fontSize: '70%' }}
-                  key={name} value={name} size='small'
-                >
-                  {name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>}
+      <Box sx={{ display: 'flex', pt: 1 }}>
+        <DateDialog
+          updateTask={updateTask}
+          task={task}
+          sprintId={sprintId}
+          id={id}
+        />
+        <AssignDialog
+          names={names}
+          updateTask={updateTask}
+          task={task}
+          sprintId={sprintId}
+          id={id}
+        />
         <Box sx={{ ml: 'auto' }}>
           {options && <Button
             sx={{ fontSize: '70%' }}
@@ -147,10 +89,10 @@ const TaskCard = ({ updateTask, removeTask, task, sprintId, id, open, project, r
             onClick={() => setOptions(!options)}
             size='small'
           >
-            <MoreVert sx={{ fontSize: '100%' }} />
+            <MoreVert sx={{ fontSize: 20 }} />
           </IconButton>
         </Box>
-      </Grid>
+      </Box>
     </Card >
   )
 };
