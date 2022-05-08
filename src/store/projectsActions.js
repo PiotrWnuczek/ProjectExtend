@@ -61,6 +61,18 @@ export const createSprint = (project) => (dispatch, gs, { getFirestore }) => {
   })
 };
 
+export const updateSprint = (data, id, project) => (dispatch, gs, { getFirestore }) => {
+  const firestore = getFirestore();
+  const ref = firestore.collection('projects').doc(project).collection('sprints');
+  ref.doc(id).update({
+    ...data,
+  }).then(() => {
+    dispatch({ type: 'UPDATESPRINT_SUCCESS', data });
+  }).catch((err) => {
+    dispatch({ type: 'UPDATESPRINT_ERROR', err });
+  })
+};
+
 export const removeSprint = (id, project) => (dispatch, gs, { getFirestore }) => {
   const firestore = getFirestore();
   const ref = firestore.collection('projects').doc(project).collection('sprints');

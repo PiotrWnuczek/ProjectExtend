@@ -55,8 +55,7 @@ const ProjectTasks = (
   return (
     <Box sx={{ p: 2 }}>
       <SprintCard
-        sprintDate={sprint.date}
-        sprintId={sprint.id}
+        sprint={sprint}
         id={id}
         previous={previous}
         next={next}
@@ -64,7 +63,7 @@ const ProjectTasks = (
       />
       <Grid container spacing={2}>
         <DragDropContext onDragEnd={onDragEnd}>
-          {data.map((el, ind) => (
+          {data && data.map((el, ind) => (
             <Grid item xs={12} md={6} key={ind}>
               <Divider sx={{ my: 1 }} textAlign='left'>
                 {ind === 0 ? 'TODO' : 'DONE'}

@@ -30,6 +30,12 @@ const projectsReducer = (state = initial, action) => {
     case 'CREATESPRINT_ERROR':
       console.log(action.err);
       return state;
+    case 'UPDATESPRINT_SUCCESS':
+      console.log(action.data);
+      return state;
+    case 'UPDATESPRINT_ERROR':
+      console.log(action.err);
+      return state;
     case 'REMOVESPRINT_SUCCESS':
       console.log(action.id);
       return state;
