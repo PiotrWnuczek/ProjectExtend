@@ -7,6 +7,7 @@ import { MoreVert, Check } from '@mui/icons-material';
 import { format } from 'date-fns';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
+import SprintDialog from 'atoms/SprintDialog';
 
 const SprintCard = ({ updateSprint, removeSprint, previous, next, sprint, id, nr }) => {
   const [options, setOptions] = useState(false);
@@ -77,6 +78,7 @@ const SprintCard = ({ updateSprint, removeSprint, previous, next, sprint, id, nr
         >
           {nr.n > 0 ? 'Next Sprint' : 'New Sprint'}
         </Button>
+        <SprintDialog />
         <Box sx={{ ml: 'auto' }}>
           {options && <Button
             onClick={() => removeSprint(sprint.id, id)}
