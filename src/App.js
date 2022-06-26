@@ -7,6 +7,7 @@ import { createTheme } from '@mui/material/styles';
 import { grey, blueGrey } from '@mui/material/colors';
 import { ThemeProvider } from '@mui/material';
 import AppProvider from 'assets/useApp';
+import AboutView from 'about/AboutView';
 import SigninView from 'pages/SigninView';
 import SignupView from 'pages/SignupView';
 import BoardView from 'pages/BoardView';
@@ -30,12 +31,13 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Routes>
+            <Route path='/about' element={<AboutView />} />
             <Route path='/signin' element={<SigninView />} />
             <Route path='/signup' element={<SignupView />} />
-            <Route path='/board' element={access ? <BoardView /> : <Navigate to='/signin' />} />
-            <Route path='/space' element={access ? <SpaceView /> : <Navigate to='/signin' />} />
-            <Route path='/project/:id' element={access ? <ProjectView /> : <Navigate to='/signin' />} />
-            <Route path='/profile/:id' element={access ? <ProfileView /> : <Navigate to='/signin' />} />
+            <Route path='/board' element={access ? <BoardView /> : <Navigate to='/about' />} />
+            <Route path='/space' element={access ? <SpaceView /> : <Navigate to='/about' />} />
+            <Route path='/project/:id' element={access ? <ProjectView /> : <Navigate to='/about' />} />
+            <Route path='/profile/:id' element={access ? <ProfileView /> : <Navigate to='/about' />} />
             <Route exact path='/' element={<Navigate to='/board' />} />
           </Routes>
         </BrowserRouter>
