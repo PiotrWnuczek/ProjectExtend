@@ -17,8 +17,10 @@ const AlertDialog = ({ name, content, clickAction }) => {
         {name}
       </Button>
       <Dialog
+        sx={{ '& .MuiDialog-paper': { borderRadius: 2 } }}
         open={open}
         onClose={() => setOpen(false)}
+        fullWidth
       >
         <DialogTitle>
           {name}

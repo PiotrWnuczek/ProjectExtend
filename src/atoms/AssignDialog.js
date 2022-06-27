@@ -26,6 +26,7 @@ const AssignDialog = ({ names, updateTask, task, sprintId, id }) => {
         </Typography>
       </Box>
       <Dialog
+        sx={{ '& .MuiDialog-paper': { borderRadius: 2 } }}
         open={open}
         onClose={() => {
           updateTask({

@@ -16,6 +16,7 @@ const SprintDialog = () => {
         All Sprints
       </Button>
       <Dialog
+        sx={{ '& .MuiDialog-paper': { borderRadius: 2 } }}
         open={open}
         onClose={() => setOpen(false)}
         fullWidth

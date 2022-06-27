@@ -22,6 +22,7 @@ const DateDialog = ({ updateTask, task, sprintId, id }) => {
         </Typography>
       </Box>
       <Dialog
+        sx={{ '& .MuiDialog-paper': { borderRadius: 2 } }}
         open={open}
         onClose={() => {
           updateTask({ date: value }, task.id, sprintId, id);

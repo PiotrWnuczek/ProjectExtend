@@ -24,7 +24,7 @@ const ProjectView = (
   const member = project && project.members.find(m => m.email === email);
   const [sidebar, setSidebar] = useApp();
   const [join, setJoin] = useState(false);
-  const [tabs, setTabs] = useState(1);
+  const [tabs, setTabs] = useState(0);
   useEffect(() => { candidate && setJoin(true) }, [candidate, setJoin]);
   useEffect(() => { member && setJoin(true) }, [member, setJoin]);
   useEffect(() => { project && !project.key && setTabs(0) }, [project]);
