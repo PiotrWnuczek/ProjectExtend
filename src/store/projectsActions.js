@@ -8,13 +8,15 @@ export const createProject = (data) => (dispatch, getState, { getFirestore }) =>
   const lastname = getState().firestore.data[uid].lastname;
   const projects = getState().firestore.data[uid].projects;
   const user = { uid, email, firstname, lastname, nickname: firstname[0] + lastname[0] };
+  const date = new Date();
+  date.setDate(date.getDate() + 7);
   const ref = firestore.collection('projects');
   ref.add({
     ...data, name: 'New Name', description: 'New Description', public: false,
     tags: [], emails: [email], members: [user], candidates: [],
   }).then((resp) => {
     const sprints = ref.doc(resp.id).collection('sprints');
-    sprints.add({ todo: [], done: [], date: new Date() });
+    sprints.add({ todo: [], done: [], key: new Date(), date: date });
     dispatch(updateProfile({ projects: [...projects, resp.id] }, uid));
     dispatch({ type: 'CREATEPROJECT_SUCCESS', data, resp });
   }).catch((err) => {
@@ -52,8 +54,10 @@ export const removeProject = (id) => (dispatch, getState, { getFirestore }) => {
 export const createSprint = (project) => (dispatch, gs, { getFirestore }) => {
   const firestore = getFirestore();
   const ref = firestore.collection('projects').doc(project).collection('sprints');
+  const date = new Date();
+  date.setDate(date.getDate() + 7);
   ref.add({
-    todo: [], done: [], date: new Date(),
+    todo: [], done: [], key: new Date(), date: date,
   }).then(() => {
     dispatch({ type: 'CREATESPRINT_SUCCESS', project });
   }).catch((err) => {

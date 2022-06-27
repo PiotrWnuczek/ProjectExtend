@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { createSprint } from 'store/projectsActions';
 import { Box, Button, Dialog, DialogTitle, Avatar } from '@mui/material';
 import { List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
-import { Person, Add } from '@mui/icons-material';
+import { TextSnippet, Add } from '@mui/icons-material';
 import { format } from 'date-fns';
 
-const SprintDialog = ({ createSprint, setSid, sprints, id }) => {
+const SprintDialog = ({ createSprint, setSid, sid, sprints, id }) => {
   const [open, setOpen] = useState(false);
+  const date = new Date();
+  date.setDate(date.getDate() + 7);
 
   return (
     <Box>
@@ -24,30 +26,31 @@ const SprintDialog = ({ createSprint, setSid, sprints, id }) => {
         onClose={() => setOpen(false)}
         fullWidth
       >
-        <DialogTitle>All Sprints</DialogTitle>
-        <List>
+        <DialogTitle>Select or add sprint</DialogTitle>
+        <List dense>
           {sprints.map(sprint => <ListItem
             onClick={() => {
               setSid(sprint.id);
               setOpen(false);
             }}
             key={sprint.date}
+            selected={sprint.id === sid}
             button
           >
             <ListItemAvatar>
               <Avatar>
-                <Person />
+                <TextSnippet />
               </Avatar>
             </ListItemAvatar>
             <ListItemText
-              primary={sprint.id}
-              secondary={sprint.name || 'created: ' + format(sprint.date.toDate(), 'do MMMM HH:mm')}
+              primary={sprint.name}
+              secondary={sprint.date && format(sprint.date.toDate(), 'do MMMM HH:mm')}
             />
           </ListItem>)}
           <ListItem
             onClick={() => {
               createSprint(id);
-              setSid(false);
+              setSid('new');
               setOpen(false);
             }}
             button
@@ -57,7 +60,7 @@ const SprintDialog = ({ createSprint, setSid, sprints, id }) => {
                 <Add />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText secondary='Add Sprint' />
+            <ListItemText primary='Add Sprint' />
           </ListItem>
         </List>
       </Dialog>

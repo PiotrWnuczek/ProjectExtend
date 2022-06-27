@@ -29,15 +29,17 @@ const ProjectView = (
   const [tabs, setTabs] = useState(0);
   useEffect(() => { candidate && setJoin(true) }, [candidate, setJoin]);
   useEffect(() => { member && setJoin(true) }, [member, setJoin]);
-
   const now = new Date();
-  const diffs = sprints && sprints.map(sprint => sprint.date.toDate() - now);
+  const diffs = sprints &&
+    sprints.map(sprint => sprint.date && (sprint.date.toDate() - now));
   const plusDiff = diffs && Math.min(...diffs.filter(diff => diff > 0));
   const minusDiff = diffs && Math.max(...diffs.filter(diff => diff < 0));
   const diff = plusDiff !== Infinity ? plusDiff : minusDiff;
-
-  const current = sprints && sprints.filter(sprint => (sprint.date.toDate() - now) === diff)[0];
-  const select = sprints && sprints.filter(sprint => sprint.id === sid)[0];
+  const current = sprints &&
+    sprints.filter(sprint => sprint.date && ((sprint.date.toDate() - now) === diff))[0];
+  const select = sid === 'new' ?
+    sprints && sprints[0] :
+    sprints && sprints.filter(sprint => sprint.id === sid)[0];
   const sprint = sid ? select : current;
 
   return (
@@ -130,7 +132,7 @@ export default withRouter(compose(
     { storeAs: props.id, collection: 'projects', doc: props.id },
     {
       storeAs: props.id + 'sprints', collection: 'projects', doc: props.id,
-      subcollections: [{ collection: 'sprints' }], orderBy: ['date', 'desc'],
+      subcollections: [{ collection: 'sprints' }], orderBy: ['key', 'desc'],
     },
     { storeAs: 'tags', collection: 'tags', doc: 'tags' },
     { storeAs: props.uid, collection: 'users', doc: props.uid },

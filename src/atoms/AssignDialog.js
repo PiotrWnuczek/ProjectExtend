@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Button, MenuItem } from '@mui/material';
+import { Box, Typography, Button, Avatar } from '@mui/material';
 import { Dialog, DialogActions, DialogTitle } from '@mui/material';
+import { List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
 import { Person } from '@mui/icons-material';
 
 const AssignDialog = ({ names, updateTask, task, sprintId, id }) => {
@@ -33,20 +34,27 @@ const AssignDialog = ({ names, updateTask, task, sprintId, id }) => {
           }, task.id, sprintId, id);
           setOpen(false);
         }}
+        fullWidth
+        maxWidth='xs'
       >
         <DialogTitle>Assign people to task</DialogTitle>
-        {list.map((item) => (
-          <MenuItem
+        <List dense>
+          {list.map((item) => <ListItem
             onClick={() => setList(
               list.map(i => i === item ? { ...i, sel: !i.sel } : i)
             )}
             key={item.name}
             selected={item.sel}
-            size='small'
+            button
           >
-            {item.name}
-          </MenuItem>
-        ))}
+            <ListItemAvatar>
+              <Avatar>
+                <Person />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={item.name} />
+          </ListItem>)}
+        </List>
         <DialogActions>
           <Button
             onClick={() => {

@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateSprint, removeSprint } from 'store/projectsActions';
 import { Card, Box, Typography } from '@mui/material';
 import { Button, IconButton } from '@mui/material';
-import { MoreVert, Check } from '@mui/icons-material';
-import { format } from 'date-fns';
+import { MoreVert, Check, TextSnippet } from '@mui/icons-material';
 import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 import SprintDialog from 'atoms/SprintDialog';
+import TermDialog from 'atoms/TermDialog';
 
 const SprintCard = ({ updateSprint, removeSprint, setSid, sprints, sprint, id }) => {
   const [options, setOptions] = useState(false);
   const [name, setName] = useState(false);
+  useEffect(() => { !sprint.name && setName(true) }, [sprint, setName]);
 
   return (
     <Card
@@ -19,16 +20,17 @@ const SprintCard = ({ updateSprint, removeSprint, setSid, sprints, sprint, id })
       variant='outlined'
     >
       <Box sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
-        {!name && <Typography
-          sx={{ cursor: 'pointer' }}
+        {!name && <Box
+          sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', mr: 2 }}
           onClick={() => setName(true)}
         >
-          {sprint.name || 'created: ' + format(sprint.date.toDate(), 'do MMMM HH:mm')}
-        </Typography>}
+          <TextSnippet sx={{ color: 'primary.main', pr: 1 }} />
+          <Typography>
+            {sprint.name}
+          </Typography>
+        </Box>}
         {name && <Formik
-          initialValues={{
-            name: sprint.name || 'created: ' + format(sprint.date.toDate(), 'do MMMM HH:mm')
-          }}
+          initialValues={{ name: sprint.name || 'New Sprint' }}
           onSubmit={(values) => {
             values.name && values.name !== sprint.name &&
               updateSprint(values, sprint.id, id);
@@ -59,8 +61,14 @@ const SprintCard = ({ updateSprint, removeSprint, setSid, sprints, sprint, id })
             </form>
           )}
         </Formik>}
+        <TermDialog
+          updateSprint={updateSprint}
+          sprint={sprint}
+          id={id}
+        />
         <SprintDialog
           setSid={setSid}
+          sid={sprint.id}
           sprints={sprints}
           id={id}
         />
