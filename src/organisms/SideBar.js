@@ -3,16 +3,10 @@ import { connect } from 'react-redux';
 import { signoutUser } from 'store/usersActions';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Drawer, Avatar, List, ListItem } from '@mui/material';
-import { ListItemText, ListItemAvatar } from '@mui/material';
+import { Box, ListItemText, ListItemAvatar } from '@mui/material';
 import { Person, Dashboard } from '@mui/icons-material';
 import { People, Logout } from '@mui/icons-material';
-import { styled } from '@mui/system';
 import Logo from 'logo.png';
-
-const StyledLogo = styled('img')({
-  cursor: 'pointer',
-  maxWidth: 120,
-});
 
 const SideBar = ({ signoutUser, auth, ...props }) => {
   const profilePath = '/profile/' + auth.uid;
@@ -29,28 +23,27 @@ const SideBar = ({ signoutUser, auth, ...props }) => {
     <Drawer {...props}>
       <List>
         <ListItem sx={{ mb: 12 }}>
-          <StyledLogo
+          <Box
+            sx={{ cursor: 'pointer', maxWidth: 120, }}
             onClick={() => navigate('/board')}
-            src={Logo}
-            alt='Logo'
+            src={Logo} alt='Logo'
+            component='img'
           />
         </ListItem>
-        {menu.map(item =>
-          <ListItem
-            sx={{ textTransform: 'uppercase' }}
-            key={item.path}
-            selected={location.pathname === item.path}
-            onClick={() => navigate(item.path)}
-            button
-          >
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: 'primary.main' }}>
-                {item.icon}
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText secondary={item.text} />
-          </ListItem>
-        )}
+        {menu.map(item => <ListItem
+          sx={{ textTransform: 'uppercase' }}
+          key={item.path}
+          selected={location.pathname === item.path}
+          onClick={() => navigate(item.path)}
+          button
+        >
+          <ListItemAvatar>
+            <Avatar sx={{ bgcolor: 'primary.main' }}>
+              {item.icon}
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText secondary={item.text} />
+        </ListItem>)}
       </List>
       <List>
         <ListItem

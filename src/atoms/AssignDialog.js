@@ -6,7 +6,6 @@ import { Person } from '@mui/icons-material';
 const AssignDialog = ({ names, updateTask, task, sprintId, id }) => {
   const [open, setOpen] = useState(false);
   const [list, setList] = useState([]);
-
   useEffect(() => {
     setList(names && names.map((n) => (
       task.assigned && task.assigned.includes(n) ?

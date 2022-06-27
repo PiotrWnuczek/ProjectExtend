@@ -3,7 +3,7 @@ import { useApp } from 'assets/useApp';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { createTask, createSprint } from 'store/projectsActions';
+import { createTask } from 'store/projectsActions';
 import { Box, Button, Collapse } from '@mui/material';
 import { IconButton, Tabs, Tab } from '@mui/material';
 import { Menu, Subject, Task } from '@mui/icons-material';
@@ -13,27 +13,32 @@ import ProjectContent from 'organisms/ProjectContent';
 import ProjectTags from 'organisms/ProjectTags';
 import ProjectTeam from 'organisms/ProjectTeam';
 import ProjectTasks from 'organisms/ProjectTasks';
+import SprintCard from 'molecules/SprintCard';
 import JoinCard from 'molecules/JoinCard';
 import ProjectMenu from 'molecules/ProjectMenu';
 
 const ProjectView = (
-  { createTask, createSprint, project, id, sprints, tags, email, uid, user }
+  { createTask, project, id, sprints, tags, email, uid, user }
 ) => {
   const random = Math.random().toString(16).slice(2);
   const candidate = project && project.candidates.find(c => c.email === email);
   const member = project && project.members.find(m => m.email === email);
   const [sidebar, setSidebar] = useApp();
+  const [sid, setSid] = useState(false);
   const [join, setJoin] = useState(false);
   const [tabs, setTabs] = useState(0);
   useEffect(() => { candidate && setJoin(true) }, [candidate, setJoin]);
   useEffect(() => { member && setJoin(true) }, [member, setJoin]);
-  useEffect(() => { project && !project.key && setTabs(0) }, [project]);
-  useEffect(() => { project && !member && setTabs(0) }, [project, member]);
 
-  const [nr, setNr] = useState(0);
-  const previous = () => nr < (sprints && sprints.length - 1) && setNr(nr + 1);
-  const next = () => nr > 0 ? setNr(nr - 1) : nr < 21 && createSprint(id);
-  let sprint = sprints && sprints[nr];
+  const now = new Date();
+  const diffs = sprints && sprints.map(sprint => sprint.date.toDate() - now);
+  const plusDiff = diffs && Math.min(...diffs.filter(diff => diff > 0));
+  const minusDiff = diffs && Math.max(...diffs.filter(diff => diff < 0));
+  const diff = plusDiff !== Infinity ? plusDiff : minusDiff;
+
+  const current = sprints && sprints.filter(sprint => (sprint.date.toDate() - now) === diff)[0];
+  const select = sprints && sprints.filter(sprint => sprint.id === sid)[0];
+  const sprint = sid ? select : current;
 
   return (
     <MainLayout navbar={
@@ -48,7 +53,6 @@ const ProjectView = (
           {tabs === 0 && <Button
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
             onClick={() => setJoin(!join)}
-            disabled={member && true}
             variant='outlined'
           >
             Join Project
@@ -73,7 +77,6 @@ const ProjectView = (
             icon={<Subject />}
           />
           <Tab
-            disabled={!member && true}
             sx={{ py: 2.5, minWidth: { xs: 50, sm: 100 } }}
             icon={<Task />}
           />
@@ -99,10 +102,10 @@ const ProjectView = (
             project={project} id={id} email={email} user={user} uid={uid}
           />}
         </Box>}
-        {member && sprints && tabs === 1 && <ProjectTasks
-          project={project} sprint={sprint} id={id}
-          previous={previous} next={next} nr={{ n: nr, l: sprints.length }}
-        />}
+        {tabs === 1 && member && sprints && <Box sx={{ p: 2 }}>
+          <SprintCard setSid={setSid} sprints={sprints} sprint={sprint} id={id} />
+          <ProjectTasks project={project} sprint={sprint} id={id} />
+        </Box>}
       </div> : <p>loading...</p>}
     </MainLayout>
   )
@@ -119,7 +122,6 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   createTask: (data, sprint, project) => dispatch(createTask(data, sprint, project)),
-  createSprint: (project) => dispatch(createSprint(project)),
 });
 
 export default withRouter(compose(

@@ -4,10 +4,9 @@ import { updateTasks } from 'store/projectsActions';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Box, Divider, Grid } from '@mui/material';
 import TaskCard from 'molecules/TaskCard';
-import SprintCard from 'molecules/SprintCard';
 
 const ProjectTasks = (
-  { updateTasks, project, sprint, id, newTask, previous, next, nr }
+  { updateTasks, project, sprint, id, newTask }
 ) => {
   const [data, setData] = useState(sprint && [sprint.todo, sprint.done]);
   useEffect(() => {
@@ -53,61 +52,52 @@ const ProjectTasks = (
   };
 
   return (
-    <Box sx={{ p: 2 }}>
-      <SprintCard
-        sprint={sprint}
-        id={id}
-        previous={previous}
-        next={next}
-        nr={nr}
-      />
-      <Grid container spacing={2}>
-        <DragDropContext onDragEnd={onDragEnd}>
-          {data && data.map((el, ind) => (
-            <Grid item xs={12} md={6} key={ind}>
-              <Divider sx={{ my: 1 }} textAlign='left'>
-                {ind === 0 ? 'TODO' : 'DONE'}
-              </Divider>
-              <Droppable droppableId={ind.toString()}>
-                {(provided) => (
-                  <Box
-                    sx={{ minHeight: { xs: '10vh', md: '70vh' } }}
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
-                    {el.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <Box
-                            sx={{ py: 1 }}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <TaskCard
-                              task={item}
-                              project={project}
-                              sprintId={sprint.id}
-                              id={id}
-                              open={item.id === newTask}
-                            />
-                          </Box>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </Box>
-                )}
-              </Droppable>
-            </Grid>
-          ))}
-        </DragDropContext>
-      </Grid>
-    </Box>
+    <Grid container spacing={2}>
+      <DragDropContext onDragEnd={onDragEnd}>
+        {data && data.map((el, ind) => (
+          <Grid item xs={12} md={6} key={ind}>
+            <Divider sx={{ my: 1 }} textAlign='left'>
+              {ind === 0 ? 'TODO' : 'DONE'}
+            </Divider>
+            <Droppable droppableId={ind.toString()}>
+              {(provided) => (
+                <Box
+                  sx={{ minHeight: { xs: '10vh', md: '70vh' } }}
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {el.map((item, index) => (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <Box
+                          sx={{ py: 1 }}
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <TaskCard
+                            task={item}
+                            project={project}
+                            sprintId={sprint.id}
+                            id={id}
+                            open={item.id === newTask}
+                          />
+                        </Box>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </Box>
+              )}
+            </Droppable>
+          </Grid>
+        ))}
+      </DragDropContext>
+    </Grid>
   )
 };
 

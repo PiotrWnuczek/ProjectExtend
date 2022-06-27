@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { createSprint } from 'store/projectsActions';
 import { Box, Button, Dialog, DialogTitle, Avatar } from '@mui/material';
 import { List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
 import { Person, Add } from '@mui/icons-material';
+import { format } from 'date-fns';
 
-const SprintDialog = () => {
+const SprintDialog = ({ createSprint, setSid, sprints, id }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -23,15 +26,32 @@ const SprintDialog = () => {
       >
         <DialogTitle>All Sprints</DialogTitle>
         <List>
-          <ListItem button>
+          {sprints.map(sprint => <ListItem
+            onClick={() => {
+              setSid(sprint.id);
+              setOpen(false);
+            }}
+            key={sprint.date}
+            button
+          >
             <ListItemAvatar>
               <Avatar>
                 <Person />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText secondary='Sprint Description' />
-          </ListItem>
-          <ListItem button>
+            <ListItemText
+              primary={sprint.id}
+              secondary={sprint.name || 'created: ' + format(sprint.date.toDate(), 'do MMMM HH:mm')}
+            />
+          </ListItem>)}
+          <ListItem
+            onClick={() => {
+              createSprint(id);
+              setSid(false);
+              setOpen(false);
+            }}
+            button
+          >
             <ListItemAvatar>
               <Avatar sx={{ bgcolor: 'primary.main' }}>
                 <Add />
@@ -45,4 +65,9 @@ const SprintDialog = () => {
   )
 };
 
-export default SprintDialog;
+const mapDispatchToProps = (dispatch) => ({
+  createSprint: (project) => dispatch(createSprint(project)),
+});
+
+export default connect(null, mapDispatchToProps)
+  (SprintDialog);

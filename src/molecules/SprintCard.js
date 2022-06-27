@@ -9,7 +9,7 @@ import { Formik } from 'formik';
 import TextInput from 'atoms/TextInput';
 import SprintDialog from 'atoms/SprintDialog';
 
-const SprintCard = ({ updateSprint, removeSprint, previous, next, sprint, id, nr }) => {
+const SprintCard = ({ updateSprint, removeSprint, setSid, sprints, sprint, id }) => {
   const [options, setOptions] = useState(false);
   const [name, setName] = useState(false);
 
@@ -19,9 +19,6 @@ const SprintCard = ({ updateSprint, removeSprint, previous, next, sprint, id, nr
       variant='outlined'
     >
       <Box sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
-        <Typography sx={{ mr: 1 }}>
-          Sprint: {nr.l - nr.n}
-        </Typography>
         {!name && <Typography
           sx={{ cursor: 'pointer' }}
           onClick={() => setName(true)}
@@ -62,29 +59,20 @@ const SprintCard = ({ updateSprint, removeSprint, previous, next, sprint, id, nr
             </form>
           )}
         </Formik>}
-        <Button
-          sx={{ ml: 1 }}
-          onClick={() => previous()}
-          size='small'
-          disabled={nr.l - nr.n < 2}
-        >
-          Previous Sprint
-        </Button>
-        <Button
-          sx={{ ml: 1 }}
-          onClick={() => next()}
-          size='small'
-          disabled={nr.l >= 20}
-        >
-          {nr.n > 0 ? 'Next Sprint' : 'New Sprint'}
-        </Button>
-        <SprintDialog />
+        <SprintDialog
+          setSid={setSid}
+          sprints={sprints}
+          id={id}
+        />
         <Box sx={{ ml: 'auto' }}>
           {options && <Button
-            onClick={() => removeSprint(sprint.id, id)}
+            onClick={() => {
+              removeSprint(sprint.id, id);
+              setSid(false);
+            }}
+            disabled={sprints.length < 2}
             size='small'
             color='error'
-            disabled={nr.l - nr.n < 2}
           >
             Remove
           </Button>}
