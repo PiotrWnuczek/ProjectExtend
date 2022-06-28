@@ -1,28 +1,73 @@
 import React from 'react';
-import { Grid, Box, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Grid, Box, Typography, Button } from '@mui/material';
 import Logo from 'logo.png';
 
-const HeroSection = () => (
-  <Grid container py={5} px={{ xs: 10, md: 25 }}>
+const HeroSection = () => {
+  const navigate = useNavigate();
+
+  return (
     <Grid
-      sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      item sm={5} p={2}
+      sx={{ py: { xs: 5, md: 10 }, px: { xs: 5, md: 20 } }}
+      container
     >
-      <Box
-        sx={{ maxWidth: 300, width: '100%', height: 'auto' }}
-        component='img'
-        src={Logo}
-      />
+      <Grid
+        sx={{
+          p: 2, display: 'flex', alignItems: 'center',
+          justifyContent: { xs: 'center', sm: 'right' },
+        }}
+        item xs={12} sm={5}
+      >
+        <Box
+          sx={{ maxWidth: 300, width: '100%', height: 'auto' }}
+          component='img'
+          src={Logo}
+        />
+      </Grid>
+      <Grid
+        sx={{
+          p: 2, display: 'flex', alignItems: 'center',
+          justifyContent: { xs: 'center', sm: 'left' },
+        }}
+        item xs={12} sm={7}
+      >
+        <Box sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
+          <Typography
+            sx={{
+              my: 1, fontSize: { xs: 20, md: 36 }, fontWeight: 600,
+              letterSpacing: 2, color: 'primary.dark',
+            }}
+            variant='h1'
+          >
+            Project Extend
+          </Typography>
+          <Typography
+            sx={{
+              my: 1, fontSize: { xs: 12, md: 18 }, fontWeight: 400,
+              letterSpacing: 1,
+            }}
+            variant='subtitle1'
+          >
+            Fast and simple agile task and project management application.
+          </Typography>
+          <Button
+            sx={{ mt: 1, mr: 2 }}
+            onClick={() => navigate('/signin')}
+            variant='contained'
+          >
+            SignIn
+          </Button>
+          <Button
+            sx={{ mt: 1 }}
+            onClick={() => navigate('/signup')}
+            variant='outlined'
+          >
+            SignUp
+          </Button>
+        </Box>
+      </Grid>
     </Grid>
-    <Grid
-      sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      item sm={7} p={2}
-    >
-      <Typography variant='h5'>
-        Szybka i prosta aplikacja do zarządzania zadaniami i projektami w metodyce agile.
-      </Typography>
-    </Grid>
-  </Grid>
-);
+  )
+};
 
 export default HeroSection;

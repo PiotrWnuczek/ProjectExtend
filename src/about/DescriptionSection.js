@@ -1,12 +1,19 @@
 import React from 'react';
 import { Grid, Box, Typography } from '@mui/material';
 import Screen from 'screen.png';
+import { Article } from '@mui/icons-material';
 
 const DescriptionSection = () => (
-  <Grid container p={5}>
+  <Grid
+    sx={{ py: { xs: 5, md: 10 }, px: { xs: 5, md: 10 }, bgcolor: 'white' }}
+    container
+  >
     <Grid
-      sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      item sm={6} p={2}
+      sx={{
+        p: 2, display: 'flex', alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      item xs={12} md={6}
     >
       <Box
         sx={{ maxWidth: 600, width: '100%', height: 'auto' }}
@@ -15,19 +22,56 @@ const DescriptionSection = () => (
       />
     </Grid>
     <Grid
-      sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      item sm={6} p={2}
+      sx={{
+        p: 2, display: 'flex', alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      item xs={12} md={6}
     >
-      <Typography>
-        Organizuj projekty zespołowe, szybko i prosto zarządzaj zadaniami w agile
-        Twórz sprinty w projektach, precyzyjnie opisuj zadania w formacie Mark Down, szybko i prosto rozdzielaj pracę w zespole
-        <br />
-        Planuj swój czas i organizuj zadania na każdy tydzień
-        Nowy tydzień to nowy sprint pełen wyzwań, planuj zadania i notuj wszystkie ważne sprawy
-        <br />
-        Buduj zespoły projektowe i dołączaj do ciekawych projektów
-        Ustaw projekt jako Public, aby można było wyszukać go w Social Space i aplikować do dołączenia.
-      </Typography>
+      <Box>
+        <Box sx={{ my: 2 }}>
+          <Box sx={{ display: 'flex' }}>
+            <Article sx={{ mr: 1, color: 'primary.main' }} />
+            <Typography
+              sx={{ fontWeight: 700 }}
+              variant='button'
+            >
+              Organize team projects, quickly and easily manage agile tasks
+            </Typography>
+          </Box>
+          <Typography variant='subtitle1'>
+            Create project sprints, accurately describe tasks in Mark Down format, quickly and easily distribute team work.
+          </Typography>
+        </Box>
+        <Box sx={{ my: 2 }}>
+          <Box sx={{ display: 'flex' }}>
+            <Article sx={{ mr: 1, color: 'primary.main' }} />
+            <Typography
+              sx={{ fontWeight: 700 }}
+              variant='button'
+            >
+              Plan your time and organize tasks for each week
+            </Typography>
+          </Box>
+          <Typography variant='subtitle1'>
+            The new week is a new sprint full of challenges, plan tasks and note down all important matters.
+          </Typography>
+        </Box>
+        <Box sx={{ my: 2 }}>
+          <Box sx={{ display: 'flex' }}>
+            <Article sx={{ mr: 1, color: 'primary.main' }} />
+            <Typography
+              sx={{ fontWeight: 700 }}
+              variant='button'
+            >
+              Build project teams and join interesting projects
+            </Typography>
+          </Box>
+          <Typography variant='subtitle1'>
+            Ustaw projekt jako Public, aby można było wyszukać go w Social Space i aplikować do dołączenia.
+          </Typography>
+        </Box>
+      </Box>
     </Grid>
   </Grid>
 );
