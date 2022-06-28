@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { Dialog, DialogActions, TextField } from '@mui/material';
-import { LocalizationProvider, StaticDatePicker } from '@mui/lab';
+import { LocalizationProvider, StaticDatePicker } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Event } from '@mui/icons-material';
 import { format } from 'date-fns';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 const TermDialog = ({ updateSprint, sprint, id }) => {
   const [open, setOpen] = useState(false);

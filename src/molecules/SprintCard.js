@@ -40,7 +40,7 @@ const SprintCard = ({ updateSprint, removeSprint, setSid, sprints, sprint, id })
           {({ values, handleChange, handleSubmit }) => (
             <form onBlur={handleSubmit} onSubmit={handleSubmit} autoComplete='off'>
               <TextInput
-                sx={{ mb: 0, mt: 1 }}
+                sx={{ my: 0 }}
                 onChange={handleChange}
                 value={values.name}
                 label='Name'

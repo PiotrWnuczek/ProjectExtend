@@ -44,7 +44,7 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
         {({ values, handleChange, handleSubmit }) => (
           <form onBlur={handleSubmit} onSubmit={handleSubmit} autoComplete='off'>
             <TextInput
-              sx={{ mb: 0, mt: 1 }}
+              sx={{ my: 0 }}
               onChange={handleChange}
               value={values.name}
               label='Name'
@@ -84,7 +84,7 @@ const ProjectContent = ({ updateProject, project, id, member }) => {
         {({ values, handleChange, handleSubmit }) => (
           <form onBlur={handleSubmit} onSubmit={handleSubmit} autoComplete='off'>
             <TextInput
-              sx={{ mb: 0, my: 1 }}
+              sx={{ mt: 1, mb: 0 }}
               onChange={handleChange}
               value={values.description}
               label='Description (MarkDown)'

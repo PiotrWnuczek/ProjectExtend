@@ -17,9 +17,7 @@ import SprintCard from 'molecules/SprintCard';
 import JoinCard from 'molecules/JoinCard';
 import ProjectMenu from 'molecules/ProjectMenu';
 
-const ProjectView = (
-  { createTask, project, id, sprints, tags, email, uid, user }
-) => {
+const ProjectView = ({ createTask, project, id, sprints, tags, email, uid, user }) => {
   const random = Math.random().toString(16).slice(2);
   const candidate = project && project.candidates.find(c => c.email === email);
   const member = project && project.members.find(m => m.email === email);
@@ -41,6 +39,7 @@ const ProjectView = (
     sprints && sprints[0] :
     sprints && sprints.filter(sprint => sprint.id === sid)[0];
   const sprint = sid ? select : current;
+  const sorted = sprints && [...sprints].sort((a, b) => a.date - b.date);
 
   return (
     <MainLayout navbar={
@@ -63,6 +62,7 @@ const ProjectView = (
             sx={{ my: 1.5, mx: 2, whiteSpace: 'nowrap' }}
             onClick={() => createTask({
               id: random, content: 'New Content',
+              assigned: [member.nickname], date: new Date(),
             }, sprint.id, id)}
             variant='outlined'
           >
@@ -105,7 +105,7 @@ const ProjectView = (
           />}
         </Box>}
         {tabs === 1 && member && sprints && <Box sx={{ p: 2 }}>
-          <SprintCard setSid={setSid} sprints={sprints} sprint={sprint} id={id} />
+          <SprintCard setSid={setSid} sprints={sorted} sprint={sprint} id={id} />
           <ProjectTasks project={project} sprint={sprint} id={id} />
         </Box>}
       </div> : <p>loading...</p>}
