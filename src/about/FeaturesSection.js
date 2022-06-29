@@ -21,7 +21,7 @@ const FeaturesSection = () => (
         <AccountTree sx={{ fontSize: 50 }} />
       </Avatar>
       <Typography
-        sx={{ fontSize: 18 }}
+        sx={{ fontSize: { xs: 14, md: 18 } }}
         variant='body1'
       >
         Are you a programmer, student, or just want to organize your projects well?
@@ -41,7 +41,7 @@ const FeaturesSection = () => (
         <ManageAccounts sx={{ fontSize: 50 }} />
       </Avatar>
       <Typography
-        sx={{ fontSize: 18 }}
+        sx={{ fontSize: { xs: 14, md: 18 } }}
         variant='body1'
       >
         Do you need a simple tool to manage tasks individually or in a team?
@@ -61,7 +61,7 @@ const FeaturesSection = () => (
         <Groups sx={{ fontSize: 50 }} />
       </Avatar>
       <Typography
-        sx={{ fontSize: 18 }}
+        sx={{ fontSize: { xs: 14, md: 18 } }}
         variant='body1'
       >
         Do you want to create project teams or search and join interesting projects?

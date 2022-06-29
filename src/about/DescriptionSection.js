@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Box, Typography } from '@mui/material';
-import Screen from 'screen.png';
 import { Article } from '@mui/icons-material';
+import Screen from 'screen.png';
 
 const DescriptionSection = () => (
   <Grid

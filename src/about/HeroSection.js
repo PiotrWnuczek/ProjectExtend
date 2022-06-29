@@ -34,7 +34,7 @@ const HeroSection = () => {
         <Box sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
           <Typography
             sx={{
-              my: 1, fontSize: { xs: 20, md: 36 }, fontWeight: 600,
+              my: 1, fontSize: { xs: 26, md: 36 }, fontWeight: 600,
               letterSpacing: 2, color: 'primary.dark',
             }}
             variant='h1'
@@ -43,7 +43,7 @@ const HeroSection = () => {
           </Typography>
           <Typography
             sx={{
-              my: 1, fontSize: { xs: 12, md: 18 }, fontWeight: 400,
+              my: 1, fontSize: { xs: 14, md: 18 }, fontWeight: 400,
               letterSpacing: 1,
             }}
             variant='subtitle1'

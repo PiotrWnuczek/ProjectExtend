@@ -9,7 +9,7 @@ const ActionsSection = () => {
     <Box sx={{ p: { xs: 5, md: 10 }, textAlign: 'center' }}>
       <Typography
         sx={{
-          mb: 3, fontSize: { xs: 18, md: 28 }, fontWeight: 600,
+          mb: 3, fontSize: { xs: 22, md: 32 }, fontWeight: 600,
           letterSpacing: 2,
         }}
         variant='h2'

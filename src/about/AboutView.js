@@ -20,7 +20,7 @@ const AboutView = () => (
       </Typography>
       <Link
         sx={{ ml: 1 }}
-        href='https://piotrwnuczek.pl/'
+        href='https://piotrwnuczek.pl'
         target='_blank'
         underline='hover'
       >
