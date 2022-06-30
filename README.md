@@ -1,9 +1,10 @@
 # ProjectExtend
 
-## Application for social or team projects and task collaboration
+### Professional application for quick and easy task and project management with the agile method. The frontent programmed in React connects to the Firebase backend. User Interface is based on MaterialUI. 
 
-### Technologies:
-
-- Language: JavaScript
-- Frameworks: React, Redux, MaterialUI
-- BackEnd: FireBase
+### Tech Stack:
+- JavaScript
+- React
+- Redux
+- Firebase
+- MaterialUI
