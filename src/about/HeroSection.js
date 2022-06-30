@@ -19,7 +19,7 @@ const HeroSection = () => {
         item xs={12} sm={5}
       >
         <Box
-          sx={{ maxWidth: 300, width: '100%', height: 'auto' }}
+          sx={{ maxWidth: 300, width: '80%', height: 'auto' }}
           component='img'
           src={Logo}
         />

@@ -12,7 +12,7 @@ const AboutView = () => (
     <ActionsSection />
     <DescriptionSection />
     <Box sx={{
-      p: 2, bgcolor: 'white', display: 'flex',
+      p: 2, bgcolor: 'white', display: 'flex', flexWrap: 'wrap',
       alignItems: 'center', justifyContent: 'center',
     }}>
       <Typography>

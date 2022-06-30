@@ -18,7 +18,10 @@ const FrontLayout = ({ children }) => {
         >
           {children}
         </Card>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Box sx={{
+          display: 'flex', alignItems: 'center',
+          justifyContent: 'center', flexWrap: 'wrap',
+        }}>
           <Typography>
             Copyright © projectextend.com
           </Typography>
