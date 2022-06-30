@@ -8,7 +8,7 @@ const HeroSection = () => {
 
   return (
     <Grid
-      sx={{ py: { xs: 5, md: 10 }, px: { xs: 5, md: 20 } }}
+      sx={{ py: 10, px: { xs: 5, md: 20 } }}
       container
     >
       <Grid
@@ -48,10 +48,11 @@ const HeroSection = () => {
             }}
             variant='subtitle1'
           >
-            Fast and simple agile task and project management application.
+            Professional application for quick and easy
+            task and project management with the agile method
           </Typography>
           <Button
-            sx={{ mt: 1, mr: 2 }}
+            sx={{ mt: 1, mr: 1 }}
             onClick={() => navigate('/signin')}
             variant='contained'
           >

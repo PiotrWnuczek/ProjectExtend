@@ -6,7 +6,7 @@ const ActionsSection = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ p: { xs: 5, md: 10 }, textAlign: 'center' }}>
+    <Box sx={{ py: 10, px: { xs: 5, md: 10 }, textAlign: 'center' }}>
       <Typography
         sx={{
           mb: 3, fontSize: { xs: 22, md: 32 }, fontWeight: 600,

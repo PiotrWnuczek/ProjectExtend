@@ -4,7 +4,7 @@ import { AccountTree, ManageAccounts, Groups } from '@mui/icons-material';
 
 const FeaturesSection = () => (
   <Grid
-    sx={{ py: { xs: 5, md: 10 }, px: { xs: 5, md: 10 }, bgcolor: 'white' }}
+    sx={{ py: 10, px: { xs: 5, md: 10 }, bgcolor: 'white' }}
     container
   >
     <Grid

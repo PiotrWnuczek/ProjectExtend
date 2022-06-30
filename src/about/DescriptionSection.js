@@ -5,7 +5,7 @@ import Screen from 'screen.png';
 
 const DescriptionSection = () => (
   <Grid
-    sx={{ py: { xs: 5, md: 10 }, px: { xs: 5, md: 10 }, bgcolor: 'white' }}
+    sx={{ py: 10, px: { xs: 5, md: 10 }, bgcolor: 'white' }}
     container
   >
     <Grid
@@ -36,11 +36,12 @@ const DescriptionSection = () => (
               sx={{ fontWeight: 700 }}
               variant='button'
             >
-              Organize team projects, quickly and easily manage agile tasks
+              Organize team projects, manage tasks quickly and easily
             </Typography>
           </Box>
           <Typography variant='subtitle1'>
-            Create project sprints, accurately describe tasks in Mark Down format, quickly and easily distribute team work.
+            Create project sprints, accurately describe tasks in Mark Down format,
+            quickly and easily distribute teamwork.
           </Typography>
         </Box>
         <Box sx={{ my: 2 }}>
@@ -54,7 +55,8 @@ const DescriptionSection = () => (
             </Typography>
           </Box>
           <Typography variant='subtitle1'>
-            The new week is a new sprint full of challenges, plan tasks and note down all important matters.
+            The new week is a new sprint full of challenges,
+            so plan your tasks and note down all the important things.
           </Typography>
         </Box>
         <Box sx={{ my: 2 }}>
@@ -68,7 +70,8 @@ const DescriptionSection = () => (
             </Typography>
           </Box>
           <Typography variant='subtitle1'>
-            Ustaw projekt jako Public, aby można było wyszukać go w Social Space i aplikować do dołączenia.
+            Make your project Public so it can be
+            searched in the community space and applied to join.
           </Typography>
         </Box>
       </Box>
