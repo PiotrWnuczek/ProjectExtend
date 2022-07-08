@@ -18,7 +18,7 @@ const TermDialog = ({ updateSprint, sprint, id }) => {
       >
         <Event sx={{ color: 'primary.main', pr: 1 }} />
         <Typography>
-          {sprint.date && format(sprint.date.toDate(), 'do MMMM HH:mm')}
+          {sprint.date && format(sprint.date.toDate(), 'do MMMM')}
         </Typography>
       </Box>
       <Dialog
