@@ -25,7 +25,7 @@ const TermDialog = ({ updateSprint, sprint, id }) => {
         sx={{ '& .MuiDialog-paper': { borderRadius: 2 } }}
         open={open}
         onClose={() => {
-          updateSprint({ date: value }, sprint.id, id);
+          updateSprint({ date: value || new Date() }, sprint.id, id);
           setOpen(false);
         }}
       >
@@ -51,7 +51,7 @@ const TermDialog = ({ updateSprint, sprint, id }) => {
           </Button>
           <Button
             onClick={() => {
-              updateSprint({ date: value }, sprint.id, id);
+              updateSprint({ date: value || new Date() }, sprint.id, id);
               setOpen(false);
             }}
             size='small'

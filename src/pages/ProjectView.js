@@ -38,7 +38,7 @@ const ProjectView = ({ createTask, project, id, sprints, tags, email, uid, user 
   const select = sid === 'new' ?
     sprints && sprints[0] :
     sprints && sprints.filter(sprint => sprint.id === sid)[0];
-  const sprint = sid ? select : current;
+  const sprint = sid ? select : current || (sprints && sprints[0]);
   const sorted = sprints && [...sprints].sort((a, b) => a.date - b.date);
 
   return (
