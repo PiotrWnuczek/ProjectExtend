@@ -21,6 +21,7 @@ const JoinCard = (
             updateProject({
               candidates: [...project.candidates, {
                 email, uid,
+                projects: user.projects,
                 firstname: user.firstname,
                 lastname: user.lastname,
                 nickname: user.firstname[0] + user.lastname[0],
@@ -72,7 +73,9 @@ const JoinCard = (
             updateProject({
               candidates: project.candidates.filter(c => c.email !== candidate.email),
             }, id);
-            updateProfile({ projects: user.projects.filter(p => p.id !== id) }, uid);
+            updateProfile({
+              projects: candidate.projects.filter(p => p.id !== id)
+            }, candidate.uid);
           }}
           size='small'
         >
