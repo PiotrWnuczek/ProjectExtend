@@ -1,17 +1,17 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/analytics';
-import 'firebase/compat/firestore';
-import 'firebase/compat/auth';
-import 'firebase/compat/storage';
+import firebase from "firebase/compat/app";
+import "firebase/compat/analytics";
+import "firebase/compat/firestore";
+import "firebase/compat/auth";
+import "firebase/compat/storage";
 
 firebase.initializeApp({
-  apiKey: 'AIzaSyD7L2QpxWZ1Wy5LvrXx_fHzyPVhTc0AP4U',
-  authDomain: 'projectextend-com.firebaseapp.com',
-  projectId: 'projectextend-com',
-  storageBucket: 'projectextend-com.appspot.com',
-  messagingSenderId: '904709273754',
-  appId: '1:904709273754:web:83612ccd6526fa37470723',
-  measurementId: 'G-FBWWMF3PQ9',
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASURMENT_ID,
 });
 
 firebase.analytics();
